@@ -5,6 +5,8 @@ Nikos Railey Bumanglag
 
 To use this project, you can download it as a zip file and export it. The project solution can be found in the root folder (DX11-Engine-Experiment), and all source and includes are inside the subfolder named 'Engine'. 
 
+main.cpp is the source file where the main function is located.
+
 Open the solution and you can run it from there. 
 
 
