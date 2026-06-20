@@ -129,43 +129,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AppWindow.cpp" />
-    <ClCompile Include="ConstantBuffer.cpp" />
-    <ClCompile Include="DeviceContext.cpp" />
-    <ClCompile Include="EngineTime.cpp" />
-    <ClCompile Include="GraphicsEngine.cpp" />
-    <ClCompile Include="IndexBuffer.cpp" />
-    <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="PixelShader.cpp" />
-    <ClCompile Include="SwapChain.cpp" />
-    <ClCompile Include="TestObject.cpp" />
-    <ClCompile Include="VertexBuffer.cpp" />
-    <ClCompile Include="VertexShader.cpp" />
-    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Engine\AppWindow.cpp" />
+    <ClCompile Include="Engine\ConstantBuffer.cpp" />
+    <ClCompile Include="Engine\DeviceContext.cpp" />
+    <ClCompile Include="Engine\EngineTime.cpp" />
+    <ClCompile Include="Engine\GraphicsEngine.cpp" />
+    <ClCompile Include="Engine\IndexBuffer.cpp" />
+    <ClCompile Include="Engine\InputSystem.cpp" />
+    <ClCompile Include="Engine\main.cpp" />
+    <ClCompile Include="Engine\PixelShader.cpp" />
+    <ClCompile Include="Engine\SwapChain.cpp" />
+    <ClCompile Include="Engine\TestObject.cpp" />
+    <ClCompile Include="Engine\VertexBuffer.cpp" />
+    <ClCompile Include="Engine\VertexShader.cpp" />
+    <ClCompile Include="Engine\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AppWindow.h" />
-    <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="DeviceContext.h" />
-    <ClInclude Include="EngineTime.h" />
-    <ClInclude Include="GraphicsEngine.h" />
-    <ClInclude Include="IndexBuffer.h" />
-    <ClInclude Include="InputListener.h" />
-    <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="Matrix4x4.h" />
-    <ClInclude Include="PixelShader.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="SwapChain.h" />
-    <ClInclude Include="TestObject.h" />
-    <ClInclude Include="Vector3D.h" />
-    <ClInclude Include="Vector4D.h" />
-    <ClInclude Include="VertexBuffer.h" />
-    <ClInclude Include="VertexShader.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="Engine\AppWindow.h" />
+    <ClInclude Include="Engine\ConstantBuffer.h" />
+    <ClInclude Include="Engine\DeviceContext.h" />
+    <ClInclude Include="Engine\EngineTime.h" />
+    <ClInclude Include="Engine\GraphicsEngine.h" />
+    <ClInclude Include="Engine\IndexBuffer.h" />
+    <ClInclude Include="Engine\InputListener.h" />
+    <ClInclude Include="Engine\InputSystem.h" />
+    <ClInclude Include="Engine\Matrix4x4.h" />
+    <ClInclude Include="Engine\PixelShader.h" />
+    <ClInclude Include="Engine\Point.h" />
+    <ClInclude Include="Engine\SwapChain.h" />
+    <ClInclude Include="Engine\TestObject.h" />
+    <ClInclude Include="Engine\Vector3D.h" />
+    <ClInclude Include="Engine\Vector4D.h" />
+    <ClInclude Include="Engine\VertexBuffer.h" />
+    <ClInclude Include="Engine\VertexShader.h" />
+    <ClInclude Include="Engine\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="PixelShader.hlsl">
+    <FxCompile Include="Engine\PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -173,7 +173,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="VertexShader.hlsl">
+    <FxCompile Include="Engine\VertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

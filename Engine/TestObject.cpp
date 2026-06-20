@@ -188,7 +188,7 @@ void TestObject::initialize(int colorID) {
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
-	graphEngine->compileVertexShader(L"VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	graphEngine->compileVertexShader(L"Engine\\VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 	m_vs = graphEngine->createVertexShader(shader_byte_code, size_shader);
 	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
 
@@ -196,7 +196,7 @@ void TestObject::initialize(int colorID) {
 
 	graphEngine->releaseCompiledShader();
 
-	graphEngine->compilePixelShader(L"PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	graphEngine->compilePixelShader(L"Engine\\PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
 	m_ps = graphEngine->createPixelShader(shader_byte_code, size_shader);
 
 	constant cc;
