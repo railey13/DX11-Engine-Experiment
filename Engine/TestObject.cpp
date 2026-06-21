@@ -78,22 +78,18 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 
 	cc.m_world.setScale(Vector3D(scale, scale, scale));
 
-	temp.setIdentity();
 	temp.setRotationZ(0);
 
 	cc.m_world *= temp;
 
-	temp.setIdentity();
 	temp.setRotationY(rotateY);
 
 	cc.m_world *= temp;
 
-	temp.setIdentity();
 	temp.setRotationX(rotateX);
 
 	cc.m_world *= temp;
 
-	temp.setIdentity();
 	temp.setTranslation(m_position);
 
 	cc.m_world *= temp;

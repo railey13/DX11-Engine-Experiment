@@ -26,7 +26,7 @@ public:
 	}
 
 	Vector3D operator+(const Vector3D v) {
-		return Vector3D(m_x + v.m_x, m_y + v.m_y, m_x + v.m_z);
+		return Vector3D(m_x + v.m_x, m_y + v.m_y, m_z + v.m_z);
 	}
 
 	Vector3D operator-(const Vector3D v) {
