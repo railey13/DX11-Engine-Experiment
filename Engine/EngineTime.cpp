@@ -1,4 +1,7 @@
 #include "EngineTime.h"
+#include <Windows.h>
+#include <iostream>
+#include <thread>
 
 EngineTime* EngineTime::sharedInstance = NULL;
 
@@ -15,6 +18,36 @@ double EngineTime::getTotalTime() {
     return sharedInstance->totalTime;
 }
 
+void EngineTime::LimitFPS(double frameRateLimit) {
+    if (frameRateLimit <= 0.0f) return;
+
+    double timePerFrame = 1.0f / frameRateLimit;
+
+    if (sharedInstance->deltaTime < timePerFrame) {
+        double sleepMS = (timePerFrame - sharedInstance->deltaTime) * 1000.0f;
+        Sleep(static_cast<DWORD>(sleepMS));
+    }
+    LogFrameEnd();
+}
+
+void EngineTime::UpdateFPSCounter() {
+    sharedInstance->fpsAccumulatedTime += sharedInstance->deltaTime;
+    sharedInstance->fpsFrameCount++;
+
+    if (sharedInstance->fpsAccumulatedTime >= 1.0) {
+        sharedInstance->currentFPS = sharedInstance->fpsFrameCount / sharedInstance->fpsAccumulatedTime;
+
+        std::cout << "FPS: " << sharedInstance->currentFPS << std::endl;
+
+        sharedInstance->fpsFrameCount = 0;
+        sharedInstance->fpsAccumulatedTime = 0.0;
+    }
+}
+
+double EngineTime::getFPS() {
+    return sharedInstance->currentFPS;
+}
+
 EngineTime::EngineTime() {
 
 }
@@ -24,11 +57,11 @@ EngineTime::~EngineTime() {
 }
 
 void EngineTime::LogFrameStart() {
-    sharedInstance->start = std::chrono::system_clock::now();
+    sharedInstance->start = std::chrono::steady_clock::now();
 }
 
 void EngineTime::LogFrameEnd() {
-    sharedInstance->end = std::chrono::system_clock::now();
+    sharedInstance->end = std::chrono::steady_clock::now();
 
     std::chrono::duration<double> elapsed_seconds = sharedInstance->end - sharedInstance->start;
 

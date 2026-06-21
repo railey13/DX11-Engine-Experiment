@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "EngineTime.h"
+#include <iostream>
 
 Window::Window() {
 
@@ -101,8 +102,9 @@ bool Window::broadcast() {
 
     }   
 
-    Sleep(1);
-    EngineTime::LogFrameEnd();
+    EngineTime::LimitFPS(60.0f);
+    EngineTime::UpdateFPSCounter();
+
     return true;
 }
 
