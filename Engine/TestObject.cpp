@@ -132,21 +132,21 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 
 	cc.m_proj.setPerspectiveFovLH(1.57f, width / height, 0.1f, 100.0f);
 
-	m_cb->update(graphEngine->getImmediateDeviceContext(), &cc);
+	m_cb->update(graphEngine->getRenderSystem()->getImmediateDeviceContext(), &cc);
 }
 
 void TestObject::render(GraphicsEngine* graphEngine) {
-	graphEngine->getImmediateDeviceContext()->setCosntantBuffer(m_vs, m_cb);
-	graphEngine->getImmediateDeviceContext()->setCosntantBuffer(m_ps, m_cb);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setCosntantBuffer(m_vs, m_cb);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setCosntantBuffer(m_ps, m_cb);
 
-	graphEngine->getImmediateDeviceContext()->setVertexShader(m_vs);
-	graphEngine->getImmediateDeviceContext()->setPixelShader(m_ps);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-	graphEngine->getImmediateDeviceContext()->setVertexBuffer(m_vb);
-	graphEngine->getImmediateDeviceContext()->setIndexBuffer(m_ib);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
 
 	//graphEngine->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
-	graphEngine->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
 }
 
 void TestObject::TranslateForward(float dir) {
@@ -219,30 +219,30 @@ void TestObject::initialize(int colorID) {
 
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 
-	m_vb = graphEngine->createVertexBuffer();
-	m_ib = graphEngine->createIndexBuffer();
+	m_vb = graphEngine->getRenderSystem()->createVertexBuffer();
+	m_ib = graphEngine->getRenderSystem()->createIndexBuffer();
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
-	graphEngine->compileVertexShader(L"Engine\\VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	m_vs = graphEngine->createVertexShader(shader_byte_code, size_shader);
+	graphEngine->getRenderSystem()->compileVertexShader(L"Engine\\VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
+	m_vs = graphEngine->getRenderSystem()->createVertexShader(shader_byte_code, size_shader);
 	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
 
 	m_ib->load(index_list, size_index_list);
 
-	graphEngine->releaseCompiledShader();
+	graphEngine->getRenderSystem()->releaseCompiledShader();
 
-	graphEngine->compilePixelShader(L"Engine\\PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	m_ps = graphEngine->createPixelShader(shader_byte_code, size_shader);
+	graphEngine->getRenderSystem()->compilePixelShader(L"Engine\\PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	m_ps = graphEngine->getRenderSystem()->createPixelShader(shader_byte_code, size_shader);
 
 	constant cc;
 	cc.m_time = 0;
 
-	m_cb = graphEngine->createConstantBuffer();
+	m_cb = graphEngine->getRenderSystem()->createConstantBuffer();
 	m_cb->load(&cc, sizeof(constant));
 
-	graphEngine->releaseCompiledShader();
+	graphEngine->getRenderSystem()->releaseCompiledShader();
 
 	m_velocity = GenerateRandomVelocity();
 }

@@ -1,13 +1,7 @@
 #pragma once
 #include <d3d11.h>
-
-class SwapChain;
-class DeviceContext;
-class VertexBuffer;
-class IndexBuffer;
-class ConstantBuffer;
-class VertexShader;
-class PixelShader;
+#include "Prerequisites.h"
+#include "RenderSystem.h"
 
 class GraphicsEngine {
 public: 
@@ -15,6 +9,8 @@ public:
 
 	static void initialize();
 	static void destroy();
+public:
+	RenderSystem* getRenderSystem();
 private:
 	GraphicsEngine();
 
@@ -28,46 +24,7 @@ private:
 	bool release();
 
 	~GraphicsEngine();
-public:
-	SwapChain* createSwapChain();
-	DeviceContext* getImmediateDeviceContext();
-	VertexBuffer* createVertexBuffer();
-	IndexBuffer* createIndexBuffer();
-	ConstantBuffer* createConstantBuffer();
-	
-	VertexShader* createVertexShader(void* shader_byte_code, size_t byte_code_size);
-	PixelShader* createPixelShader(void* shader_byte_code, size_t byte_code_size);
-public:
-	bool compileVertexShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
-	bool compilePixelShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
-
-	void releaseCompiledShader();
 private:
-	DeviceContext* m_imm_device_context;
-private:
-	ID3D11Device* m_d3d_device;
-	D3D_FEATURE_LEVEL m_feature_level;
-	ID3D11DeviceContext* m_imm_context;
-private:
-	IDXGIDevice* m_dxgi_device;
-	IDXGIAdapter* m_dxgi_adapter;
-	IDXGIFactory* m_dxgi_factory;
-private:
-	ID3DBlob* m_blob = nullptr;
-
-	ID3DBlob* m_vsblob = nullptr;
-	ID3DBlob* m_psblob = nullptr;
-	ID3D11VertexShader* m_vs = nullptr;
-	ID3D11PixelShader* m_ps = nullptr;
-
-private:
-	// make swapchain a class friend of graphicsengine class so that it has access to private members
-	// without making any of the members public to other classes	
-	friend class SwapChain; 
-	friend class VertexBuffer;
-	friend class IndexBuffer;
-	friend class ConstantBuffer;
-	friend class VertexShader;
-	friend class PixelShader;
+	RenderSystem* m_render_system = nullptr;
 };
 

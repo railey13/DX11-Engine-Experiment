@@ -19,7 +19,7 @@ void AppWindow::createGraphicsWindow() {
 	GraphicsEngine::initialize();
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 
-	m_swap_chain = graphEngine->createSwapChain();
+	m_swap_chain = graphEngine->getRenderSystem()->createSwapChain();
 
 	RECT rc = this->getClientWindowRect();
 
@@ -126,11 +126,11 @@ void AppWindow::onUpdate() {
 
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 	//graphEngine->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0.388f, 0.525f, 0.804f, 1);
-	graphEngine->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain,0, 0, 0, 1);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0, 0, 0, 1);
 
 	RECT rc = this->getClientWindowRect();
 
-	graphEngine->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	this->update();
 
