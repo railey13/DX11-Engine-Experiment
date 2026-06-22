@@ -38,7 +38,7 @@ void InputSystem::update() {
 	//  IF TRUE, THERE IS A MOUSE EVENT
 	if (current_moues_pos.x != m_old_mouse_pos.m_x || current_moues_pos.y != m_old_mouse_pos.m_y) {
 		for (auto it = m_set_listeners.begin(); it != m_set_listeners.end(); it++) {
-			(*it)->onMouseMove(Point(current_moues_pos.x - m_old_mouse_pos.m_x, current_moues_pos.y - m_old_mouse_pos.m_y));
+			(*it)->onMouseMove(Point(current_moues_pos.x, current_moues_pos.y));
 		}
 	}
 
@@ -65,7 +65,6 @@ void InputSystem::update() {
 					else {
 						(*it)->onKeyDown(i);
 					}
-					it++;
 				}
 			}
 			// IF KEY IS UP
@@ -81,7 +80,6 @@ void InputSystem::update() {
 						else {
 							(*it)->onKeyUp(i);
 						}
-						it++;
 					}
 				}
 			}
@@ -98,4 +96,17 @@ void InputSystem::addListener(InputListener* listener) {
 void InputSystem::removeListener(InputListener* listener) {
 	m_set_listeners.erase(listener);
 
+}
+
+void InputSystem::setCursorPosition(const Point& pos) {
+	::SetCursorPos(pos.m_x, pos.m_y);
+}
+
+void InputSystem::showCursor(bool show) {
+	isCursorVis = show;
+	::ShowCursor(show);
+}
+
+bool InputSystem::isCursorVisible() {
+	return isCursorVis;
 }

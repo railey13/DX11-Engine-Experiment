@@ -143,6 +143,7 @@
     <ClCompile Include="Engine\VertexBuffer.cpp" />
     <ClCompile Include="Engine\VertexShader.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
+    <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AppWindow.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Engine\VertexBuffer.h" />
     <ClInclude Include="Engine\VertexShader.h" />
     <ClInclude Include="Engine\Window.h" />
+    <ClInclude Include="Settings.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\PixelShader.hlsl">

@@ -2,6 +2,7 @@
 #include "Vector3D.h"
 #include "InputSystem.h"
 #include "iostream"
+#include "../Settings.h"
 
 AppWindow* AppWindow::sharedInstance = NULL;
 
@@ -166,15 +167,19 @@ void AppWindow::onKeyDown(int key) {
 	switch (key) {
 	case 'W': if (objects.empty()) return;
 		//objects.front()->RotateX(1);
+		objects.front()->TranslateForward(1);
 		break; 
 	case 'S': if (objects.empty()) return; 
 		//objects.front()->RotateX(-1);
+		objects.front()->TranslateForward(-1);
 		break;
 	case 'A': if (objects.empty()) return; 
 		//objects.front()->RotateY(1);
+		objects.front()->TranslateSideward(-1);
 		break;
 	case 'D': if (objects.empty()) return;
 		//objects.front()->RotateY(-1);
+		objects.front()->TranslateSideward(1);
 		break;
 	default: break;
 	}
@@ -182,6 +187,10 @@ void AppWindow::onKeyDown(int key) {
 
 void AppWindow::onKeyUp(int key) {
 	std::cout << key << std::endl;
+	if (!objects.empty()) {
+		objects.front()->TranslateForward(0);
+		objects.front()->TranslateSideward(0);
+	}
 	switch (key) {
 	case VK_SPACE: this->SpawnObject();
 		std::cout << "SPACE" << std::endl;
@@ -195,32 +204,36 @@ void AppWindow::onKeyUp(int key) {
 	case VK_ESCAPE: m_is_run = false;
 		std::cout << "ESCAPE" << std::endl;
 		break;
+	case 'L': InputSystem::get()->showCursor(!InputSystem::get()->isCursorVisible());
 	default: break;
 	}
 }
 
-void AppWindow::onMouseMove(const Point& delta_mouse_pos) {
+void AppWindow::onMouseMove(const Point& mouse_pos) {
 	if (objects.empty()) return;
-	//objects.front()->RotateX(-delta_mouse_pos.m_y);
-	//objects.front()->RotateY(delta_mouse_pos.m_x);
+
+	objects.front()->RotateX((mouse_pos.m_y - (Settings::WindowHeight/ 2.0f)) * 0.1);
+	objects.front()->RotateY((mouse_pos.m_x - (Settings::WindowWidth / 2.0f)) * 0.1);
+
+	InputSystem::get()->setCursorPosition(Point(Settings::WindowWidth/2.0f, Settings::WindowHeight/2.0f));
 }
 
-void AppWindow::onLeftMouseDown(const Point& delta_mouse_pos) {
+void AppWindow::onLeftMouseDown(const Point& mouse_pos) {
 	if (objects.empty()) return;
 	//objects.front()->Scale(0.5f);
 }
 
-void AppWindow::onLeftMouseUp(const Point& delta_mouse_pos) {
+void AppWindow::onLeftMouseUp(const Point& mouse_pos) {
 	if (objects.empty()) return;
 	//objects.front()->Scale(1.f);
 }
 
-void AppWindow::onRightMouseDown(const Point& delta_mouse_pos) {
+void AppWindow::onRightMouseDown(const Point& mouse_pos) {
 	if (objects.empty()) return;
 	//objects.front()->Scale(2.0f);
 }
 
-void AppWindow::onRightMouseUp(const Point& delta_mouse_pos) {
+void AppWindow::onRightMouseUp(const Point& mouse_pos) {
 	if (objects.empty()) return;
 	//objects.front()->Scale(1.0f);
 }

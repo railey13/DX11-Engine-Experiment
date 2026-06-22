@@ -54,8 +54,11 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 	m_position.m_x += m_velocity.m_x * deltaTime;
 	m_position.m_y += m_velocity.m_y * deltaTime;
 
-	float halfWidth = (rc.right - rc.left) / 800.0f;
-	float halfHeight = (rc.bottom - rc.top) / 800.0f;
+	float width = rc.right - rc.left;
+	float height = rc.bottom - rc.top;
+
+	float halfWidth = width / 800.0f;
+	float halfHeight = height / 800.0f;
 
 	// offset value of the vertices from the origin (when setting up the vertices of this cube)
 	const float halfCube = 0.2f;
@@ -76,33 +79,58 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 		m_position.m_y = (m_position.m_y < minY) ? minY : maxY;
 	}
 
+	cc.m_world.setIdentity();
+
 	cc.m_world.setScale(Vector3D(scale, scale, scale));
 
-	temp.setRotationZ(0);
+	//temp.setRotationZ(0);
 
-	cc.m_world *= temp;
+	//cc.m_world *= temp;
 
-	temp.setRotationY(rotateY);
+	//temp.setRotationY(rotateY);
 
-	cc.m_world *= temp;
+	//cc.m_world *= temp;
 
-	temp.setRotationX(rotateX);
+	//temp.setRotationX(rotateX);
 
-	cc.m_world *= temp;
+	//cc.m_world *= temp;
 
+	temp.setIdentity();
 	temp.setTranslation(m_position);
 
 	cc.m_world *= temp;
 
-	cc.m_view.setIdentity();
-	cc.m_proj.setOrthoLH(
-		(rc.right - rc.left) / 400.f,
-		(rc.bottom - rc.top) / 400.f,
-		-4.0f,
-		4.0f
-	);
+	cc.m_world.setIdentity();
 
+	Matrix4x4 world_cam;
+	world_cam.setIdentity();
 
+	temp.setRotationX(rotateX);
+	world_cam *= temp;
+
+	temp.setRotationY(rotateY);
+	world_cam *= temp;
+
+	Vector3D new_pos = m_world_cam.getTranslation()
+		+ world_cam.getZDirection() * (m_forward * EngineTime::getDeltaTime())
+		+ world_cam.getXDirection() * (m_strafe * EngineTime::getDeltaTime());
+
+	world_cam.setTranslation(new_pos);
+
+	m_world_cam = world_cam;
+
+	world_cam.inverse();
+
+	cc.m_view = world_cam;
+
+	//cc.m_proj.setOrthoLH(
+	//	width / 400.f,
+	//	height / 400.f,
+	//	-4.0f,
+	//	4.0f
+	//);
+
+	cc.m_proj.setPerspectiveFovLH(1.57f, width / height, 0.1f, 100.0f);
 
 	m_cb->update(graphEngine->getImmediateDeviceContext(), &cc);
 }
@@ -121,6 +149,14 @@ void TestObject::render(GraphicsEngine* graphEngine) {
 	graphEngine->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
 }
 
+void TestObject::TranslateForward(float dir) {
+	m_forward = dir;
+}
+
+void TestObject::TranslateSideward(float dir) {
+	m_strafe = dir;
+}
+
 void TestObject::RotateX(float x) {
 	rotateX += x * EngineTime::getDeltaTime();
 }
@@ -134,7 +170,12 @@ void TestObject::Scale(float scale) {
 }
 
 void TestObject::initialize(int colorID) {
-	Vector3D color = GetColor(colorID);
+
+	m_world_cam.setTranslation(Vector3D(-0.3f, 0.5f, -1));
+
+	//Vector3D color = GetColor(colorID);
+	Vector3D color = Vector3D(1.0f, 0.5f, 0.1f);
+
 	vertex list[] = {
 		// POS - COLOR - COLOR 1
 		// X - Y - Z

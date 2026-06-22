@@ -85,6 +85,7 @@
     <ClCompile Include="Engine\Window.cpp">
       <Filter>Game Engine\WindowingSystem</Filter>
     </ClCompile>
+    <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\TestObject.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Engine\Window.h">
       <Filter>Game Engine\WindowingSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Settings.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

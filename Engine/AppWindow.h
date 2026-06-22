@@ -41,11 +41,11 @@ public:
 	void onKeyDown(int key) override;
 	void onKeyUp(int key) override;
 	// Inherited via InputListener
-	void onMouseMove(const Point& delta_mouse_pos) override;
-	virtual void onLeftMouseDown(const Point& delta_mouse_pos) override;
-	virtual void onLeftMouseUp(const Point& delta_mouse_pos) override;
-	virtual void onRightMouseDown(const Point& delta_mouse_pos) override;
-	virtual void onRightMouseUp(const Point& delta_mouse_pos) override;
+	void onMouseMove(const Point& mouse_pos) override;
+	virtual void onLeftMouseDown(const Point& mouse_pos) override;
+	virtual void onLeftMouseUp(const Point& mouse_pos) override;
+	virtual void onRightMouseDown(const Point& mouse_pos) override;
+	virtual void onRightMouseUp(const Point& mouse_pos) override;
 private:
 	void SpawnObject();
 	void DestroyObject();

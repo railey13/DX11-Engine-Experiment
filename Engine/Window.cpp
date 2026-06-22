@@ -1,6 +1,7 @@
 #include "Window.h"
 #include "EngineTime.h"
 #include <iostream>
+#include "../Settings.h"
 
 Window::Window() {
 
@@ -72,7 +73,7 @@ bool Window::init() {
     m_hwnd=::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, 
         "MyWindowClass", "DirectX Application", 
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT ,CW_USEDEFAULT, 
-        1024, 768,
+        Settings::WindowWidth, Settings::WindowHeight,
         NULL,NULL,NULL,this);
 
     // if window creation failed, return false
@@ -102,7 +103,7 @@ bool Window::broadcast() {
 
     }   
 
-    EngineTime::LimitFPS(60.0f);
+    EngineTime::LimitFPS(Settings::FrameRateLimit);
     EngineTime::UpdateFPSCounter();
 
     return true;
