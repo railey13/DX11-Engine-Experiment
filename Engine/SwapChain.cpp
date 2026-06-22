@@ -1,11 +1,8 @@
 #include "SwapChain.h"
 #include "RenderSystem.h"
+#include <exception>
 
-SwapChain::SwapChain(RenderSystem* system) : m_system(system){
-
-}
-
-bool SwapChain::init(HWND hwnd, UINT width, UINT height) {
+SwapChain::SwapChain(HWND hwnd, UINT width, UINT height, RenderSystem* system) : m_system(system){
 	ID3D11Device* device = m_system->m_d3d_device;
 
 	DXGI_SWAP_CHAIN_DESC desc;
@@ -28,13 +25,13 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height) {
 	desc.OutputWindow = hwnd;
 	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
-	desc.Windowed = TRUE;	
+	desc.Windowed = TRUE;
 
 	// create the swapchain for the window indicated by the HWND parameter
 	HRESULT hr = m_system->m_dxgi_factory->CreateSwapChain(device, &desc, &m_swap_chain);
 
 	if (FAILED(hr)) {
-		return false;
+		throw std::exception("SwapChain did not initiate successfully");
 	}
 
 	ID3D11Texture2D* buffer = NULL;
@@ -42,7 +39,7 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height) {
 	hr = m_swap_chain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&buffer);
 
 	if (FAILED(hr)) {
-		return false;
+		throw std::exception("SwapChain did not initiate successfully");
 	}
 
 	hr = device->CreateRenderTargetView(buffer, NULL, &m_rtv);
@@ -50,10 +47,8 @@ bool SwapChain::init(HWND hwnd, UINT width, UINT height) {
 	buffer->Release();
 
 	if (FAILED(hr)) {
-		return false;
+		throw std::exception("SwapChain did not initiate successfully");
 	}
-
-	return true;
 }
 
 bool SwapChain::present(bool vsync) {
@@ -62,12 +57,7 @@ bool SwapChain::present(bool vsync) {
 	return true;
 }
 
-bool SwapChain::release() {
-	m_swap_chain->Release();
-	delete this;
-	return true;
-}
-
 SwapChain::~SwapChain() {
-
+	m_rtv->Release();
+	m_swap_chain->Release();
 }

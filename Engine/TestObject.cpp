@@ -16,11 +16,7 @@ TestObject::~TestObject() {
 }
 
 void TestObject::release() {
-	m_vb->release();
-	m_ib->release();
-	m_cb->release();
-	m_vs->release();
-	m_ps->release();
+ 
 }
 
 void TestObject::Translate(Vector3D pos) {
@@ -219,17 +215,15 @@ void TestObject::initialize(int colorID) {
 
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 
-	m_vb = graphEngine->getRenderSystem()->createVertexBuffer();
-	m_ib = graphEngine->getRenderSystem()->createIndexBuffer();
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
 	graphEngine->getRenderSystem()->compileVertexShader(L"Engine\\VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	m_vs = graphEngine->getRenderSystem()->createVertexShader(shader_byte_code, size_shader);
-	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
 
-	m_ib->load(index_list, size_index_list);
+	m_vs = graphEngine->getRenderSystem()->createVertexShader(shader_byte_code, size_shader);
+	m_vb = graphEngine->getRenderSystem()->createVertexBuffer(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
+	m_ib = graphEngine->getRenderSystem()->createIndexBuffer(index_list, size_index_list);
 
 	graphEngine->getRenderSystem()->releaseCompiledShader();
 
@@ -239,8 +233,7 @@ void TestObject::initialize(int colorID) {
 	constant cc;
 	cc.m_time = 0;
 
-	m_cb = graphEngine->getRenderSystem()->createConstantBuffer();
-	m_cb->load(&cc, sizeof(constant));
+	m_cb = graphEngine->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
 
 	graphEngine->getRenderSystem()->releaseCompiledShader();
 

@@ -22,8 +22,6 @@ public:
 	void drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location);
 	void drawTriangleStrip(UINT vertex_count, UINT start_vertex_index);
 
-	bool release();
-
 	~DeviceContext();
 private:
 	ID3D11DeviceContext* m_device_context;

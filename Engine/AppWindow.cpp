@@ -19,80 +19,9 @@ void AppWindow::createGraphicsWindow() {
 	GraphicsEngine::initialize();
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 
-	m_swap_chain = graphEngine->getRenderSystem()->createSwapChain();
+	m_swap_chain = graphEngine->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
 	RECT rc = this->getClientWindowRect();
-
-	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
-
-	//auto obj = new TestObject(graphEngine);
-	//obj->Translate(Vector3D(-0.35f, 0, 0));
-	//obj->speed = 0.0;
-	//objects.push_back(obj);
-
-	//obj = new TestObject(graphEngine);
-	//obj->Translate(Vector3D(0.35f, 0, 0));
-	//obj->speed = 0.7;
-	//objects.push_back(obj);
-
-	//obj = new TestObject(graphEngine);
-	//obj->Translate(Vector3D(0, 0.5f, 0));
-	//obj->speed = 0.6;
-	//objects.push_back(obj);
-
-	//obj = new TestObject(graphEngine);
-	//obj->Translate(Vector3D(0, -0.5f, 0));
-	//obj->speed = 0.5;
-	//objects.push_back(obj);
-
-	//{
-	//	vertex list[] = {
-	//		// X - Y - Z
-	//		// FRONT FACE
-	//		{Vector3D(-0.2f, -0.2f, -0.2f),	Vector3D(0.0f, 0.0f, 0.0f),		Vector3D(0.0f, 1.0f, 0.0f)}, // POS1
-	//		{Vector3D(-0.2f, 0.2f, -0.2f),	Vector3D(1.0f, 1.0f, 0.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS2
-	//		{Vector3D(0.2f, 0.2f, -0.2f),	Vector3D(0.0f, 0.0f, 1.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS3 
-	//		{Vector3D(0.2f, -0.2f, -0.2f),	Vector3D(1.0f, 1.0f, 1.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS4
-
-	//		// BACK FACE
-	//		{Vector3D(0.2f, -0.2f, 0.2f),	Vector3D(0.0f, 0.0f, 0.0f),		Vector3D(0.0f, 1.0f, 0.0f)}, // POS1
-	//		{Vector3D(0.2f, 0.2f, 0.2f),	Vector3D(1.0f, 1.0f, 0.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS2
-	//		{Vector3D(-0.2f, 0.2f, 0.2f),	Vector3D(0.0f, 0.0f, 1.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS3 
-	//		{Vector3D(-0.2f, -0.2f, 0.2f),	Vector3D(1.0f, 1.0f, 1.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS4
-	//	};
-
-	//	UINT size_list = ARRAYSIZE(list);
-
-	//	unsigned int index_list[] = {
-	//		// FRONT SIDE
-	//		0,1,2, // FIRST TRIANGLE
-	//		2,3,0, // SECOND TRIANGLE
-	//		// BACK SIDE
-	//		4,5,6,
-	//		6,7,4,
-	//		// TOP SIDE
-	//		1,6,5,
-	//		5,2,1,
-	//		// BOTTOM SIDE
-	//		7,0,3,
-	//		3,4,7,
-	//		// RIGHT SIDE
-	//		3,2,5,
-	//		5,4,3,
-	//		// LEFT SIDE
-	//		7,6,1,
-	//		1,0,7
-	//	};
-
-	//	UINT size_index_list = ARRAYSIZE(index_list);
-
-	//	auto obj = new TestObject(list, index_list, size_list, size_index_list, graphEngine);
-	//	obj->Translate(Vector3D(0.35,0,0));
-	//	obj->speed = 0.5f;
-	//	objects.push_back(obj);
-	//}
-
-	
 }
 
 AppWindow::AppWindow() {
@@ -125,7 +54,7 @@ void AppWindow::onUpdate() {
 	inputSystem->update();
 
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
-	//graphEngine->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0.388f, 0.525f, 0.804f, 1);
+	
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0, 0, 0, 1);
 
 	RECT rc = this->getClientWindowRect();
@@ -144,15 +73,9 @@ void AppWindow::onUpdate() {
 void AppWindow::onDestroy() {
 	Window::onDestroy();
 
-	m_swap_chain->release();
-
-	for (auto obj : objects) {
-		obj->release();
-	}
-
 	objects.clear();
 
-	GraphicsEngine::destroy();
+	GraphicsEngine::get()->destroy();
 }
 
 void AppWindow::onFocus() {
