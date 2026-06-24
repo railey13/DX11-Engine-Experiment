@@ -27,25 +27,7 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 	float deltaTime = EngineTime::getDeltaTime();
 	constant cc;
 
-	//cc.m_time = (float)EngineTime::getTotalTime();
-
-	//float tSpeed = 0.3f;
-	//float cSpeed = 10.0f;
-	//float rSpeed = 0.5f;
-
-	//float t = fmod(EngineTime::getTotalTime() * tSpeed * 0.5f, 1.0f);
-	//float s = sin(EngineTime::getTotalTime() * cSpeed) * 0.5f + 0.5f;
-	//float r = 0;
-
-	//r += EngineTime::getTotalTime() * speed / 0.5f;
-
 	Matrix4x4 temp;
-
-	//cc.m_world.setScale(Vector3D::lerp(Vector3D(0.5f, 0.5f, 0), Vector3D(2, 2, 0), s));
-
-	//temp.setTranslation(Vector3D::lerp(Vector3D(0, -2, 0), Vector3D(0, 2, 0), t));
-
-	//cc.m_world *= temp;
 
 	m_position.m_x += m_velocity.m_x * deltaTime;
 	m_position.m_y += m_velocity.m_y * deltaTime;
@@ -66,30 +48,18 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 
 
 	if (m_position.m_x < minX || m_position.m_x > maxX) {
-		m_velocity.m_x *= -1.0f; // inverse the direction
+		//m_velocity.m_x *= -1.0f; // inverse the direction
 		m_position.m_x = (m_position.m_x < minX) ? minX : maxX; // clamp the pos to prevent getting stuck
 	}
 
 	if (m_position.m_y < minY || m_position.m_y > maxY) {
-		m_velocity.m_y *= -1.0f;
+		//m_velocity.m_y *= -1.0f;
 		m_position.m_y = (m_position.m_y < minY) ? minY : maxY;
 	}
 
 	cc.m_world.setIdentity();
 
 	cc.m_world.setScale(Vector3D(scale, scale, scale));
-
-	//temp.setRotationZ(0);
-
-	//cc.m_world *= temp;
-
-	//temp.setRotationY(rotateY);
-
-	//cc.m_world *= temp;
-
-	//temp.setRotationX(rotateX);
-
-	//cc.m_world *= temp;
 
 	temp.setIdentity();
 	temp.setTranslation(m_position);
@@ -118,13 +88,6 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 	world_cam.inverse();
 
 	cc.m_view = world_cam;
-
-	//cc.m_proj.setOrthoLH(
-	//	width / 400.f,
-	//	height / 400.f,
-	//	-4.0f,
-	//	4.0f
-	//);
 
 	cc.m_proj.setPerspectiveFovLH(1.57f, width / height, 0.1f, 100.0f);
 

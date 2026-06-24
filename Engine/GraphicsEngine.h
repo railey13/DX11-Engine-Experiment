@@ -12,17 +12,14 @@ public:
 public:
 	RenderSystem* getRenderSystem();
 private:
+	// initialize the GraphicsEngine and DirectX 11 Device
 	GraphicsEngine();
 
 	GraphicsEngine(GraphicsEngine const&);
 	GraphicsEngine& operator=(GraphicsEngine const&);
 	static GraphicsEngine* sharedInstance;
 
-	// initialize the GraphicsEngine and DirectX 11 Device
-	bool init();
 	// release all the resources loaded
-	bool release();
-
 	~GraphicsEngine();
 private:
 	RenderSystem* m_render_system = nullptr;

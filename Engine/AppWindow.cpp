@@ -16,7 +16,6 @@ void AppWindow::initialize() {
 }
 
 void AppWindow::createGraphicsWindow() {
-	GraphicsEngine::initialize();
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 
 	m_swap_chain = graphEngine->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);

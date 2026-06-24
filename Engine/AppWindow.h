@@ -51,12 +51,12 @@ private:
 	void DestroyObject();
 	void DestroyAllObjects();
 private:
-	SwapChain* m_swap_chain;
-	VertexBuffer* m_vb;
-	IndexBuffer* m_ib;
-	ConstantBuffer* m_cb;
-	VertexShader* m_vs;
-	PixelShader* m_ps;
+	SwapChainPtr m_swap_chain;
+	VertexBufferPtr m_vb;
+	IndexBufferPtr m_ib;
+	ConstantBufferPtr m_cb;
+	VertexShaderPtr m_vs;
+	PixelShaderPtr m_ps;
 
 	std::vector<TestObject*> objects;
 };

@@ -1,4 +1,5 @@
 #include "GraphicsEngine.h"
+#include <exception>
 
 GraphicsEngine* GraphicsEngine::sharedInstance = NULL;
 
@@ -7,14 +8,15 @@ GraphicsEngine* GraphicsEngine::get() {
 }
 
 void GraphicsEngine::initialize() {
+    if(sharedInstance != NULL) throw std::exception("Graphcis Engine already exists");
+
     sharedInstance = new GraphicsEngine();
-    sharedInstance->init();
 }
 
 void GraphicsEngine::destroy() {
-    if (sharedInstance != NULL) {
-        sharedInstance->release();
-    }
+    if (sharedInstance == NULL) return;
+
+    delete sharedInstance;
 }
 
 RenderSystem* GraphicsEngine::getRenderSystem() {
@@ -22,21 +24,15 @@ RenderSystem* GraphicsEngine::getRenderSystem() {
 }
 
 GraphicsEngine::GraphicsEngine() {
-
-}
-
-bool GraphicsEngine::init() {
-    m_render_system = new RenderSystem();
-    m_render_system->init();
-    return true;
-}
-
-bool GraphicsEngine::release() {
-    m_render_system->release();
-    delete m_render_system;
-    return true;
+    try {
+        m_render_system = new RenderSystem();
+    }
+    catch (...) {
+        throw std::exception("Graphcis Engine did not initiate successfully");
+    }
 }
 
 GraphicsEngine::~GraphicsEngine() {
+    delete m_render_system;
 
 }
