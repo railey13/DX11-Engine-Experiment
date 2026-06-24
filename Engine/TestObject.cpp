@@ -16,11 +16,7 @@ TestObject::~TestObject() {
 }
 
 void TestObject::release() {
-	m_vb->release();
-	m_ib->release();
-	m_cb->release();
-	m_vs->release();
-	m_ps->release();
+ 
 }
 
 void TestObject::Translate(Vector3D pos) {
@@ -31,31 +27,16 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 	float deltaTime = EngineTime::getDeltaTime();
 	constant cc;
 
-	//cc.m_time = (float)EngineTime::getTotalTime();
-
-	//float tSpeed = 0.3f;
-	//float cSpeed = 10.0f;
-	//float rSpeed = 0.5f;
-
-	//float t = fmod(EngineTime::getTotalTime() * tSpeed * 0.5f, 1.0f);
-	//float s = sin(EngineTime::getTotalTime() * cSpeed) * 0.5f + 0.5f;
-	//float r = 0;
-
-	//r += EngineTime::getTotalTime() * speed / 0.5f;
-
 	Matrix4x4 temp;
-
-	//cc.m_world.setScale(Vector3D::lerp(Vector3D(0.5f, 0.5f, 0), Vector3D(2, 2, 0), s));
-
-	//temp.setTranslation(Vector3D::lerp(Vector3D(0, -2, 0), Vector3D(0, 2, 0), t));
-
-	//cc.m_world *= temp;
 
 	m_position.m_x += m_velocity.m_x * deltaTime;
 	m_position.m_y += m_velocity.m_y * deltaTime;
 
-	float halfWidth = (rc.right - rc.left) / 800.0f;
-	float halfHeight = (rc.bottom - rc.top) / 800.0f;
+	float width = rc.right - rc.left;
+	float height = rc.bottom - rc.top;
+
+	float halfWidth = width / 800.0f;
+	float halfHeight = height / 800.0f;
 
 	// offset value of the vertices from the origin (when setting up the vertices of this cube)
 	const float halfCube = 0.2f;
@@ -67,62 +48,72 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 
 
 	if (m_position.m_x < minX || m_position.m_x > maxX) {
-		m_velocity.m_x *= -1.0f; // inverse the direction
+		//m_velocity.m_x *= -1.0f; // inverse the direction
 		m_position.m_x = (m_position.m_x < minX) ? minX : maxX; // clamp the pos to prevent getting stuck
 	}
 
 	if (m_position.m_y < minY || m_position.m_y > maxY) {
-		m_velocity.m_y *= -1.0f;
+		//m_velocity.m_y *= -1.0f;
 		m_position.m_y = (m_position.m_y < minY) ? minY : maxY;
 	}
 
+	cc.m_world.setIdentity();
+
 	cc.m_world.setScale(Vector3D(scale, scale, scale));
-
-	temp.setIdentity();
-	temp.setRotationZ(0);
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(rotateY);
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationX(rotateX);
-
-	cc.m_world *= temp;
 
 	temp.setIdentity();
 	temp.setTranslation(m_position);
 
 	cc.m_world *= temp;
 
-	cc.m_view.setIdentity();
-	cc.m_proj.setOrthoLH(
-		(rc.right - rc.left) / 400.f,
-		(rc.bottom - rc.top) / 400.f,
-		-4.0f,
-		4.0f
-	);
+	cc.m_world.setIdentity();
 
+	Matrix4x4 world_cam;
+	world_cam.setIdentity();
 
+	temp.setRotationX(rotateX);
+	world_cam *= temp;
 
-	m_cb->update(graphEngine->getImmediateDeviceContext(), &cc);
+	temp.setRotationY(rotateY);
+	world_cam *= temp;
+
+	Vector3D new_pos = m_world_cam.getTranslation()
+		+ world_cam.getZDirection() * (m_forward * EngineTime::getDeltaTime())
+		+ world_cam.getXDirection() * (m_strafe * EngineTime::getDeltaTime());
+
+	world_cam.setTranslation(new_pos);
+
+	m_world_cam = world_cam;
+
+	world_cam.inverse();
+
+	cc.m_view = world_cam;
+
+	cc.m_proj.setPerspectiveFovLH(1.57f, width / height, 0.1f, 100.0f);
+
+	m_cb->update(graphEngine->getRenderSystem()->getImmediateDeviceContext(), &cc);
 }
 
 void TestObject::render(GraphicsEngine* graphEngine) {
-	graphEngine->getImmediateDeviceContext()->setCosntantBuffer(m_vs, m_cb);
-	graphEngine->getImmediateDeviceContext()->setCosntantBuffer(m_ps, m_cb);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setCosntantBuffer(m_vs, m_cb);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setCosntantBuffer(m_ps, m_cb);
 
-	graphEngine->getImmediateDeviceContext()->setVertexShader(m_vs);
-	graphEngine->getImmediateDeviceContext()->setPixelShader(m_ps);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
 
-	graphEngine->getImmediateDeviceContext()->setVertexBuffer(m_vb);
-	graphEngine->getImmediateDeviceContext()->setIndexBuffer(m_ib);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
 
 	//graphEngine->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
-	graphEngine->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+}
+
+void TestObject::TranslateForward(float dir) {
+	m_forward = dir;
+}
+
+void TestObject::TranslateSideward(float dir) {
+	m_strafe = dir;
 }
 
 void TestObject::RotateX(float x) {
@@ -138,7 +129,12 @@ void TestObject::Scale(float scale) {
 }
 
 void TestObject::initialize(int colorID) {
-	Vector3D color = GetColor(colorID);
+
+	m_world_cam.setTranslation(Vector3D(-0.3f, 0.5f, -1));
+
+	//Vector3D color = GetColor(colorID);
+	Vector3D color = Vector3D(1.0f, 0.5f, 0.1f);
+
 	vertex list[] = {
 		// POS - COLOR - COLOR 1
 		// X - Y - Z
@@ -182,30 +178,27 @@ void TestObject::initialize(int colorID) {
 
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 
-	m_vb = graphEngine->createVertexBuffer();
-	m_ib = graphEngine->createIndexBuffer();
 
 	void* shader_byte_code = nullptr;
 	size_t size_shader = 0;
 
-	graphEngine->compileVertexShader(L"Engine\\VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
-	m_vs = graphEngine->createVertexShader(shader_byte_code, size_shader);
-	m_vb->load(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
+	graphEngine->getRenderSystem()->compileVertexShader(L"Engine\\VertexShader.hlsl", "vsmain", &shader_byte_code, &size_shader);
 
-	m_ib->load(index_list, size_index_list);
+	m_vs = graphEngine->getRenderSystem()->createVertexShader(shader_byte_code, size_shader);
+	m_vb = graphEngine->getRenderSystem()->createVertexBuffer(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
+	m_ib = graphEngine->getRenderSystem()->createIndexBuffer(index_list, size_index_list);
 
-	graphEngine->releaseCompiledShader();
+	graphEngine->getRenderSystem()->releaseCompiledShader();
 
-	graphEngine->compilePixelShader(L"Engine\\PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
-	m_ps = graphEngine->createPixelShader(shader_byte_code, size_shader);
+	graphEngine->getRenderSystem()->compilePixelShader(L"Engine\\PixelShader.hlsl", "psmain", &shader_byte_code, &size_shader);
+	m_ps = graphEngine->getRenderSystem()->createPixelShader(shader_byte_code, size_shader);
 
 	constant cc;
 	cc.m_time = 0;
 
-	m_cb = graphEngine->createConstantBuffer();
-	m_cb->load(&cc, sizeof(constant));
+	m_cb = graphEngine->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
 
-	graphEngine->releaseCompiledShader();
+	graphEngine->getRenderSystem()->releaseCompiledShader();
 
 	m_velocity = GenerateRandomVelocity();
 }

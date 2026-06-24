@@ -1,7 +1,7 @@
 #include "AppWindow.h"
 #include "Vector3D.h"
-#include "InputSystem.h"
 #include "iostream"
+#include "../Settings.h"
 
 AppWindow* AppWindow::sharedInstance = NULL;
 
@@ -10,88 +10,21 @@ AppWindow* AppWindow::get() {
 }
 
 void AppWindow::initialize() {
+	if (sharedInstance != NULL) throw std::exception("App Window already exists");
+
 	sharedInstance = new AppWindow();
-	sharedInstance->init();
+}
+
+void AppWindow::destroy() {
+	if (sharedInstance == NULL) return;
+
+	delete sharedInstance;
 }
 
 void AppWindow::createGraphicsWindow() {
-	GraphicsEngine::initialize();
-	GraphicsEngine* graphEngine = GraphicsEngine::get();
-
-	m_swap_chain = graphEngine->createSwapChain();
+	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
 	RECT rc = this->getClientWindowRect();
-
-	m_swap_chain->init(this->m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
-
-	//auto obj = new TestObject(graphEngine);
-	//obj->Translate(Vector3D(-0.35f, 0, 0));
-	//obj->speed = 0.0;
-	//objects.push_back(obj);
-
-	//obj = new TestObject(graphEngine);
-	//obj->Translate(Vector3D(0.35f, 0, 0));
-	//obj->speed = 0.7;
-	//objects.push_back(obj);
-
-	//obj = new TestObject(graphEngine);
-	//obj->Translate(Vector3D(0, 0.5f, 0));
-	//obj->speed = 0.6;
-	//objects.push_back(obj);
-
-	//obj = new TestObject(graphEngine);
-	//obj->Translate(Vector3D(0, -0.5f, 0));
-	//obj->speed = 0.5;
-	//objects.push_back(obj);
-
-	//{
-	//	vertex list[] = {
-	//		// X - Y - Z
-	//		// FRONT FACE
-	//		{Vector3D(-0.2f, -0.2f, -0.2f),	Vector3D(0.0f, 0.0f, 0.0f),		Vector3D(0.0f, 1.0f, 0.0f)}, // POS1
-	//		{Vector3D(-0.2f, 0.2f, -0.2f),	Vector3D(1.0f, 1.0f, 0.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS2
-	//		{Vector3D(0.2f, 0.2f, -0.2f),	Vector3D(0.0f, 0.0f, 1.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS3 
-	//		{Vector3D(0.2f, -0.2f, -0.2f),	Vector3D(1.0f, 1.0f, 1.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS4
-
-	//		// BACK FACE
-	//		{Vector3D(0.2f, -0.2f, 0.2f),	Vector3D(0.0f, 0.0f, 0.0f),		Vector3D(0.0f, 1.0f, 0.0f)}, // POS1
-	//		{Vector3D(0.2f, 0.2f, 0.2f),	Vector3D(1.0f, 1.0f, 0.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS2
-	//		{Vector3D(-0.2f, 0.2f, 0.2f),	Vector3D(0.0f, 0.0f, 1.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS3 
-	//		{Vector3D(-0.2f, -0.2f, 0.2f),	Vector3D(1.0f, 1.0f, 1.0f),		Vector3D(1.0f, 0.0f, 0.0f)}, // POS4
-	//	};
-
-	//	UINT size_list = ARRAYSIZE(list);
-
-	//	unsigned int index_list[] = {
-	//		// FRONT SIDE
-	//		0,1,2, // FIRST TRIANGLE
-	//		2,3,0, // SECOND TRIANGLE
-	//		// BACK SIDE
-	//		4,5,6,
-	//		6,7,4,
-	//		// TOP SIDE
-	//		1,6,5,
-	//		5,2,1,
-	//		// BOTTOM SIDE
-	//		7,0,3,
-	//		3,4,7,
-	//		// RIGHT SIDE
-	//		3,2,5,
-	//		5,4,3,
-	//		// LEFT SIDE
-	//		7,6,1,
-	//		1,0,7
-	//	};
-
-	//	UINT size_index_list = ARRAYSIZE(index_list);
-
-	//	auto obj = new TestObject(list, index_list, size_list, size_index_list, graphEngine);
-	//	obj->Translate(Vector3D(0.35,0,0));
-	//	obj->speed = 0.5f;
-	//	objects.push_back(obj);
-	//}
-
-	
 }
 
 AppWindow::AppWindow() {
@@ -99,19 +32,17 @@ AppWindow::AppWindow() {
 }
 
 void AppWindow::update() {
-	GraphicsEngine* graphEngine = GraphicsEngine::get();
 	for (auto obj : objects) {
-		obj->update(graphEngine, this->getClientWindowRect());
+		obj->update(GraphicsEngine::get(), this->getClientWindowRect());
 	}
 }
 
 AppWindow::~AppWindow() {
-
+	sharedInstance = nullptr;
 }
 
 void AppWindow::onCreate() {
 	/*Window::onCreate();*/
-	InputSystem::initialize();
 	InputSystem* inputSystem = InputSystem::get();
 
 	inputSystem->addListener(this);
@@ -120,16 +51,15 @@ void AppWindow::onCreate() {
 void AppWindow::onUpdate() {
 	/*Window::onUpdate();*/
 	//screen
-	InputSystem* inputSystem = InputSystem::get();
-	inputSystem->update();
+	InputSystem::get()->update();
 
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
-	//graphEngine->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0.388f, 0.525f, 0.804f, 1);
-	graphEngine->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain,0, 0, 0, 1);
+	
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0, 0, 0, 1);
 
 	RECT rc = this->getClientWindowRect();
 
-	graphEngine->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
 
 	this->update();
 
@@ -143,15 +73,9 @@ void AppWindow::onUpdate() {
 void AppWindow::onDestroy() {
 	Window::onDestroy();
 
-	m_swap_chain->release();
-
-	for (auto obj : objects) {
-		obj->release();
-	}
-
 	objects.clear();
 
-	GraphicsEngine::destroy();
+	GraphicsEngine::get()->destroy();
 }
 
 void AppWindow::onFocus() {
@@ -166,15 +90,19 @@ void AppWindow::onKeyDown(int key) {
 	switch (key) {
 	case 'W': if (objects.empty()) return;
 		//objects.front()->RotateX(1);
+		objects.front()->TranslateForward(1);
 		break; 
 	case 'S': if (objects.empty()) return; 
 		//objects.front()->RotateX(-1);
+		objects.front()->TranslateForward(-1);
 		break;
 	case 'A': if (objects.empty()) return; 
 		//objects.front()->RotateY(1);
+		objects.front()->TranslateSideward(-1);
 		break;
 	case 'D': if (objects.empty()) return;
 		//objects.front()->RotateY(-1);
+		objects.front()->TranslateSideward(1);
 		break;
 	default: break;
 	}
@@ -182,6 +110,10 @@ void AppWindow::onKeyDown(int key) {
 
 void AppWindow::onKeyUp(int key) {
 	std::cout << key << std::endl;
+	if (!objects.empty()) {
+		objects.front()->TranslateForward(0);
+		objects.front()->TranslateSideward(0);
+	}
 	switch (key) {
 	case VK_SPACE: this->SpawnObject();
 		std::cout << "SPACE" << std::endl;
@@ -195,32 +127,36 @@ void AppWindow::onKeyUp(int key) {
 	case VK_ESCAPE: m_is_run = false;
 		std::cout << "ESCAPE" << std::endl;
 		break;
+	case 'L': InputSystem::get()->showCursor(!InputSystem::get()->isCursorVisible());
 	default: break;
 	}
 }
 
-void AppWindow::onMouseMove(const Point& delta_mouse_pos) {
+void AppWindow::onMouseMove(const Point& mouse_pos) {
 	if (objects.empty()) return;
-	//objects.front()->RotateX(-delta_mouse_pos.m_y);
-	//objects.front()->RotateY(delta_mouse_pos.m_x);
+
+	objects.front()->RotateX((mouse_pos.m_y - (Settings::WindowHeight/ 2.0f)) * 0.1);
+	objects.front()->RotateY((mouse_pos.m_x - (Settings::WindowWidth / 2.0f)) * 0.1);
+
+	InputSystem::get()->setCursorPosition(Point(Settings::WindowWidth/2.0f, Settings::WindowHeight/2.0f));
 }
 
-void AppWindow::onLeftMouseDown(const Point& delta_mouse_pos) {
+void AppWindow::onLeftMouseDown(const Point& mouse_pos) {
 	if (objects.empty()) return;
 	//objects.front()->Scale(0.5f);
 }
 
-void AppWindow::onLeftMouseUp(const Point& delta_mouse_pos) {
+void AppWindow::onLeftMouseUp(const Point& mouse_pos) {
 	if (objects.empty()) return;
 	//objects.front()->Scale(1.f);
 }
 
-void AppWindow::onRightMouseDown(const Point& delta_mouse_pos) {
+void AppWindow::onRightMouseDown(const Point& mouse_pos) {
 	if (objects.empty()) return;
 	//objects.front()->Scale(2.0f);
 }
 
-void AppWindow::onRightMouseUp(const Point& delta_mouse_pos) {
+void AppWindow::onRightMouseUp(const Point& mouse_pos) {
 	if (objects.empty()) return;
 	//objects.front()->Scale(1.0f);
 }

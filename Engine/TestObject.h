@@ -35,8 +35,13 @@ public:
 private:
 	float rotateX = 0.0f;
 	float rotateY = 0.0f;
-	float scale = 1.f;
+	float scale = 10.f;
+
+	float m_forward = 0.0f;
+	float m_strafe = 0.0f;
 public:
+	void TranslateForward(float dir);
+	void TranslateSideward(float dir);
 	void RotateX(float x);
 	void RotateY(float y);
 	void Scale(float scale);
@@ -48,11 +53,13 @@ private:
 private:
 	Vector3D m_velocity;
 	Vector3D m_position;
+
+	Matrix4x4 m_world_cam;
 private:
-	VertexBuffer* m_vb;
-	IndexBuffer* m_ib;
-	VertexShader* m_vs;
-	PixelShader* m_ps;
-	ConstantBuffer* m_cb;
+	VertexBufferPtr m_vb;
+	IndexBufferPtr m_ib;
+	VertexShaderPtr m_vs;
+	PixelShaderPtr m_ps;
+	ConstantBufferPtr m_cb;
 };
 

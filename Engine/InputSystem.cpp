@@ -11,7 +11,15 @@ InputSystem* InputSystem::get() {
 }
 
 void InputSystem::initialize() {	
+	if (sharedInstance != NULL) throw std::exception("Input System already exists");
+
 	sharedInstance = new InputSystem();
+}
+
+void InputSystem::destroy() {
+	if (sharedInstance == NULL) return;
+
+	delete sharedInstance;
 }
 
 InputSystem::InputSystem() {
@@ -19,7 +27,7 @@ InputSystem::InputSystem() {
 }
 
 InputSystem::~InputSystem() {
-
+	sharedInstance = nullptr;
 }
 
 void InputSystem::update() {
@@ -37,67 +45,49 @@ void InputSystem::update() {
 
 	//  IF TRUE, THERE IS A MOUSE EVENT
 	if (current_moues_pos.x != m_old_mouse_pos.m_x || current_moues_pos.y != m_old_mouse_pos.m_y) {
-		std::map<InputListener*, InputListener*>::iterator it = m_map_listeners.begin();
-
-		while (it != m_map_listeners.end()) {
-
-			it->second->onMouseMove(Point(current_moues_pos.x - m_old_mouse_pos.m_x, current_moues_pos.y - m_old_mouse_pos.m_y));	
-
-			it++;
+		for (auto it = m_set_listeners.begin(); it != m_set_listeners.end(); it++) {
+			(*it)->onMouseMove(Point(current_moues_pos.x, current_moues_pos.y));
 		}
-
 	}
 
 	m_old_mouse_pos = Point(current_moues_pos.x, current_moues_pos.y);
-
-
-
 
 	if (::GetKeyboardState(m_keys_state)) {
 		for (unsigned int i = 0; i < 256; i++) {
 			// IF KEY IS DOWN
 			if (m_keys_state[i] & 0x80) {
-				std::map<InputListener*, InputListener*>::iterator it = m_map_listeners.begin();
+				for (auto it = m_set_listeners.begin(); it != m_set_listeners.end(); it++) {
 
-				while (it != m_map_listeners.end()) {
-					
-					// MOUSE BUTTON 
-
+					// FOR MOUSE BUTTONS
 					if (i == VK_LBUTTON) {
 						if (m_keys_state[i] != m_old_keys_state[i]) {
-							it->second->onLeftMouseDown(Point(current_moues_pos.x, current_moues_pos.y));
+							(*it)->onLeftMouseDown(Point(current_moues_pos.x, current_moues_pos.y));
 						}
 					}
 					else if (i == VK_RBUTTON) {
 						if (m_keys_state[i] != m_old_keys_state[i]) {
-							it->second->onRightMouseDown(Point(current_moues_pos.x, current_moues_pos.y));
+							(*it)->onRightMouseDown(Point(current_moues_pos.x, current_moues_pos.y));
 						}
 					}
+					// FOR KEYS
 					else {
-						it->second->onKeyDown(i);
+						(*it)->onKeyDown(i);
 					}
-
-					it++;
 				}
-
 			}
 			// IF KEY IS UP
 			else {
 				if (m_keys_state[i] != m_old_keys_state[i]) {
-					std::map<InputListener*, InputListener*>::iterator it = m_map_listeners.begin();
-
-					while (it != m_map_listeners.end()) {
+					for (auto it = m_set_listeners.begin(); it != m_set_listeners.end(); it++) {
 						if (i == VK_LBUTTON) {
-							it->second->onLeftMouseUp(Point(current_moues_pos.x, current_moues_pos.y));
+							(*it)->onLeftMouseUp(Point(current_moues_pos.x, current_moues_pos.y));
 						}
 						else if (i == VK_RBUTTON) {
-							it->second->onRightMouseUp(Point(current_moues_pos.x, current_moues_pos.y));
+							(*it)->onRightMouseUp(Point(current_moues_pos.x, current_moues_pos.y));
 						}
 						else {
-							it->second->onKeyUp(i);
+							(*it)->onKeyUp(i);
 						}
-
-						it++;
 					}
 				}
 			}
@@ -108,15 +98,23 @@ void InputSystem::update() {
 }
 
 void InputSystem::addListener(InputListener* listener) {
-	m_map_listeners.insert(std::make_pair<InputListener*, InputListener*>
-		(std::forward<InputListener*>(listener), std::forward<InputListener*>(listener)));
+	m_set_listeners.insert(listener);
 }
 
 void InputSystem::removeListener(InputListener* listener) {
-	std::map<InputListener*, InputListener*>::iterator it = m_map_listeners.find(listener);
+	m_set_listeners.erase(listener);
 
-	if (it != m_map_listeners.end()) {
-		m_map_listeners.erase(it);
-	}
+}
 
+void InputSystem::setCursorPosition(const Point& pos) {
+	::SetCursorPos(pos.m_x, pos.m_y);
+}
+
+void InputSystem::showCursor(bool show) {
+	isCursorVis = show;
+	::ShowCursor(show);
+}
+
+bool InputSystem::isCursorVisible() {
+	return isCursorVis;
 }
