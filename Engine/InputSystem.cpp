@@ -11,7 +11,15 @@ InputSystem* InputSystem::get() {
 }
 
 void InputSystem::initialize() {	
+	if (sharedInstance != NULL) throw std::exception("Input System already exists");
+
 	sharedInstance = new InputSystem();
+}
+
+void InputSystem::destroy() {
+	if (sharedInstance == NULL) return;
+
+	delete sharedInstance;
 }
 
 InputSystem::InputSystem() {
@@ -19,7 +27,7 @@ InputSystem::InputSystem() {
 }
 
 InputSystem::~InputSystem() {
-
+	sharedInstance = nullptr;
 }
 
 void InputSystem::update() {

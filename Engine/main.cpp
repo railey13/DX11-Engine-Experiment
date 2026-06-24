@@ -4,6 +4,7 @@
 int main() {
 	try {
 		GraphicsEngine::initialize();
+		InputSystem::initialize();
 	}
 	catch (...) { return -1; }
 
@@ -21,6 +22,7 @@ int main() {
 	}
 
 	GraphicsEngine::destroy();
+	InputSystem::destroy();
 
 	return 0;
 }

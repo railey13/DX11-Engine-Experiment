@@ -33,6 +33,6 @@ GraphicsEngine::GraphicsEngine() {
 }
 
 GraphicsEngine::~GraphicsEngine() {
+    sharedInstance = nullptr;
     delete m_render_system;
-
 }

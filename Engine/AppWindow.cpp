@@ -1,6 +1,5 @@
 #include "AppWindow.h"
 #include "Vector3D.h"
-#include "InputSystem.h"
 #include "iostream"
 #include "../Settings.h"
 
@@ -16,9 +15,7 @@ void AppWindow::initialize() {
 }
 
 void AppWindow::createGraphicsWindow() {
-	GraphicsEngine* graphEngine = GraphicsEngine::get();
-
-	m_swap_chain = graphEngine->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
+	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
 	RECT rc = this->getClientWindowRect();
 }
@@ -28,9 +25,8 @@ AppWindow::AppWindow() {
 }
 
 void AppWindow::update() {
-	GraphicsEngine* graphEngine = GraphicsEngine::get();
 	for (auto obj : objects) {
-		obj->update(graphEngine, this->getClientWindowRect());
+		obj->update(GraphicsEngine::get(), this->getClientWindowRect());
 	}
 }
 
@@ -40,7 +36,6 @@ AppWindow::~AppWindow() {
 
 void AppWindow::onCreate() {
 	/*Window::onCreate();*/
-	InputSystem::initialize();
 	InputSystem* inputSystem = InputSystem::get();
 
 	inputSystem->addListener(this);
@@ -49,8 +44,7 @@ void AppWindow::onCreate() {
 void AppWindow::onUpdate() {
 	/*Window::onUpdate();*/
 	//screen
-	InputSystem* inputSystem = InputSystem::get();
-	inputSystem->update();
+	InputSystem::get()->update();
 
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 	

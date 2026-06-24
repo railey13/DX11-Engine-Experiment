@@ -8,6 +8,7 @@ public:
 	static InputSystem* get();
 
 	static void initialize();
+	static void destroy();
 private:
 	InputSystem();
 
