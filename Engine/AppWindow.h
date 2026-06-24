@@ -19,6 +19,7 @@ public:
 	static AppWindow* get();
 
 	static void initialize();
+	static void destroy();
 public:
 	void createGraphicsWindow();
 private:

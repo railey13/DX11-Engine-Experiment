@@ -1,29 +1,24 @@
 #include "Window.h"
 #include "EngineTime.h"
-#include <iostream>
 #include "../Settings.h"
 
-Window::Window() {
-
-}
+#include <iostream>
+#include <exception>
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
     switch (msg) {
         case WM_CREATE: {
             // event fired when the window is created 
             // (updated code)
-            Window* window = (Window*)((LPCREATESTRUCT)lparam)->lpCreateParams;
-            // this part stores for later lookup
-            SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)window);
-            window->setHWND(hwnd);
-            window->onCreate();
+
             break;
         }
         case WM_SETFOCUS: {
 
             // Event fired when the window get focus
             Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-            window->onFocus();
+
+            if (window) window->onFocus();
             break;
         }
         case WM_KILLFOCUS: {
@@ -47,8 +42,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
     }
 }
 
-
-bool Window::init() {
+Window::Window() {
     // starting up the WNDCLASSEX object and define the window attributes
     WNDCLASSEX wc;
     wc.cbClsExtra = NULL;
@@ -66,19 +60,19 @@ bool Window::init() {
 
     // if the registration of class will fail, return false
     if (!::RegisterClassEx(&wc)) {
-        return false;
+        throw std::exception("Window did not initiate successfully");
     }
 
     // create the window
-    m_hwnd=::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, 
-        "MyWindowClass", "DirectX Application", 
-        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT ,CW_USEDEFAULT, 
+    m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW,
+        "MyWindowClass", "DirectX Application",
+        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
         Settings::WindowWidth, Settings::WindowHeight,
-        NULL,NULL,NULL,this);
+        NULL, NULL, NULL, NULL);
 
     // if window creation failed, return false
     if (!m_hwnd) {
-        return false;
+        throw std::exception("Window did not initiate successfully");
     }
 
     // show the window
@@ -87,38 +81,10 @@ bool Window::init() {
 
     // set to true to indicate the window is running properly
     m_is_run = true;
-    return true;
-}
-
-bool Window::broadcast() {
-    EngineTime::LogFrameStart();    
-
-    this->onUpdate();
-
-    MSG msg;
-    
-    while (::PeekMessage(&msg,NULL,0,0,PM_REMOVE)>0) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-
-    }   
-
-    EngineTime::LimitFPS(Settings::FrameRateLimit);
-    EngineTime::UpdateFPSCounter();
-
-    return true;
-}
-
-bool Window::release() {
-    // destroy the window
-    if (!::DestroyWindow(m_hwnd)) {
-        return false;
-    }
-    return false;
 }
 
 bool Window::isRun() {
-
+    if (m_is_run) this->broadcast();
     return m_is_run;
 }
 
@@ -127,10 +93,6 @@ RECT Window::getClientWindowRect() {
     ::GetClientRect(this->m_hwnd, &rc);
 
     return rc;
-}
-
-void Window::setHWND(HWND hwnd) {
-    this->m_hwnd = hwnd;    
 }
 
 void Window::onDestroy(){
@@ -147,4 +109,29 @@ void Window::onKillFocus() {
 
 Window::~Window() {
 
+}
+
+bool Window::broadcast() {
+    EngineTime::LogFrameStart();
+
+    if (!this->m_is_init) {
+        SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
+        this->onCreate();
+        this->m_is_init = true;
+    }
+
+    this->onUpdate();
+
+    MSG msg;
+
+    while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+
+    }
+
+    EngineTime::LimitFPS(Settings::FrameRateLimit);
+    EngineTime::UpdateFPSCounter();
+
+    return true;
 }

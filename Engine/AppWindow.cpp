@@ -10,8 +10,15 @@ AppWindow* AppWindow::get() {
 }
 
 void AppWindow::initialize() {
+	if (sharedInstance != NULL) throw std::exception("App Window already exists");
+
 	sharedInstance = new AppWindow();
-	sharedInstance->init();
+}
+
+void AppWindow::destroy() {
+	if (sharedInstance == NULL) return;
+
+	delete sharedInstance;
 }
 
 void AppWindow::createGraphicsWindow() {
@@ -31,7 +38,7 @@ void AppWindow::update() {
 }
 
 AppWindow::~AppWindow() {
-
+	sharedInstance = nullptr;
 }
 
 void AppWindow::onCreate() {

@@ -9,15 +9,21 @@ int main() {
 	catch (...) { return -1; }
 
 	{
-		AppWindow::initialize();
-		EngineTime::initialize();
-		AppWindow* runningApp = AppWindow::get();
+		try {
+			AppWindow::initialize();
+			EngineTime::initialize();
+			AppWindow* runningApp = AppWindow::get();
 
-		runningApp->createGraphicsWindow();
-		runningApp->onCreate();
+			runningApp->createGraphicsWindow();
+			runningApp->onCreate();
 
-		while (runningApp->isRun()) {
-			runningApp->broadcast();
+			while (runningApp->isRun());
+		}
+		catch (...) {
+			GraphicsEngine::destroy();
+			InputSystem::destroy();
+
+			return -1;
 		}
 	}
 
