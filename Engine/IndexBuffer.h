@@ -4,13 +4,13 @@
 
 class IndexBuffer {
 public:
-	IndexBuffer(void* list_indices, UINT size_list, RenderSystem* system);
+	IndexBuffer(void* list_indices, ui32 size_list, RenderSystem* system);
 
-	UINT getSizeIndexList();
+	ui32 getSizeIndexList();
 
 	~IndexBuffer();
 private:
-	UINT m_size_list;
+	ui32  m_size_list;
 private:
 	ID3D11Buffer* m_buffer;
 	RenderSystem* m_system = nullptr;

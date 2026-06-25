@@ -22,19 +22,23 @@ void AppWindow::destroy() {
 }
 
 void AppWindow::createGraphicsWindow() {
+	m_sceneCamera = Camera();
+
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
-	RECT rc = this->getClientWindowRect();
+	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"Engine\\VertexShader.hlsl", "vsmain", &vs_byte_code, &vs_size);
+	m_vs = GraphicsEngine::get()->getRenderSystem()->createVertexShader(vs_byte_code, vs_size);
+
+	//GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
+
+	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine\\PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
+	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
+
+	//GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
 }
 
 AppWindow::AppWindow() {
 	
-}
-
-void AppWindow::update() {
-	for (auto obj : objects) {
-		obj->update(GraphicsEngine::get(), this->getClientWindowRect());
-	}
 }
 
 AppWindow::~AppWindow() {
@@ -43,28 +47,29 @@ AppWindow::~AppWindow() {
 
 void AppWindow::onCreate() {
 	/*Window::onCreate();*/
-	InputSystem* inputSystem = InputSystem::get();
-
-	inputSystem->addListener(this);
+	InputSystem::get()->addListener(this);
 }
 
 void AppWindow::onUpdate() {
 	/*Window::onUpdate();*/
 	//screen
 	InputSystem::get()->update();
-
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
+
+	f32 deltaTime = EngineTime::getDeltaTime();
+
+	m_sceneCamera.update(deltaTime);
+
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
 	
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0, 0, 0, 1);
 
-	RECT rc = this->getClientWindowRect();
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(Settings::WindowWidth, Settings::WindowHeight);
 
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
-
-	this->update();
-
-	for (auto obj : objects) {
-		obj->render(graphEngine);
+	for (auto obj : m_objects) {
+		obj->update(deltaTime);
+		obj->draw(m_vs, m_ps, m_sceneCamera.getViewMatrix(), m_sceneCamera.getProjectionMatrix());
 	}
 
 	m_swap_chain->present(false);
@@ -73,7 +78,8 @@ void AppWindow::onUpdate() {
 void AppWindow::onDestroy() {
 	Window::onDestroy();
 
-	objects.clear();
+	InputSystem::get()->removeListener(this);
+	m_objects.clear();
 
 	GraphicsEngine::get()->destroy();
 }
@@ -86,98 +92,90 @@ void AppWindow::onKillFocus() {
 	InputSystem::get()->removeListener(this);
 }
 
-void AppWindow::onKeyDown(int key) {
+void AppWindow::onKeyDown(i32 key) {
 	switch (key) {
-	case 'W': if (objects.empty()) return;
+	case 'W': if (m_objects.empty()) return;
 		//objects.front()->RotateX(1);
-		objects.front()->TranslateForward(1);
+		//objects.front()->TranslateForward(1);
 		break; 
-	case 'S': if (objects.empty()) return; 
+	case 'S': if (m_objects.empty()) return;
 		//objects.front()->RotateX(-1);
-		objects.front()->TranslateForward(-1);
+		//objects.front()->TranslateForward(-1);
 		break;
-	case 'A': if (objects.empty()) return; 
+	case 'A': if (m_objects.empty()) return;
 		//objects.front()->RotateY(1);
-		objects.front()->TranslateSideward(-1);
+		//objects.front()->TranslateSideward(-1);
 		break;
-	case 'D': if (objects.empty()) return;
+	case 'D': if (m_objects.empty()) return;
 		//objects.front()->RotateY(-1);
-		objects.front()->TranslateSideward(1);
+		//objects.front()->TranslateSideward(1);
 		break;
 	default: break;
 	}
 }
 
-void AppWindow::onKeyUp(int key) {
+void AppWindow::onKeyUp(i32 key) {
 	std::cout << key << std::endl;
-	if (!objects.empty()) {
-		objects.front()->TranslateForward(0);
-		objects.front()->TranslateSideward(0);
-	}
 	switch (key) {
-	case VK_SPACE: this->SpawnObject();
-		std::cout << "SPACE" << std::endl;
-		break;
-	case VK_BACK: this->DestroyObject();;
-		std::cout << "BACK" << std::endl;
-		break;
-	case VK_DELETE: this->DestroyAllObjects();
-		std::cout << "DELETE" << std::endl;
-		break;
-	case VK_ESCAPE: m_is_run = false;
-		std::cout << "ESCAPE" << std::endl;
-		break;
-	case 'L': InputSystem::get()->showCursor(!InputSystem::get()->isCursorVisible());
-	default: break;
+		case VK_SPACE: this->SpawnObject();
+			std::cout << "SPACE" << std::endl;
+			break;
+		case VK_BACK: this->DestroyObject();;
+			std::cout << "BACK" << std::endl;
+			break;
+		case VK_DELETE: this->DestroyAllObjects();
+			std::cout << "DELETE" << std::endl;
+			break;
+		case VK_ESCAPE: m_is_run = false;
+			std::cout << "ESCAPE" << std::endl;
+			break;
+		default: break;
 	}
 }
 
 void AppWindow::onMouseMove(const Point& mouse_pos) {
-	if (objects.empty()) return;
-
-	objects.front()->RotateX((mouse_pos.m_y - (Settings::WindowHeight/ 2.0f)) * 0.1);
-	objects.front()->RotateY((mouse_pos.m_x - (Settings::WindowWidth / 2.0f)) * 0.1);
-
-	InputSystem::get()->setCursorPosition(Point(Settings::WindowWidth/2.0f, Settings::WindowHeight/2.0f));
+	//objects.front()->RotateX((mouse_pos.m_y - (Settings::WindowHeight/ 2.0f)) * 0.1);
+	//objects.front()->RotateY((mouse_pos.m_x - (Settings::WindowWidth / 2.0f)) * 0.1);
 }
 
 void AppWindow::onLeftMouseDown(const Point& mouse_pos) {
-	if (objects.empty()) return;
+	if (m_objects.empty()) return;
 	//objects.front()->Scale(0.5f);
 }
 
 void AppWindow::onLeftMouseUp(const Point& mouse_pos) {
-	if (objects.empty()) return;
+	if (m_objects.empty()) return;
 	//objects.front()->Scale(1.f);
 }
 
 void AppWindow::onRightMouseDown(const Point& mouse_pos) {
-	if (objects.empty()) return;
+	if (m_objects.empty()) return;
 	//objects.front()->Scale(2.0f);
 }
 
 void AppWindow::onRightMouseUp(const Point& mouse_pos) {
-	if (objects.empty()) return;
+	if (m_objects.empty()) return;
 	//objects.front()->Scale(1.0f);
 }
 
 void AppWindow::SpawnObject() {
-	int colorID = (objects.size() % 7) + 1;  // cycles color (look in testobject source file for color reference)
-	auto object = new TestObject(colorID);
-	objects.push_back(object);
+	//i32 colorID = (objects.size() % 7) + 1;  // cycles color (look in testobject source file for color reference)
+
+	auto object = new Cube(vs_byte_code, vs_size);
+	m_objects.push_back(object);
 }
 
 void AppWindow::DestroyObject() {
-	if (objects.empty()) return;
-	objects.back()->release();
-	objects.pop_back();
+	if (m_objects.empty()) return;
+	delete m_objects.back();
+	m_objects.pop_back();
 }
 
 void AppWindow::DestroyAllObjects() {
-	if (objects.empty()) return;
-	while (!objects.empty()) {
-		objects.back()->release();
-		objects.pop_back();
+	if (m_objects.empty()) return;
+	while (!m_objects.empty()) {
+		delete m_objects.back();
+		m_objects.pop_back();
 	}
 }
 

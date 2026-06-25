@@ -1,0 +1,45 @@
+#pragma once
+#include "Prerequisites.h"
+#include "Vector3D.h"
+#include "Matrix4x4.h"
+
+#include "DeviceContext.h"
+#include "GraphicsEngine.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "ConstantBuffer.h"
+#include "VertexShader.h"
+#include "PixelShader.h"
+
+__declspec(align(16))
+struct constant {
+	Matrix4x4 m_world;
+	Matrix4x4 m_view;
+	Matrix4x4 m_proj;
+	f32 m_time;
+	f32 padding[3];
+};
+
+class AGameObject {
+public:
+	AGameObject();
+	~AGameObject();
+public:
+	virtual void update(f32 deltaTime) = 0;
+	virtual void draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) = 0;
+public:
+	void setPosition(f32 x, f32 y, f32 z);
+	void setPosition(Vector3D position);
+
+	void setRotation(f32 x, f32 y, f32 z);
+	void setRotation(Vector3D rotation);
+
+	void setScale(f32 x, f32 y, f32 z);
+	void setScale(Vector3D scale);	
+protected:
+	Vector3D m_position;
+	Vector3D m_rotation;
+	Vector3D m_scale = Vector3D(1,1,1);
+
+};
+

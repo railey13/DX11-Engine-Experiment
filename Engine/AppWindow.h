@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "GraphicsEngine.h"
+#include "EngineTime.h"
 #include "InputSystem.h"
 #include "SwapChain.h"
 #include "DeviceContext.h"
@@ -10,9 +11,11 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "InputListener.h"
+#include "Camera.h"
 
 #include "vector"
-#include "TestObject.h"
+#include "AGameObject.h"
+#include "Cube.h"
 
 class AppWindow: public Window, public InputListener{
 public:
@@ -28,9 +31,6 @@ private:
 	static AppWindow* sharedInstance;
 public:
 	AppWindow();
-
-	void update();
-
 	~AppWindow();
 
 	// Inherited via Window
@@ -40,8 +40,8 @@ public:
 	void onFocus() override;
 	void onKillFocus() override;
 	// Inherited via InputListener
-	void onKeyDown(int key) override;
-	void onKeyUp(int key) override;
+	void onKeyDown(i32 key) override;
+	void onKeyUp(i32 key) override;
 	// Inherited via InputListener
 	void onMouseMove(const Point& mouse_pos) override;
 	virtual void onLeftMouseDown(const Point& mouse_pos) override;
@@ -60,6 +60,14 @@ private:
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
 
-	std::vector<TestObject*> objects;
+	//std::vector<TestObject*> objects;
+	std::vector<AGameObject*> m_objects;
+private:
+	void* vs_byte_code = nullptr;
+	size_t vs_size = 0;
+	void* ps_byte_code = nullptr;
+	size_t ps_size = 0;
+
+	Camera m_sceneCamera;
 };
 

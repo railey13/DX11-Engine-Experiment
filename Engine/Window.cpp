@@ -5,7 +5,7 @@
 #include <iostream>
 #include <exception>
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+LRESULT CALLBACK WndProc(HWND hwnd, ui32 msg, WPARAM wparam, LPARAM lparam) {
     switch (msg) {
         case WM_CREATE: {
             // event fired when the window is created 

@@ -6,21 +6,21 @@ class DeviceContext {
 public:
 	DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* system);
 
-	void ClearRenderTargetColor(SwapChainPtr swap_chain, float red, float green, float blue, float alpha);
+	void ClearRenderTargetColor(SwapChainPtr swap_chain, f32 red, f32 green, f32 blue, f32 alpha);
 
 	void setVertexBuffer(VertexBufferPtr vertex_buffer);
 	void setIndexBuffer(IndexBufferPtr index_buffer);
-	void setViewportSize(UINT width, UINT height);
+	void setViewportSize(ui32 width, ui32  height);
 
 	void setVertexShader(VertexShaderPtr vertex_shader);
 	void setPixelShader(PixelShaderPtr pixel_shader);
 
-	void setCosntantBuffer(VertexShaderPtr vertex_shader, ConstantBufferPtr constant_buffer);
-	void setCosntantBuffer(PixelShaderPtr pixel_shader, ConstantBufferPtr constant_buffer);
+	void setConstantBuffer(VertexShaderPtr vertex_shader, ConstantBufferPtr constant_buffer);
+	void setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBufferPtr constant_buffer);
 	
-	void drawTriangleList(UINT vertex_count, UINT start_vertex_index);
-	void drawIndexedTriangleList(UINT index_count, UINT start_vertex_index, UINT start_index_location);
-	void drawTriangleStrip(UINT vertex_count, UINT start_vertex_index);
+	void drawTriangleList(ui32  vertex_count, ui32  start_vertex_index);
+	void drawIndexedTriangleList(ui32  index_count, ui32  start_vertex_index, ui32  start_index_location);
+	void drawTriangleStrip(ui32  vertex_count, ui32  start_vertex_index);
 
 	~DeviceContext();
 private:

@@ -131,8 +131,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\AGameObject.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp" />
+    <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\ConstantBuffer.cpp" />
+    <ClCompile Include="Engine\Cube.cpp" />
     <ClCompile Include="Engine\DeviceContext.cpp" />
     <ClCompile Include="Engine\EngineTime.cpp" />
     <ClCompile Include="Engine\GraphicsEngine.cpp" />
@@ -142,15 +145,17 @@
     <ClCompile Include="Engine\PixelShader.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\SwapChain.cpp" />
-    <ClCompile Include="Engine\TestObject.cpp" />
     <ClCompile Include="Engine\VertexBuffer.cpp" />
     <ClCompile Include="Engine\VertexShader.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
     <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\AGameObject.h" />
     <ClInclude Include="Engine\AppWindow.h" />
+    <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\ConstantBuffer.h" />
+    <ClInclude Include="Engine\Cube.h" />
     <ClInclude Include="Engine\DeviceContext.h" />
     <ClInclude Include="Engine\EngineTime.h" />
     <ClInclude Include="Engine\GraphicsEngine.h" />
@@ -163,7 +168,6 @@
     <ClInclude Include="Engine\Prerequisites.h" />
     <ClInclude Include="Engine\RenderSystem.h" />
     <ClInclude Include="Engine\SwapChain.h" />
-    <ClInclude Include="Engine\TestObject.h" />
     <ClInclude Include="Engine\Vector3D.h" />
     <ClInclude Include="Engine\Vector4D.h" />
     <ClInclude Include="Engine\VertexBuffer.h" />

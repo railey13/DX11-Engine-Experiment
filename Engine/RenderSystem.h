@@ -10,11 +10,11 @@ private:
 	// release all the resources loaded
 	~RenderSystem();
 public:
-	SwapChainPtr createSwapChain(HWND hwnd, UINT width, UINT height);
+	SwapChainPtr createSwapChain(HWND hwnd, ui32  width, ui32  height);
 	DeviceContextPtr getImmediateDeviceContext();
-	VertexBufferPtr createVertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader);
-	IndexBufferPtr createIndexBuffer(void* list_indices, UINT size_list);
-	ConstantBufferPtr createConstantBuffer(void* buffer, UINT size_buffer);
+	VertexBufferPtr createVertexBuffer(void* list_vertices, ui32  size_vertex, ui32  size_list, void* shader_byte_code, ui32  size_byte_shader);
+	IndexBufferPtr createIndexBuffer(void* list_indices, ui32  size_list);
+	ConstantBufferPtr createConstantBuffer(void* buffer, ui32  size_buffer);
 	VertexShaderPtr createVertexShader(void* shader_byte_code, size_t byte_code_size);
 	PixelShaderPtr createPixelShader(void* shader_byte_code, size_t byte_code_size);
 public:

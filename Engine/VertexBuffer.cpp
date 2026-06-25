@@ -2,7 +2,7 @@
 #include "RenderSystem.h"
 #include <exception>
 
-VertexBuffer::VertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader, RenderSystem* system):m_layout(0), m_buffer(0), m_system(system) {
+VertexBuffer::VertexBuffer(void* list_vertices, ui32 size_vertex, ui32 size_list, void* shader_byte_code, ui32  size_byte_shader, RenderSystem* system):m_layout(0), m_buffer(0), m_system(system) {
 	D3D11_BUFFER_DESC buff_desc = {};
 	buff_desc.Usage = D3D11_USAGE_DEFAULT;
 	buff_desc.ByteWidth = size_vertex * size_list;
@@ -28,14 +28,14 @@ VertexBuffer::VertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list
 	};
 
 
-	UINT size_layout = ARRAYSIZE(layout);
+	ui32 size_layout = ARRAYSIZE(layout);
 
 	if (FAILED(m_system->m_d3d_device->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout))) {
 		throw std::exception("Vertex Buffer did not initiate successfully");
 	}
 }
 
-UINT VertexBuffer::getSizeVertexList() {
+ui32 VertexBuffer::getSizeVertexList() {
 	return this->m_size_list;
 }
 

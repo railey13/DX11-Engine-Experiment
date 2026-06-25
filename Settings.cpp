@@ -2,7 +2,7 @@
 
 
 namespace Settings {
-    const int WindowWidth = 1024;
-    const int WindowHeight = 768;
-    const int FrameRateLimit = 144;
+    const i32 WindowWidth = 1024;
+    const i32 WindowHeight = 768;
+    const i32 FrameRateLimit = 144;
 }

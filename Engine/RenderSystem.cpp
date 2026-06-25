@@ -22,17 +22,17 @@ RenderSystem::RenderSystem() {
     };
 
     // get the vector size  
-    UINT num_driver_types = ARRAYSIZE(driver_types);
+    ui32  num_driver_types = ARRAYSIZE(driver_types);
 
     D3D_FEATURE_LEVEL feature_levels[] = {
             D3D_FEATURE_LEVEL_11_0
     };
 
-    UINT num_feature_levels = ARRAYSIZE(feature_levels);
+    ui32  num_feature_levels = ARRAYSIZE(feature_levels);
 
     HRESULT res = 0;
 
-    for (UINT driver_type_index = 0; driver_type_index < num_driver_types;) {
+    for (ui32  driver_type_index = 0; driver_type_index < num_driver_types;) {
         res = D3D11CreateDevice(NULL,
             driver_types[driver_type_index],  // HARDWARE->WARP->REFERENCE
             NULL, NULL,
@@ -75,7 +75,7 @@ RenderSystem::~RenderSystem() {
 }
 
 
-SwapChainPtr RenderSystem::createSwapChain(HWND hwnd, UINT width, UINT height) {
+SwapChainPtr RenderSystem::createSwapChain(HWND hwnd, ui32  width, ui32  height) {
     SwapChainPtr sc = nullptr;
 
     try {
@@ -93,7 +93,7 @@ DeviceContextPtr RenderSystem::getImmediateDeviceContext() {
     return this->m_imm_device_context;
 }
 
-VertexBufferPtr RenderSystem::createVertexBuffer(void* list_vertices, UINT size_vertex, UINT size_list, void* shader_byte_code, UINT size_byte_shader) {
+VertexBufferPtr RenderSystem::createVertexBuffer(void* list_vertices, ui32  size_vertex, ui32  size_list, void* shader_byte_code, ui32  size_byte_shader) {
     VertexBufferPtr vb = nullptr;
 
     try {
@@ -106,7 +106,7 @@ VertexBufferPtr RenderSystem::createVertexBuffer(void* list_vertices, UINT size_
     return vb;
 }
 
-IndexBufferPtr RenderSystem::createIndexBuffer(void* list_indices, UINT size_list) {
+IndexBufferPtr RenderSystem::createIndexBuffer(void* list_indices, ui32  size_list) {
     IndexBufferPtr ib = nullptr;
     try {
         ib = std::make_shared<IndexBuffer>(list_indices, size_list, this);
@@ -118,7 +118,7 @@ IndexBufferPtr RenderSystem::createIndexBuffer(void* list_indices, UINT size_lis
     return ib;
 }
 
-ConstantBufferPtr RenderSystem::createConstantBuffer(void* buffer, UINT size_buffer) {
+ConstantBufferPtr RenderSystem::createConstantBuffer(void* buffer, ui32  size_buffer) {
     ConstantBufferPtr cb = nullptr;
     try {
         cb = std::make_shared<ConstantBuffer>(buffer, size_buffer, this);

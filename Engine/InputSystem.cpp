@@ -53,7 +53,7 @@ void InputSystem::update() {
 	m_old_mouse_pos = Point(current_moues_pos.x, current_moues_pos.y);
 
 	if (::GetKeyboardState(m_keys_state)) {
-		for (unsigned int i = 0; i < 256; i++) {
+		for (ui32 i = 0; i < 256; i++) {
 			// IF KEY IS DOWN
 			if (m_keys_state[i] & 0x80) {
 				for (auto it = m_set_listeners.begin(); it != m_set_listeners.end(); it++) {

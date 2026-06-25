@@ -9,22 +9,22 @@ void EngineTime::initialize() {
     sharedInstance = new EngineTime();
 }
 
-double EngineTime::getDeltaTime() {
+d64 EngineTime::getDeltaTime() {
 
     return sharedInstance->deltaTime;
 }
 
-double EngineTime::getTotalTime() {
+d64 EngineTime::getTotalTime() {
     return sharedInstance->totalTime;
 }
 
-void EngineTime::LimitFPS(double frameRateLimit) {
+void EngineTime::LimitFPS(d64 frameRateLimit) {
     if (frameRateLimit <= 0.0f) return;
 
-    double timePerFrame = 1.0f / frameRateLimit;
+    d64 timePerFrame = 1.0f / frameRateLimit;
 
     if (sharedInstance->deltaTime < timePerFrame) {
-        double sleepMS = (timePerFrame - sharedInstance->deltaTime) * 1000.0f;
+        d64 sleepMS = (timePerFrame - sharedInstance->deltaTime) * 1000.0f;
         Sleep(static_cast<DWORD>(sleepMS));
     }
     LogFrameEnd();
@@ -44,7 +44,7 @@ void EngineTime::UpdateFPSCounter() {
     }
 }
 
-double EngineTime::getFPS() {
+d64 EngineTime::getFPS() {
     return sharedInstance->currentFPS;
 }
 
@@ -63,7 +63,7 @@ void EngineTime::LogFrameStart() {
 void EngineTime::LogFrameEnd() {
     sharedInstance->end = std::chrono::steady_clock::now();
 
-    std::chrono::duration<double> elapsed_seconds = sharedInstance->end - sharedInstance->start;
+    std::chrono::duration<d64> elapsed_seconds = sharedInstance->end - sharedInstance->start;
 
     sharedInstance->deltaTime = elapsed_seconds.count();
 
