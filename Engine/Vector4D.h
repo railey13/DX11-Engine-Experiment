@@ -7,7 +7,7 @@ public:
 
 	}
 
-	Vector4D(float x, float y, float z, float w) : m_x(x), m_y(y), m_z(z), m_w(w) {
+	Vector4D(f32 x, f32 y, f32 z, f32 w) : m_x(x), m_y(y), m_z(z), m_w(w) {
 
 	}
 
@@ -27,5 +27,5 @@ public:
 	}
 
 public:
-	float m_x, m_y, m_z, m_w;
+	f32 m_x, m_y, m_z, m_w;
 };

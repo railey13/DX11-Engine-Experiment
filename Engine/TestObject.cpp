@@ -7,7 +7,7 @@ TestObject::TestObject() : TestObject(0) {
 	
 }
 
-TestObject::TestObject(int colorID) {
+TestObject::TestObject(i32 colorID) {
 	initialize(colorID);
 }
 
@@ -24,7 +24,7 @@ void TestObject::Translate(Vector3D pos) {
 }
 
 void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
-	float deltaTime = EngineTime::getDeltaTime();
+	f32 deltaTime = EngineTime::getDeltaTime();
 	constant cc;
 
 	Matrix4x4 temp;
@@ -32,19 +32,19 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 	m_position.m_x += m_velocity.m_x * deltaTime;
 	m_position.m_y += m_velocity.m_y * deltaTime;
 
-	float width = rc.right - rc.left;
-	float height = rc.bottom - rc.top;
+	f32 width = rc.right - rc.left;
+	f32 height = rc.bottom - rc.top;
 
-	float halfWidth = width / 800.0f;
-	float halfHeight = height / 800.0f;
+	f32 halfWidth = width / 800.0f;
+	f32 halfHeight = height / 800.0f;
 
 	// offset value of the vertices from the origin (when setting up the vertices of this cube)
-	const float halfCube = 0.2f;
+	const f32 halfCube = 0.2f;
 
-	float maxX = halfWidth - halfCube;
-	float minX = -halfWidth + halfCube;
-	float maxY = halfHeight - halfCube;
-	float minY = -halfHeight + halfCube;
+	f32 maxX = halfWidth - halfCube;
+	f32 minX = -halfWidth + halfCube;
+	f32 maxY = halfHeight - halfCube;
+	f32 minY = -halfHeight + halfCube;
 
 
 	if (m_position.m_x < minX || m_position.m_x > maxX) {
@@ -95,8 +95,8 @@ void TestObject::update(GraphicsEngine* graphEngine, RECT rc){
 }
 
 void TestObject::render(GraphicsEngine* graphEngine) {
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setCosntantBuffer(m_vs, m_cb);
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setCosntantBuffer(m_ps, m_cb);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
 
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
@@ -108,27 +108,27 @@ void TestObject::render(GraphicsEngine* graphEngine) {
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
 }
 
-void TestObject::TranslateForward(float dir) {
+void TestObject::TranslateForward(f32 dir) {
 	m_forward = dir;
 }
 
-void TestObject::TranslateSideward(float dir) {
+void TestObject::TranslateSideward(f32 dir) {
 	m_strafe = dir;
 }
 
-void TestObject::RotateX(float x) {
+void TestObject::RotateX(f32 x) {
 	rotateX += x * EngineTime::getDeltaTime();
 }
 
-void TestObject::RotateY(float y) {
+void TestObject::RotateY(f32 y) {
 	rotateY += y * EngineTime::getDeltaTime();
 }
 
-void TestObject::Scale(float scale) {
+void TestObject::Scale(f32 scale) {
 	this->scale = scale;
 }
 
-void TestObject::initialize(int colorID) {
+void TestObject::initialize(i32 colorID) {
 
 	m_world_cam.setTranslation(Vector3D(-0.3f, 0.5f, -1));
 
@@ -151,9 +151,9 @@ void TestObject::initialize(int colorID) {
 		{Vector3D(-0.2f, -0.2f, 0.2f),	color, color}, // POS4
 	};
 
-	UINT size_list = ARRAYSIZE(list);
+	ui32  size_list = ARRAYSIZE(list);
 
-	unsigned int index_list[] = {
+	ui32 index_list[] = {
 		// FRONT SIDE
 		0,1,2, // FIRST TRIANGLE
 		2,3,0, // SECOND TRIANGLE
@@ -174,7 +174,7 @@ void TestObject::initialize(int colorID) {
 		1,0,7
 	};
 
-	UINT size_index_list = ARRAYSIZE(index_list);
+	ui32  size_index_list = ARRAYSIZE(index_list);
 
 	GraphicsEngine* graphEngine = GraphicsEngine::get();
 
@@ -217,7 +217,7 @@ Vector3D TestObject::GenerateRandomVelocity()
 	return vel * 0.5f;
 }
 
-Vector3D TestObject::GetColor(int colorID) {
+Vector3D TestObject::GetColor(i32 colorID) {
 	switch (colorID) {
 	case 1: return Vector3D(1.0f, 0.0f, 0.0f);   // Red
 	case 2: return Vector3D(1.0f, 0.5f, 0.0f);   // Orange

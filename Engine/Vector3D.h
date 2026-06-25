@@ -7,7 +7,7 @@ public:
 		
 	}
 
-	Vector3D(float x, float y, float z) : m_x(x), m_y(y), m_z(z) {
+	Vector3D(f32 x, f32 y, f32 z) : m_x(x), m_y(y), m_z(z) {
 
 	}
 
@@ -15,7 +15,7 @@ public:
 
 	}
 
-	static Vector3D lerp(const Vector3D& start, const Vector3D& end, float deltaTime) {
+	static Vector3D lerp(const Vector3D& start, const Vector3D& end, f32 deltaTime) {
 		Vector3D v;
 
 		v.m_x = start.m_x * (1.0f - deltaTime) + end.m_x * (deltaTime);
@@ -33,15 +33,15 @@ public:
 		return Vector3D(m_x - v.m_x, m_y - v.m_y, m_z - v.m_z);
 	}
 
-	Vector3D operator/(const float v) {
+	Vector3D operator/(const f32 v) {
 		return Vector3D(m_x / v, m_y / v, m_z / v);
 	}
 
-	Vector3D operator*(const float v) {
+	Vector3D operator*(const f32 v) {
 		return Vector3D(m_x * v, m_y * v, m_z * v);
 	}
 	
-	float magnitude() {
+	f32 magnitude() {
 		return sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
 	}
 
@@ -55,7 +55,7 @@ public:
 			m_z * v.m_z);
 	}
 
-	float scalarProduct(const Vector3D v) {
+	f32 scalarProduct(const Vector3D v) {
 		return ((m_x * v.m_x) + (m_y * v.m_y) + (m_z * v.m_z));
 	}
 
@@ -70,7 +70,7 @@ public:
 	}
 
 public:
-	float m_x, m_y, m_z;
+	f32 m_x, m_y, m_z;
 };
 
 struct vertex {

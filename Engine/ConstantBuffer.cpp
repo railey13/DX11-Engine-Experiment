@@ -3,7 +3,7 @@
 #include "DeviceContext.h"
 #include <exception>
 	
-ConstantBuffer::ConstantBuffer(void* buffer, UINT size_buffer, RenderSystem* system) : m_system(system) {
+ConstantBuffer::ConstantBuffer(void* buffer, ui32  size_buffer, RenderSystem* system) : m_system(system) {
 
 	D3D11_BUFFER_DESC buff_desc = {};
 	buff_desc.Usage = D3D11_USAGE_DEFAULT;

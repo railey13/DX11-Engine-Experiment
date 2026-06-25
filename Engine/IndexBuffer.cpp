@@ -2,7 +2,7 @@
 #include "RenderSystem.h"
 #include <exception>
 
-IndexBuffer::IndexBuffer(void* list_indices, UINT size_list, RenderSystem* system) : m_buffer(0), m_system(system), m_size_list(size_list) {
+IndexBuffer::IndexBuffer(void* list_indices, ui32  size_list, RenderSystem* system) : m_buffer(0), m_system(system), m_size_list(size_list) {
 	D3D11_BUFFER_DESC buff_desc = {};
 	buff_desc.Usage = D3D11_USAGE_DEFAULT;
 	buff_desc.ByteWidth = 4 * size_list;
@@ -18,7 +18,7 @@ IndexBuffer::IndexBuffer(void* list_indices, UINT size_list, RenderSystem* syste
 	}
 }
 
-UINT IndexBuffer::getSizeIndexList() {
+ui32  IndexBuffer::getSizeIndexList() {
 	return this->m_size_list;
 }
 

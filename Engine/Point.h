@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Prerequisites.h"
 
 class Point {
 public:
@@ -8,7 +8,7 @@ public:
 
 	}
 	
-	Point(int x, int y) : m_x(x), m_y(y) {
+	Point(i32 x, i32 y) : m_x(x), m_y(y) {
 
 	}
 
@@ -21,5 +21,5 @@ public:
 	}
 
 public:
-	int m_x = 0, m_y = 0;
+	i32 m_x = 0, m_y = 0;
 };

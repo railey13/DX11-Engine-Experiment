@@ -4,7 +4,7 @@
 
 class SwapChain {
 public:
-	SwapChain(HWND hwnd, UINT width, UINT height, RenderSystem* system);
+	SwapChain(HWND hwnd, ui32  width, ui32  height, RenderSystem* system);
 
 	bool present(bool vsync);
 

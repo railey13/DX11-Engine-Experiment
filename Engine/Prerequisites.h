@@ -18,3 +18,8 @@ typedef std::shared_ptr<IndexBuffer> IndexBufferPtr;
 typedef std::shared_ptr<ConstantBuffer> ConstantBufferPtr;
 typedef std::shared_ptr<VertexShader> VertexShaderPtr;
 typedef std::shared_ptr<PixelShader> PixelShaderPtr;
+
+typedef unsigned int ui32;
+typedef int	i32;
+typedef float f32;
+typedef double d64;

@@ -14,14 +14,14 @@ struct constant {
 	Matrix4x4 m_world;
 	Matrix4x4 m_view;
 	Matrix4x4 m_proj;
-	float m_time;
-	float padding[3];
+	f32 m_time;
+	f32 padding[3];
 };
 
 class TestObject {
 public:
 	TestObject();
-	TestObject(int colorID);
+	TestObject(i32 colorID);
 	~TestObject();
 
 	void release();
@@ -31,25 +31,25 @@ public:
 	void update(GraphicsEngine* graphEngine, RECT rc);
 	void render(GraphicsEngine* graphEngine);
 public:
-	float speed;
+	f32 speed;
 private:
-	float rotateX = 0.0f;
-	float rotateY = 0.0f;
-	float scale = 10.f;
+	f32 rotateX = 0.0f;
+	f32 rotateY = 0.0f;
+	f32 scale = 10.f;
 
-	float m_forward = 0.0f;
-	float m_strafe = 0.0f;
+	f32 m_forward = 0.0f;
+	f32 m_strafe = 0.0f;
 public:
-	void TranslateForward(float dir);
-	void TranslateSideward(float dir);
-	void RotateX(float x);
-	void RotateY(float y);
-	void Scale(float scale);
+	void TranslateForward(f32 dir);
+	void TranslateSideward(f32 dir);
+	void RotateX(f32 x);
+	void RotateY(f32 y);
+	void Scale(f32 scale);
 private:
-	void initialize(int colorID);
+	void initialize(i32 colorID);
 
 	Vector3D GenerateRandomVelocity();
-	Vector3D GetColor(int colorID);
+	Vector3D GetColor(i32 colorID);
 private:
 	Vector3D m_velocity;
 	Vector3D m_position;

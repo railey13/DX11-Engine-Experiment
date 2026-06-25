@@ -36,7 +36,7 @@ public:
 
 	}
 
-	void setRotationX(float x) {
+	void setRotationX(f32 x) {
 		setIdentity();
 
 		m_mat[1][1] = cos(x);
@@ -45,7 +45,7 @@ public:
 		m_mat[2][2] = cos(x);
 	}
 
-	void setRotationY(float y) {
+	void setRotationY(f32 y) {
 		setIdentity();
 
 		m_mat[0][0] = cos(y);
@@ -54,7 +54,7 @@ public:
 		m_mat[2][2] = cos(y);
 	}
 
-	void setRotationZ(float z) {
+	void setRotationZ(f32 z) {
 		setIdentity();
 
 		m_mat[0][0] = cos(z);
@@ -63,9 +63,9 @@ public:
 		m_mat[1][1] = cos(z);
 	}
 
-	float getDeterminant() {
+	f32 getDeterminant() {
 		Vector4D minor, v1, v2, v3;
-		float det;
+		f32 det;
 
 		v1 = Vector4D(this->m_mat[0][0], this->m_mat[1][0], this->m_mat[2][0], this->m_mat[3][0]);
 		v2 = Vector4D(this->m_mat[0][1], this->m_mat[1][1], this->m_mat[2][1], this->m_mat[3][1]);
@@ -117,8 +117,8 @@ public:
 	void operator*=(const Matrix4x4 &matrix) {
 		Matrix4x4 out;
 
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (i32 i = 0; i < 4; i++) {
+			for (i32 j = 0; j < 4; j++) {
 				out.m_mat[i][j] =
 					m_mat[i][0] * matrix.m_mat[0][j] + m_mat[i][1] * matrix.m_mat[1][j] +
 					m_mat[i][2] * matrix.m_mat[2][j] + m_mat[i][3] * matrix.m_mat[3][j];
@@ -148,10 +148,10 @@ public:
 		return Vector3D(m_mat[3][0], m_mat[3][1], m_mat[3][2]);
 	}
 
-	void setPerspectiveFovLH(float fov, float aspect, float znear, float zfar) {
+	void setPerspectiveFovLH(f32 fov, f32 aspect, f32 znear, f32 zfar) {
 
-		float yscale = 1.0f / tan(fov/2.0f);
-		float xscale = yscale / aspect;
+		f32 yscale = 1.0f / tan(fov/2.0f);
+		f32 xscale = yscale / aspect;
 
 		m_mat[0][0] = xscale;
 		m_mat[1][1] = yscale;
@@ -160,7 +160,7 @@ public:
 		m_mat[3][2] = (-znear * zfar) / (zfar - znear);
 	}
 
-	void setOrthoLH(float width, float height, float near_plane, float far_plane) {
+	void setOrthoLH(f32 width, f32 height, f32 near_plane, f32 far_plane) {
 		setIdentity();
 
 		m_mat[0][0] = 2.0f / width;
@@ -175,5 +175,5 @@ public:
 	}
 
 private:
-	float m_mat[4][4] = {};
+	f32 m_mat[4][4] = {};
 };
