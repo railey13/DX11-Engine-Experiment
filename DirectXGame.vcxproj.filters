@@ -46,9 +46,14 @@
     <Filter Include="Game Engine\GraphicsEngine\Render System\VertexShader">
       <UniqueIdentifier>{20fd9d8d-87da-49a0-b792-20223ebb7e96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Engine\GraphicsEngine\Game">
+      <UniqueIdentifier>{334a53c4-6385-40be-80da-351aa487758f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GraphicsEngine\Game\GameObjects">
+      <UniqueIdentifier>{9a7de1f4-0930-4606-a003-c7bfb0df8448}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\TestObject.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp">
       <Filter>App</Filter>
     </ClCompile>
@@ -94,9 +99,17 @@
     <ClCompile Include="Engine\RenderSystem.cpp">
       <Filter>Game Engine\GraphicsEngine\Render System</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Cube.cpp">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\AGameObject.cpp">
+      <Filter>Game Engine\GraphicsEngine\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Camera.cpp">
+      <Filter>Game Engine\GraphicsEngine\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\TestObject.h" />
     <ClInclude Include="Engine\AppWindow.h">
       <Filter>App</Filter>
     </ClInclude>
@@ -156,6 +169,15 @@
     </ClInclude>
     <ClInclude Include="Engine\Prerequisites.h">
       <Filter>Game Engine\GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Cube.h">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AGameObject.h">
+      <Filter>Game Engine\GraphicsEngine\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera.h">
+      <Filter>Game Engine\GraphicsEngine\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
