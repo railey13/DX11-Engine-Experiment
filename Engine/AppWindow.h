@@ -16,6 +16,7 @@
 #include "vector"
 #include "AGameObject.h"
 #include "Cube.h"
+#include "Plane.h"
 
 class AppWindow: public Window, public InputListener{
 public:
