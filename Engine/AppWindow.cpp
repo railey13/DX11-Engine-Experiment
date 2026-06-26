@@ -35,6 +35,14 @@ void AppWindow::createGraphicsWindow() {
 	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
 
 	//GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
+
+	AGameObject* obj = new Plane(vs_byte_code, vs_size);
+	m_objects.push_back(obj);
+
+	obj = new Cube(vs_byte_code, vs_size);
+	m_objects.push_back(obj);
+
+
 }
 
 AppWindow::AppWindow() {
@@ -93,30 +101,11 @@ void AppWindow::onKillFocus() {
 }
 
 void AppWindow::onKeyDown(i32 key) {
-	switch (key) {
-	case 'W': if (m_objects.empty()) return;
-		//objects.front()->RotateX(1);
-		//objects.front()->TranslateForward(1);
-		break; 
-	case 'S': if (m_objects.empty()) return;
-		//objects.front()->RotateX(-1);
-		//objects.front()->TranslateForward(-1);
-		break;
-	case 'A': if (m_objects.empty()) return;
-		//objects.front()->RotateY(1);
-		//objects.front()->TranslateSideward(-1);
-		break;
-	case 'D': if (m_objects.empty()) return;
-		//objects.front()->RotateY(-1);
-		//objects.front()->TranslateSideward(1);
-		break;
-	default: break;
-	}
+
 }
 
 void AppWindow::onKeyUp(i32 key) {
-	std::cout << key << std::endl;
-	switch (key) {
+	/*switch (key) {
 		case VK_SPACE: this->SpawnObject();
 			std::cout << "SPACE" << std::endl;
 			break;
@@ -130,7 +119,7 @@ void AppWindow::onKeyUp(i32 key) {
 			std::cout << "ESCAPE" << std::endl;
 			break;
 		default: break;
-	}
+	}*/
 }
 
 void AppWindow::onMouseMove(const Point& mouse_pos) {
