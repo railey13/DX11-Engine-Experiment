@@ -23,7 +23,7 @@ struct constant {
 class AGameObject {
 public:
 	AGameObject();
-	~AGameObject();
+	virtual ~AGameObject();
 public:
 	virtual void update(f32 deltaTime) = 0;
 	virtual void draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) = 0;

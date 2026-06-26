@@ -143,6 +143,7 @@
     <ClCompile Include="Engine\InputSystem.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\PixelShader.cpp" />
+    <ClCompile Include="Engine\Plane.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\SwapChain.cpp" />
     <ClCompile Include="Engine\VertexBuffer.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Engine\InputSystem.h" />
     <ClInclude Include="Engine\Matrix4x4.h" />
     <ClInclude Include="Engine\PixelShader.h" />
+    <ClInclude Include="Engine\Plane.h" />
     <ClInclude Include="Engine\Point.h" />
     <ClInclude Include="Engine\Prerequisites.h" />
     <ClInclude Include="Engine\RenderSystem.h" />

@@ -52,6 +52,12 @@
     <Filter Include="Game Engine\GraphicsEngine\Game\GameObjects">
       <UniqueIdentifier>{9a7de1f4-0930-4606-a003-c7bfb0df8448}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Engine\GraphicsEngine\Game\GameObjects\Cube">
+      <UniqueIdentifier>{d07539b7-d04b-4c9c-88a6-94e1c80d3edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GraphicsEngine\Game\GameObjects\Plane">
+      <UniqueIdentifier>{1ce999aa-21c5-4500-9429-1d93b01e3cbd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\AppWindow.cpp">
@@ -99,14 +105,17 @@
     <ClCompile Include="Engine\RenderSystem.cpp">
       <Filter>Game Engine\GraphicsEngine\Render System</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Cube.cpp">
-      <Filter>Game Engine\GraphicsEngine\Game\GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\AGameObject.cpp">
-      <Filter>Game Engine\GraphicsEngine\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Camera.cpp">
       <Filter>Game Engine\GraphicsEngine\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Cube.cpp">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Plane.cpp">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\AGameObject.cpp">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,14 +179,17 @@
     <ClInclude Include="Engine\Prerequisites.h">
       <Filter>Game Engine\GraphicsEngine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Cube.h">
-      <Filter>Game Engine\GraphicsEngine\Game\GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\AGameObject.h">
-      <Filter>Game Engine\GraphicsEngine\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Camera.h">
       <Filter>Game Engine\GraphicsEngine\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Cube.h">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Plane.h">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AGameObject.h">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

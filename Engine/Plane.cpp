@@ -1,21 +1,15 @@
-#include "Cube.h"
+#include "Plane.h"
 #include "iostream"
 
-Cube::Cube(void* shader_byte_code, size_t size_shader) {
+Plane::Plane(void* shader_byte_code, size_t size_shader) {
 	vertex list[] = {
 		// POS - COLOR - COLOR 1
 		// X - Y - Z
 		// FRONT FACE
-		{Vector3D(-0.2f, -0.2f, -0.2f), Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, // POS1
-		{Vector3D(-0.2f, 0.2f, -0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, // POS2
-		{Vector3D(0.2f, 0.2f, -0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, // POS3 
-		{Vector3D(0.2f, -0.2f, -0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, // POS4
-
-		// BACK FACE
-		{Vector3D(0.2f, -0.2f, 0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, 
-		{Vector3D(0.2f, 0.2f, 0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, 
-		{Vector3D(-0.2f, 0.2f, 0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, 
-		{Vector3D(-0.2f, -0.2f, 0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, 
+		{Vector3D(-1, 0, -1),	Vector3D(1.0f, 1.0f, 1.0f), Vector3D(1.0f, 1.0f, 1.0f)}, // POS1
+		{Vector3D(-1, 0, 1),	Vector3D(1.0f, 1.0f, 1.0f), Vector3D(1.0f, 1.0f, 1.0f)}, // POS2
+		{Vector3D(1, 0, 1),		Vector3D(1.0f, 1.0f, 1.0f), Vector3D(1.0f, 1.0f, 1.0f)}, // POS3 
+		{Vector3D(1, 0, -1),	Vector3D(1.0f, 1.0f, 1.0f), Vector3D(1.0f, 1.0f, 1.0f)}, // POS4
 	};
 
 	ui32 size_list = ARRAYSIZE(list);
@@ -52,15 +46,15 @@ Cube::Cube(void* shader_byte_code, size_t size_shader) {
 
 }
 
-Cube::~Cube() {
+Plane::~Plane() {
 
 }
 
-void Cube::update(f32 deltaTime) {
+void Plane::update(f32 deltaTime) {
 
 }
 
-void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) {
+void Plane::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) {
 	constant cc;
 	Matrix4x4 temp;
 
@@ -69,7 +63,7 @@ void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4
 	cc.m_world.setIdentity();
 
 	temp.setIdentity();
-	temp.setScale(m_scale);
+	temp.setScale(Vector3D(m_scale.m_x, 1.0f, m_scale.m_z));
 
 	cc.m_world *= temp;
 
