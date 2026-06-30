@@ -145,6 +145,7 @@
     <ClCompile Include="Engine\PixelShader.cpp" />
     <ClCompile Include="Engine\Plane.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
+    <ClCompile Include="Engine\Sphere.cpp" />
     <ClCompile Include="Engine\SwapChain.cpp" />
     <ClCompile Include="Engine\VertexBuffer.cpp" />
     <ClCompile Include="Engine\VertexShader.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Engine\Point.h" />
     <ClInclude Include="Engine\Prerequisites.h" />
     <ClInclude Include="Engine\RenderSystem.h" />
+    <ClInclude Include="Engine\Sphere.h" />
     <ClInclude Include="Engine\SwapChain.h" />
     <ClInclude Include="Engine\Vector3D.h" />
     <ClInclude Include="Engine\Vector4D.h" />

@@ -40,6 +40,5 @@ protected:
 	Vector3D m_position;
 	Vector3D m_rotation;
 	Vector3D m_scale = Vector3D(1,1,1);
-
 };
 

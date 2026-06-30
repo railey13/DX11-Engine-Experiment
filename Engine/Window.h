@@ -1,6 +1,6 @@
 #pragma once
 #include <Windows.h>
-
+#include "Settings.h"
 
 class Window {
 
@@ -18,6 +18,7 @@ public:
 	virtual void onDestroy();
 	virtual void onFocus();
 	virtual void onKillFocus();
+	virtual void onResize(ui32 width, ui32 height) = 0;
 
 	// release the window
 	~Window();

@@ -107,7 +107,7 @@ Matrix4x4 Camera::getViewMatrix() const {
 
 Matrix4x4 Camera::getProjectionMatrix() const { 
 	Matrix4x4 proj;
-	proj.setPerspectiveFovLH(m_fov, Settings::WindowWidth / Settings::WindowHeight, m_znear, m_zfar);
+	proj.setPerspectiveFovLH(m_fov, ((f32)Settings::WindowWidth / (f32)Settings::WindowHeight), m_znear, m_zfar);
 
 	return proj;
 }
