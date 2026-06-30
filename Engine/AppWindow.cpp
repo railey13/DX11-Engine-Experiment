@@ -42,6 +42,10 @@ void AppWindow::createGraphicsWindow() {
 	obj = new Cube(vs_byte_code, vs_size);
 	m_objects.push_back(obj);
 
+	obj = new Sphere(vs_byte_code, vs_size);
+	obj->setPosition(Vector3D(1,1,0));
+	m_objects.push_back(obj);
+
 
 }
 
@@ -98,6 +102,19 @@ void AppWindow::onFocus() {
 
 void AppWindow::onKillFocus() {	
 	InputSystem::get()->removeListener(this);
+}
+
+void AppWindow::onResize(ui32 width, ui32 height) {
+	if (width == 0 || height == 0) return;
+
+	std::cout << width << ", " << height << std::endl;
+
+	Settings::WindowWidth = width;
+	Settings::WindowHeight = height;
+
+	if (m_swap_chain) {
+		m_swap_chain->resize(width, height);
+	}
 }
 
 void AppWindow::onKeyDown(i32 key) {

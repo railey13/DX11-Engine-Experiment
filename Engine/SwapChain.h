@@ -8,6 +8,8 @@ public:
 
 	bool present(bool vsync);
 
+	void resize(ui32 width, ui32 height);
+
 	~SwapChain();
 private:
 	IDXGISwapChain* m_swap_chain = nullptr;

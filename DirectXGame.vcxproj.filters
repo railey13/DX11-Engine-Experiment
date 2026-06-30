@@ -58,6 +58,9 @@
     <Filter Include="Game Engine\GraphicsEngine\Game\GameObjects\Plane">
       <UniqueIdentifier>{1ce999aa-21c5-4500-9429-1d93b01e3cbd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Engine\GraphicsEngine\Game\GameObjects\Sphere">
+      <UniqueIdentifier>{066cb201-07b5-4e81-80df-88abc1e2a571}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\AppWindow.cpp">
@@ -116,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="Engine\AGameObject.cpp">
       <Filter>Game Engine\GraphicsEngine\Game\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Sphere.cpp">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="Engine\AGameObject.h">
       <Filter>Game Engine\GraphicsEngine\Game\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Sphere.h">
+      <Filter>Game Engine\GraphicsEngine\Game\GameObjects\Sphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

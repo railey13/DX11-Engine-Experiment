@@ -1,6 +1,5 @@
 #include "Window.h"
 #include "EngineTime.h"
-#include "../Settings.h"
 
 #include <iostream>
 #include <exception>
@@ -34,6 +33,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, ui32 msg, WPARAM wparam, LPARAM lparam) {
             Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
             window->onDestroy();
             ::PostQuitMessage(0);
+            break;
+        }
+        case WM_SIZE: {
+            Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+            if (window) {
+                ui32 newWidth = LOWORD(lparam);
+                ui32 newHeight = HIWORD(lparam);
+                window->onResize(newWidth, newHeight);
+            }
             break;
         }
         default: {

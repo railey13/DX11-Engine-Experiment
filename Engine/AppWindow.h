@@ -17,6 +17,7 @@
 #include "AGameObject.h"
 #include "Cube.h"
 #include "Plane.h"
+#include "Sphere.h"
 
 class AppWindow: public Window, public InputListener{
 public:
@@ -40,6 +41,7 @@ public:
 	void onDestroy() override;
 	void onFocus() override;
 	void onKillFocus() override;
+	void onResize(ui32 width, ui32 height) override;
 	// Inherited via InputListener
 	void onKeyDown(i32 key) override;
 	void onKeyUp(i32 key) override;
