@@ -3,6 +3,7 @@
 #include "iostream"
 #include "../Settings.h"
 
+
 AppWindow* AppWindow::sharedInstance = NULL;
 
 AppWindow* AppWindow::get() {
@@ -42,9 +43,9 @@ void AppWindow::createGraphicsWindow() {
 	obj = new Cube(vs_byte_code, vs_size);
 	m_objects.push_back(obj);
 
-	obj = new Sphere(vs_byte_code, vs_size);
-	obj->setPosition(Vector3D(1,1,0));
-	m_objects.push_back(obj);
+	//obj = new Sphere(vs_byte_code, vs_size);
+	//obj->setPosition(Vector3D(1,1,0));
+	//m_objects.push_back(obj);
 
 
 }
@@ -59,7 +60,20 @@ AppWindow::~AppWindow() {
 
 void AppWindow::onCreate() {
 	/*Window::onCreate();*/
+	std::cout << "CALLED" << std::endl;
 	InputSystem::get()->addListener(this);
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	ImGuiIO& io = ImGui::GetIO(); 
+	(void)io;	
+
+	ImGui::StyleColorsDark();
+	
+	ImGui_ImplWin32_Init(m_hwnd);
+	ImGui_ImplDX11_Init(GraphicsEngine::get()->getRenderSystem()->getD11Device(), 
+						GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->getContext());
 }
 
 void AppWindow::onUpdate() {
@@ -83,6 +97,15 @@ void AppWindow::onUpdate() {
 		obj->update(deltaTime);
 		obj->draw(m_vs, m_ps, m_sceneCamera.getViewMatrix(), m_sceneCamera.getProjectionMatrix());
 	}
+
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	ImGui::ShowDemoWindow();
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	m_swap_chain->present(false);
 }

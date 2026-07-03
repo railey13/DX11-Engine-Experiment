@@ -17,6 +17,8 @@ public:
 	ConstantBufferPtr createConstantBuffer(void* buffer, ui32  size_buffer);
 	VertexShaderPtr createVertexShader(void* shader_byte_code, size_t byte_code_size);
 	PixelShaderPtr createPixelShader(void* shader_byte_code, size_t byte_code_size);
+
+	ID3D11Device* getD11Device();
 public:
 	bool compileVertexShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
 	bool compilePixelShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);

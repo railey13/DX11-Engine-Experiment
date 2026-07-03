@@ -22,6 +22,8 @@ public:
 	void drawIndexedTriangleList(ui32  index_count, ui32  start_vertex_index, ui32  start_index_location);
 	void drawTriangleStrip(ui32  vertex_count, ui32  start_vertex_index);
 
+	ID3D11DeviceContext* getContext();
+
 	~DeviceContext();
 private:
 	ID3D11DeviceContext* m_device_context;

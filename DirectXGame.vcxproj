@@ -150,6 +150,13 @@
     <ClCompile Include="Engine\VertexBuffer.cpp" />
     <ClCompile Include="Engine\VertexShader.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
+    <ClCompile Include="IMGUI\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="IMGUI\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="IMGUI\imgui.cpp" />
+    <ClCompile Include="IMGUI\imgui_demo.cpp" />
+    <ClCompile Include="IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="IMGUI\imgui_tables.cpp" />
+    <ClCompile Include="IMGUI\imgui_widgets.cpp" />
     <ClCompile Include="Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +184,14 @@
     <ClInclude Include="Engine\VertexBuffer.h" />
     <ClInclude Include="Engine\VertexShader.h" />
     <ClInclude Include="Engine\Window.h" />
+    <ClInclude Include="IMGUI\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="IMGUI\backends\imgui_impl_win32.h" />
+    <ClInclude Include="IMGUI\imconfig.h" />
+    <ClInclude Include="IMGUI\imgui.h" />
+    <ClInclude Include="IMGUI\imgui_internal.h" />
+    <ClInclude Include="IMGUI\imstb_rectpack.h" />
+    <ClInclude Include="IMGUI\imstb_textedit.h" />
+    <ClInclude Include="IMGUI\imstb_truetype.h" />
     <ClInclude Include="Settings.h" />
   </ItemGroup>
   <ItemGroup>
