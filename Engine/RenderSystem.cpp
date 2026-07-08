@@ -154,6 +154,10 @@ PixelShaderPtr RenderSystem::createPixelShader(void* shader_byte_code, size_t by
     return ps;
 }
 
+ID3D11Device* RenderSystem::getD11Device() {
+    return m_d3d_device;
+}
+
 bool RenderSystem::compileVertexShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size) {
     ID3DBlob* error_blob = nullptr;
     if (!SUCCEEDED(D3DCompileFromFile(file_name, nullptr, nullptr, entry_point_name, "vs_5_0", 0, 0, &m_blob, &error_blob))) {

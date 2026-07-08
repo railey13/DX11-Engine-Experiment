@@ -13,6 +13,10 @@
 #include "InputListener.h"
 #include "Camera.h"
 
+#include "../IMGUI/imgui.h"
+#include "../IMGUI/backends/imgui_impl_dx11.h"
+#include "../IMGUI/backends/imgui_impl_win32.h"
+
 #include "vector"
 #include "AGameObject.h"
 #include "Cube.h"
@@ -29,7 +33,7 @@ public:
 	void createGraphicsWindow();
 private:
 	AppWindow(AppWindow const&);
-	AppWindow& operator=(AppWindow const&);
+	AppWindow& operator=(AppWindow const&) {};
 	static AppWindow* sharedInstance;
 public:
 	AppWindow();
@@ -52,9 +56,11 @@ public:
 	virtual void onRightMouseDown(const Point& mouse_pos) override;
 	virtual void onRightMouseUp(const Point& mouse_pos) override;
 private:
-	void SpawnObject();
+	void SpawnObject(AGameObject* object);
 	void DestroyObject();
 	void DestroyAllObjects();
+
+	void DrawCredits();
 private:
 	SwapChainPtr m_swap_chain;
 	VertexBufferPtr m_vb;
@@ -63,7 +69,6 @@ private:
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
 
-	//std::vector<TestObject*> objects;
 	std::vector<AGameObject*> m_objects;
 private:
 	void* vs_byte_code = nullptr;
@@ -72,5 +77,7 @@ private:
 	size_t ps_size = 0;
 
 	Camera m_sceneCamera;
+
+	bool m_tool_active = true;
 };
 

@@ -3,7 +3,7 @@
 #include "Engine/Prerequisites.h"
 
 namespace Settings {
-    extern i32 WindowWidth;
-    extern i32 WindowHeight;
-    extern const i32 FrameRateLimit;
+    static const ui32 WindowWidth = 1024;
+    static const ui32 WindowHeight = 768;
+    static const ui32 FrameRateLimit = 144;
 }

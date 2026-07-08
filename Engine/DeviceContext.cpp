@@ -71,6 +71,11 @@ void DeviceContext::drawTriangleStrip(ui32  vertex_count, ui32  start_vertex_ind
 	m_device_context->Draw(vertex_count, start_vertex_index);
 }
 
+ID3D11DeviceContext* DeviceContext::getContext() {
+
+	return m_device_context;
+}
+
 DeviceContext::~DeviceContext() {
 	m_device_context->Release();
 }

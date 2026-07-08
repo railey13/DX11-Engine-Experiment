@@ -111,3 +111,22 @@ Matrix4x4 Camera::getProjectionMatrix() const {
 
 	return proj;
 }
+
+Vector3D Camera::getForwardDirection() const {
+	Matrix4x4 world_cam;
+	world_cam.setIdentity();
+
+	Matrix4x4 temp;
+	temp.setRotationX(m_pitch);
+	world_cam *= temp;
+
+	temp.setRotationY(m_yaw);
+	world_cam *= temp;
+
+	return world_cam.getZDirection();
+}
+
+Vector3D Camera::getPosition() const {
+
+	return m_position;
+}

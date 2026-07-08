@@ -16,7 +16,7 @@ private:
 	GraphicsEngine();
 
 	GraphicsEngine(GraphicsEngine const&);
-	GraphicsEngine& operator=(GraphicsEngine const&);
+	GraphicsEngine& operator=(GraphicsEngine const&) {};
 	static GraphicsEngine* sharedInstance;
 
 	// release all the resources loaded

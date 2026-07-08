@@ -3,6 +3,7 @@
 #include "iostream"
 #include "../Settings.h"
 
+
 AppWindow* AppWindow::sharedInstance = NULL;
 
 AppWindow* AppWindow::get() {
@@ -29,22 +30,18 @@ void AppWindow::createGraphicsWindow() {
 	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"Engine\\VertexShader.hlsl", "vsmain", &vs_byte_code, &vs_size);
 	m_vs = GraphicsEngine::get()->getRenderSystem()->createVertexShader(vs_byte_code, vs_size);
 
-	//GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
-
 	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine\\PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
 	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
 
-	//GraphicsEngine::get()->getRenderSystem()->releaseCompiledShader();
+	//AGameObject* obj = new Plane(vs_byte_code, vs_size);
+	//m_objects.push_back(obj);
 
-	AGameObject* obj = new Plane(vs_byte_code, vs_size);
-	m_objects.push_back(obj);
+	//obj = new Cube(vs_byte_code, vs_size);
+	//m_objects.push_back(obj);
 
-	obj = new Cube(vs_byte_code, vs_size);
-	m_objects.push_back(obj);
-
-	obj = new Sphere(vs_byte_code, vs_size);
-	obj->setPosition(Vector3D(1,1,0));
-	m_objects.push_back(obj);
+	//obj = new Sphere(vs_byte_code, vs_size);
+	//obj->setPosition(Vector3D(1,1,0));
+	//m_objects.push_back(obj);
 
 
 }
@@ -60,6 +57,18 @@ AppWindow::~AppWindow() {
 void AppWindow::onCreate() {
 	/*Window::onCreate();*/
 	InputSystem::get()->addListener(this);
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	ImGuiIO& io = ImGui::GetIO(); 
+	(void)io;	
+
+	ImGui::StyleColorsDark();
+	
+	ImGui_ImplWin32_Init(m_hwnd);
+	ImGui_ImplDX11_Init(GraphicsEngine::get()->getRenderSystem()->getD11Device(), 
+						GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->getContext());
 }
 
 void AppWindow::onUpdate() {
@@ -84,6 +93,8 @@ void AppWindow::onUpdate() {
 		obj->draw(m_vs, m_ps, m_sceneCamera.getViewMatrix(), m_sceneCamera.getProjectionMatrix());
 	}
 
+	DrawCredits();
+
 	m_swap_chain->present(false);
 }
 
@@ -107,13 +118,11 @@ void AppWindow::onKillFocus() {
 void AppWindow::onResize(ui32 width, ui32 height) {
 	if (width == 0 || height == 0) return;
 
-	std::cout << width << ", " << height << std::endl;
-
-	Settings::WindowWidth = width;
-	Settings::WindowHeight = height;
+	m_window_width = width;
+	m_window_height = height;
 
 	if (m_swap_chain) {
-		m_swap_chain->resize(width, height);
+		m_swap_chain->resize(m_window_width, m_window_height);
 	}
 }
 
@@ -122,52 +131,34 @@ void AppWindow::onKeyDown(i32 key) {
 }
 
 void AppWindow::onKeyUp(i32 key) {
-	/*switch (key) {
-		case VK_SPACE: this->SpawnObject();
-			std::cout << "SPACE" << std::endl;
-			break;
-		case VK_BACK: this->DestroyObject();;
-			std::cout << "BACK" << std::endl;
-			break;
-		case VK_DELETE: this->DestroyAllObjects();
-			std::cout << "DELETE" << std::endl;
-			break;
-		case VK_ESCAPE: m_is_run = false;
-			std::cout << "ESCAPE" << std::endl;
-			break;
-		default: break;
-	}*/
+
 }
 
 void AppWindow::onMouseMove(const Point& mouse_pos) {
-	//objects.front()->RotateX((mouse_pos.m_y - (Settings::WindowHeight/ 2.0f)) * 0.1);
-	//objects.front()->RotateY((mouse_pos.m_x - (Settings::WindowWidth / 2.0f)) * 0.1);
+
 }
 
 void AppWindow::onLeftMouseDown(const Point& mouse_pos) {
-	if (m_objects.empty()) return;
-	//objects.front()->Scale(0.5f);
+
 }
 
 void AppWindow::onLeftMouseUp(const Point& mouse_pos) {
-	if (m_objects.empty()) return;
-	//objects.front()->Scale(1.f);
+
 }
 
 void AppWindow::onRightMouseDown(const Point& mouse_pos) {
-	if (m_objects.empty()) return;
-	//objects.front()->Scale(2.0f);
+
 }
 
 void AppWindow::onRightMouseUp(const Point& mouse_pos) {
-	if (m_objects.empty()) return;
-	//objects.front()->Scale(1.0f);
+
 }
 
-void AppWindow::SpawnObject() {
-	//i32 colorID = (objects.size() % 7) + 1;  // cycles color (look in testobject source file for color reference)
+void AppWindow::SpawnObject(AGameObject* object) {
+	f32 spawnDistance = 1.0f; 
+	Vector3D spawnPos = m_sceneCamera.getPosition() + m_sceneCamera.getForwardDirection() * spawnDistance;
 
-	auto object = new Cube(vs_byte_code, vs_size);
+	object->setPosition(spawnPos);
 	m_objects.push_back(object);
 }
 
@@ -183,5 +174,70 @@ void AppWindow::DestroyAllObjects() {
 		delete m_objects.back();
 		m_objects.pop_back();
 	}
+}
+
+void AppWindow::DrawCredits() {
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	if (ImGui::BeginMainMenuBar()) {
+		if (ImGui::BeginMenu("GameObject")) {
+			if (ImGui::MenuItem("Cube")) {
+				auto obj = new Cube(vs_byte_code, vs_size);
+				SpawnObject(obj);
+			}
+			if (ImGui::MenuItem("Sphere")) {
+				auto obj = new Sphere(vs_byte_code, vs_size);
+				SpawnObject(obj);
+			}
+			if (ImGui::MenuItem("Plane")) {
+				auto obj = new Plane(vs_byte_code, vs_size);
+				SpawnObject(obj);
+			}
+
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Tools")) {
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMainMenuBar();
+	}
+	
+	if (m_tool_active) {
+		if (ImGui::Begin("Credits", &m_tool_active, ImGuiWindowFlags_NoCollapse)) {
+			ImGui::Text("About");
+			ImGui::Text("Scene Editor v0.1");
+			ImGui::Text("Developed By: Nikos Bumanglag");
+			ImGui::Text("Acknowledgements");
+
+			static char ack_text[2048] =
+				"Scene Editor UI built using ImGui by Omar Cornut and contributors:\n"
+				"https://github.com/ocornut/imgui\n";
+
+			ImGui::InputTextMultiline(
+				"acknowledgements",
+				ack_text,
+				IM_ARRAYSIZE(ack_text),
+				ImVec2(-FLT_MIN, 180),
+				ImGuiInputTextFlags_ReadOnly
+			);
+
+			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("Close").x) * 0.5f);
+			if (ImGui::Button("Close")) {
+				std::cout << "Close" << std::endl;
+				m_tool_active = false;
+				std::cout << m_tool_active << std::endl;
+
+			}
+		}
+
+		ImGui::End();
+
+	}
+	
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 

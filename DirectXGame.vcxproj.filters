@@ -61,6 +61,12 @@
     <Filter Include="Game Engine\GraphicsEngine\Game\GameObjects\Sphere">
       <UniqueIdentifier>{066cb201-07b5-4e81-80df-88abc1e2a571}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IMGUI">
+      <UniqueIdentifier>{56967b73-edfb-4d8a-aac3-7f71967b4285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IMGUI\backends">
+      <UniqueIdentifier>{de0754ac-e855-4b5f-8675-267a1390bc6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\AppWindow.cpp">
@@ -122,6 +128,27 @@
     </ClCompile>
     <ClCompile Include="Engine\Sphere.cpp">
       <Filter>Game Engine\GraphicsEngine\Game\GameObjects\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui_demo.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui_draw.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui_tables.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\imgui_widgets.cpp">
+      <Filter>IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\backends\imgui_impl_win32.cpp">
+      <Filter>IMGUI\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="IMGUI\backends\imgui_impl_dx11.cpp">
+      <Filter>IMGUI\backends</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +226,30 @@
     </ClInclude>
     <ClInclude Include="Engine\Sphere.h">
       <Filter>Game Engine\GraphicsEngine\Game\GameObjects\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imconfig.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imgui.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imgui_internal.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imstb_rectpack.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imstb_textedit.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\imstb_truetype.h">
+      <Filter>IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\backends\imgui_impl_win32.h">
+      <Filter>IMGUI\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="IMGUI\backends\imgui_impl_dx11.h">
+      <Filter>IMGUI\backends</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

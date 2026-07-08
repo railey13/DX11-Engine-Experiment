@@ -28,5 +28,8 @@ protected:
 	HWND m_hwnd;
 	bool m_is_run;
 	bool m_is_init = false;
+
+	ui32 m_window_width = Settings::WindowWidth;
+	ui32 m_window_height = Settings::WindowHeight;
 };
 
