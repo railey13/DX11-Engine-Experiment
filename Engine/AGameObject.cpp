@@ -1,7 +1,7 @@
 #include "AGameObject.h"
 
 AGameObject::AGameObject() {
-
+	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png");
 }
 
 AGameObject::~AGameObject() {
@@ -30,5 +30,9 @@ void AGameObject::setScale(f32 x, f32 y, f32 z) {
 
 void AGameObject::setScale(Vector3D scale) {
 	m_scale = scale;
+}
+
+void AGameObject::setTexture(TexturePtr tex) {
+	m_tex = tex;
 }
 

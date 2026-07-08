@@ -72,9 +72,3 @@ public:
 public:
 	f32 m_x, m_y, m_z;
 };
-
-struct vertex {
-	Vector3D position;
-	Vector3D color;
-	Vector3D color1;
-};

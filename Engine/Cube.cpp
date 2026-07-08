@@ -2,20 +2,57 @@
 #include "iostream"
 
 Cube::Cube(void* shader_byte_code, size_t size_shader) {
-	vertex list[] = {
-		// POS - COLOR - COLOR 1
-		// X - Y - Z
-		// FRONT FACE
-		{Vector3D(-0.2f, -0.2f, -0.2f), Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, // POS1
-		{Vector3D(-0.2f, 0.2f, -0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, // POS2
-		{Vector3D(0.2f, 0.2f, -0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, // POS3 
-		{Vector3D(0.2f, -0.2f, -0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, // POS4
+	Vector3D position_list[] = {
+		{Vector3D(-0.2f, -0.2f, -0.2f)}, // POS1
+		{Vector3D(-0.2f, 0.2f, -0.2f)},	// POS2
+		{Vector3D(0.2f, 0.2f, -0.2f)},	// POS3 
+		{Vector3D(0.2f, -0.2f, -0.2f)}, // POS4
 
-		// BACK FACE
-		{Vector3D(0.2f, -0.2f, 0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, 
-		{Vector3D(0.2f, 0.2f, 0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, 
-		{Vector3D(-0.2f, 0.2f, 0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, 
-		{Vector3D(-0.2f, -0.2f, 0.2f),	Vector3D(1, 0, 0), Vector3D(1, 0, 0)}, 
+		{Vector3D(0.2f, -0.2f, 0.2f)},
+		{Vector3D(0.2f, 0.2f, 0.2f)},
+		{Vector3D(-0.2f, 0.2f, 0.2f)},
+		{Vector3D(-0.2f, -0.2f, 0.2f)},
+	};
+
+	Vector2D texcoord_list[] = {
+		{Vector2D(0.0f, 0.0f)},
+		{Vector2D(0.0f, 1.0f)},
+		{Vector2D(1.0f, 0.0f)},
+		{Vector2D(1.0f, 1.0f)}
+	};
+	
+	
+	vertex list[] = {
+		// FRONT SIDE
+		{position_list[0], texcoord_list[1]},
+		{position_list[1], texcoord_list[0]},
+		{position_list[2], texcoord_list[2]},
+		{position_list[3], texcoord_list[3]},
+		// BACK SIDE
+		{position_list[4], texcoord_list[1]},
+		{position_list[5], texcoord_list[0]},
+		{position_list[6], texcoord_list[2]},
+		{position_list[7], texcoord_list[3]},
+		// TOP SIDE
+		{position_list[1], texcoord_list[1]},
+		{position_list[6], texcoord_list[0]},
+		{position_list[5], texcoord_list[2]},
+		{position_list[2], texcoord_list[3]},
+		// BOTTOM SIDE
+		{position_list[7], texcoord_list[1]},
+		{position_list[0], texcoord_list[0]},
+		{position_list[3], texcoord_list[2]},
+		{position_list[4], texcoord_list[3]},
+		// RIGHT SIDE
+		{position_list[3], texcoord_list[1]},
+		{position_list[2], texcoord_list[0]},
+		{position_list[5], texcoord_list[2]},
+		{position_list[4], texcoord_list[3]},
+		// LEFT SIDE
+		{position_list[7], texcoord_list[1]},
+		{position_list[6], texcoord_list[0]},
+		{position_list[1], texcoord_list[2]},
+		{position_list[0], texcoord_list[3]},
 	};
 
 	ui32 size_list = ARRAYSIZE(list);
@@ -28,17 +65,17 @@ Cube::Cube(void* shader_byte_code, size_t size_shader) {
 		4,5,6,
 		6,7,4,
 		// TOP SIDE
-		1,6,5,
-		5,2,1,
+		8,9,10,
+		10,11,8,
 		// BOTTOM SIDE
-		7,0,3,
-		3,4,7,
+		12,13,14,
+		14,15,12,
 		// RIGHT SIDE
-		3,2,5,
-		5,4,3,
+		16,17,18,
+		18,19,16,
 		// LEFT SIDE
-		7,6,1,
-		1,0,7
+		20,21,22,
+		22,23,20
 	};
 
 	ui32 size_index_list = ARRAYSIZE(index_list);
@@ -99,6 +136,8 @@ void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4
 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(vs, m_cb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(ps, m_cb);
+
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setTexutre(ps, m_tex);
 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setIndexBuffer(m_ib);

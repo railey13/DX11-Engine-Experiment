@@ -1,6 +1,7 @@
 #pragma once
 #include "Prerequisites.h"
 #include "Vector3D.h"
+#include "Vector2D.h"
 #include "Matrix4x4.h"
 
 #include "DeviceContext.h"
@@ -10,6 +11,11 @@
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+
+struct vertex {
+	Vector3D position;
+	Vector2D texcoord;
+};
 
 __declspec(align(16))
 struct constant {
@@ -36,9 +42,13 @@ public:
 
 	void setScale(f32 x, f32 y, f32 z);
 	void setScale(Vector3D scale);	
+
+	void setTexture(TexturePtr tex);
 protected:
 	Vector3D m_position;
 	Vector3D m_rotation;
 	Vector3D m_scale = Vector3D(1,1,1);
+
+	TexturePtr m_tex = nullptr;
 };
 

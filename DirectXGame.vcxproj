@@ -197,6 +197,7 @@
     <ClInclude Include="Engine\SwapChain.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\TextureManager.h" />
+    <ClInclude Include="Engine\Vector2D.h" />
     <ClInclude Include="Engine\Vector3D.h" />
     <ClInclude Include="Engine\Vector4D.h" />
     <ClInclude Include="Engine\VertexBuffer.h" />

@@ -2,14 +2,27 @@
 #include "iostream"
 
 Plane::Plane(void* shader_byte_code, size_t size_shader) {
+	Vector3D position_list[] = {
+		{Vector3D(-1, 0, -1), }, // POS1
+		{Vector3D(-1, 0,  1), }, // POS2
+		{Vector3D(1,  0,  1), }, // POS3 
+		{Vector3D(1,  0, -1)  }, // POS4
+	};
+
+	Vector2D texcoord_list[] = {
+		{Vector2D(0.0f, 0.0f)},
+		{Vector2D(0.0f, 1.0f)},
+		{Vector2D(1.0f, 0.0f)},
+		{Vector2D(1.0f, 1.0f)}
+	};
+
+
 	vertex list[] = {
-		// POS - COLOR - COLOR 1
-		// X - Y - Z
-		// FRONT FACE
-		{Vector3D(-1, 0, -1),	Vector3D(1.0f, 1.0f, 1.0f), Vector3D(1.0f, 1.0f, 1.0f)}, // POS1
-		{Vector3D(-1, 0, 1),	Vector3D(1.0f, 1.0f, 1.0f), Vector3D(1.0f, 1.0f, 1.0f)}, // POS2
-		{Vector3D(1, 0, 1),		Vector3D(1.0f, 1.0f, 1.0f), Vector3D(1.0f, 1.0f, 1.0f)}, // POS3 
-		{Vector3D(1, 0, -1),	Vector3D(1.0f, 1.0f, 1.0f), Vector3D(1.0f, 1.0f, 1.0f)}, // POS4
+		// FRONT SIDE
+		{position_list[0], texcoord_list[1]},
+		{position_list[1], texcoord_list[0]},
+		{position_list[2], texcoord_list[2]},
+		{position_list[3], texcoord_list[3]},
 	};
 
 	ui32 size_list = ARRAYSIZE(list);
@@ -18,21 +31,6 @@ Plane::Plane(void* shader_byte_code, size_t size_shader) {
 		// FRONT SIDE
 		0,1,2, // FIRST TRIANGLE
 		2,3,0, // SECOND TRIANGLE
-		// BACK SIDE
-		4,5,6,
-		6,7,4,
-		// TOP SIDE
-		1,6,5,
-		5,2,1,
-		// BOTTOM SIDE
-		7,0,3,
-		3,4,7,
-		// RIGHT SIDE
-		3,2,5,
-		5,4,3,
-		// LEFT SIDE
-		7,6,1,
-		1,0,7
 	};
 
 	ui32 size_index_list = ARRAYSIZE(index_list);
@@ -93,6 +91,8 @@ void Plane::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x
 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(vs, m_cb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(ps, m_cb);
+
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setTexutre(ps, m_tex);
 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setIndexBuffer(m_ib);

@@ -68,7 +68,7 @@ private:
 	ConstantBufferPtr m_cb;
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
-
+	TexturePtr m_tex;
 	std::vector<AGameObject*> m_objects;
 private:
 	void* vs_byte_code = nullptr;
@@ -79,5 +79,7 @@ private:
 	Camera m_sceneCamera;
 
 	bool m_tool_active = true;
+
+
 };
 

@@ -27,10 +27,10 @@ void AppWindow::createGraphicsWindow() {
 
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
-	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"Engine\\VertexShader.hlsl", "vsmain", &vs_byte_code, &vs_size);
+	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"Engine/VertexShader.hlsl", "vsmain", &vs_byte_code, &vs_size);
 	m_vs = GraphicsEngine::get()->getRenderSystem()->createVertexShader(vs_byte_code, vs_size);
 
-	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine\\PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
+	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine/PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
 	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
 }
 
@@ -46,7 +46,7 @@ void AppWindow::onCreate() {
 	/*Window::onCreate();*/
 	InputSystem::get()->addListener(this);
 
-	TexturePtr m_furina_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\furina.png");
+	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/furina.png");
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();

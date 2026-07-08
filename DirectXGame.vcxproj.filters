@@ -281,6 +281,9 @@
     <ClInclude Include="Engine\Texture.h">
       <Filter>Game Engine\GraphicsEngine\ResourceManager\TextureManager</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Vector2D.h">
+      <Filter>Game Engine\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">
