@@ -32,18 +32,6 @@ void AppWindow::createGraphicsWindow() {
 
 	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine\\PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
 	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
-
-	//AGameObject* obj = new Plane(vs_byte_code, vs_size);
-	//m_objects.push_back(obj);
-
-	//obj = new Cube(vs_byte_code, vs_size);
-	//m_objects.push_back(obj);
-
-	//obj = new Sphere(vs_byte_code, vs_size);
-	//obj->setPosition(Vector3D(1,1,0));
-	//m_objects.push_back(obj);
-
-
 }
 
 AppWindow::AppWindow() {
@@ -57,6 +45,8 @@ AppWindow::~AppWindow() {
 void AppWindow::onCreate() {
 	/*Window::onCreate();*/
 	InputSystem::get()->addListener(this);
+
+	TexturePtr m_furina_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets\\Textures\\furina.png");
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -213,7 +203,9 @@ void AppWindow::DrawCredits() {
 			ImGui::Text("Acknowledgements");
 
 			static char ack_text[2048] =
-				"Scene Editor UI built using ImGui by Omar Cornut and contributors:\n"
+				"Engine Structure and pipeline is based on PardCode's C++ 3D Game Tutorial Series:\n"
+				"https://github.com/PardCode/CPP-3D-Game-Tutorial-Series\n"
+				"Scene Editor UI built using Dear ImGui by Omar Cornut and contributors:\n"
 				"https://github.com/ocornut/imgui\n";
 
 			ImGui::InputTextMultiline(
