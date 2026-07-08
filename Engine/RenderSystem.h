@@ -48,5 +48,6 @@ private:
 	friend class VertexShader;
 	friend class PixelShader;
 	friend class GraphicsEngine;
+	friend class Texture;
 };
 

@@ -23,16 +23,28 @@ RenderSystem* GraphicsEngine::getRenderSystem() {
     return m_render_system;
 }
 
+TextureManager* GraphicsEngine::getTextureManager() {
+    return m_tex_manager;
+}
+
 GraphicsEngine::GraphicsEngine() {
     try {
         m_render_system = new RenderSystem();
     }
     catch (...) {
-        throw std::exception("Graphcis Engine did not initiate successfully");
+        throw std::exception("Render System did not initiate successfully");
+    }
+
+    try {
+        m_tex_manager = new TextureManager();
+    }
+    catch (...) {
+        throw std::exception("Texture manager did not initiate successfully");
     }
 }
 
 GraphicsEngine::~GraphicsEngine() {
     sharedInstance = nullptr;
+    delete m_tex_manager;
     delete m_render_system;
 }

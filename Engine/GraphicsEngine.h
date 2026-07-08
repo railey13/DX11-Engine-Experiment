@@ -2,6 +2,7 @@
 #include <d3d11.h>
 #include "Prerequisites.h"
 #include "RenderSystem.h"
+#include "TextureManager.h"
 
 class GraphicsEngine {
 public: 
@@ -11,6 +12,7 @@ public:
 	static void destroy();
 public:
 	RenderSystem* getRenderSystem();
+	TextureManager* getTextureManager();
 private:
 	// initialize the GraphicsEngine and DirectX 11 Device
 	GraphicsEngine();
@@ -23,5 +25,6 @@ private:
 	~GraphicsEngine();
 private:
 	RenderSystem* m_render_system = nullptr;
+	TextureManager* m_tex_manager = nullptr;
 };
 

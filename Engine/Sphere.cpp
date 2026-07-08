@@ -11,8 +11,7 @@ Sphere::Sphere(void* shader_byte_code, size_t size_shader) {
 
 	vertex top;
 	top.position = Vector3D(0, radius, 0);
-	top.color = Vector3D(1,1,1);
-	top.color1 = Vector3D(1,1,1);
+	top.texcoord = Vector2D(0.5f, 0.0f);
 	verts.push_back(top);
 
 	f32 phiStep = M_PI / m_stackCount;
@@ -37,16 +36,17 @@ Sphere::Sphere(void* shader_byte_code, size_t size_shader) {
 
 			vertex v;
 			v.position = p;
-			v.color = Vector3D(1, 1, 1);
-			v.color1 = Vector3D(1, 1, 1);
+			v.texcoord = Vector2D(
+				(f32)j / (f32)m_sliceCount,
+				(f32)i / (f32)m_stackCount
+			);
 			verts.push_back(v);
 		}
 	}
 
 	vertex bottom;
 	bottom.position = Vector3D(0, -radius, 0);
-	bottom.color = Vector3D(1, 1, 1);
-	bottom.color1 = Vector3D(1, 1, 1);
+	top.texcoord = Vector2D(0.5f, 1.0f);
 	verts.push_back(bottom);
 
 	for (ui32 i = 1; i <= m_sliceCount; i++) {
@@ -140,6 +140,8 @@ void Sphere::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4
 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(vs, m_cb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(ps, m_cb);
+
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setTexutre(ps, m_tex);
 
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
 	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
