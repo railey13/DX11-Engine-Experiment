@@ -46,8 +46,6 @@ void AppWindow::onCreate() {
 	/*Window::onCreate();*/
 	InputSystem::get()->addListener(this);
 
-	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/furina.png");
-
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
