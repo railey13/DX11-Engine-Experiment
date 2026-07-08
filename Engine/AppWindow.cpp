@@ -74,7 +74,7 @@ void AppWindow::onUpdate() {
 	
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0, 0, 0, 1);
 
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(Settings::WindowWidth, Settings::WindowHeight);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(m_window_width, m_window_height);
 
 	for (auto obj : m_objects) {
 		obj->update(deltaTime);
