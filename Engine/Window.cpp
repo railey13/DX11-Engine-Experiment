@@ -1,10 +1,19 @@
 #include "Window.h"
 #include "EngineTime.h"
+#include "IMGUI/imgui.h"
 
 #include <iostream>
 #include <exception>
 
+// for handling events in imgui
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK WndProc(HWND hwnd, ui32 msg, WPARAM wparam, LPARAM lparam) {
+    // for processing inputs in imgui
+    if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam)) {
+        return true;
+    }
+
     switch (msg) {
         case WM_CREATE: {
             // event fired when the window is created 
@@ -71,11 +80,14 @@ Window::Window() {
         throw std::exception("Window did not initiate successfully");
     }
 
+    RECT rc = { 0, 0, (LONG)Settings::WindowWidth, (LONG)Settings::WindowHeight };
+    ::AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+
     // create the window
     m_hwnd = ::CreateWindowEx(WS_EX_OVERLAPPEDWINDOW,
         "MyWindowClass", "DirectX Application",
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-        Settings::WindowWidth, Settings::WindowHeight,
+        rc.right - rc.left, rc.bottom - rc.top,
         NULL, NULL, NULL, NULL);
 
     // if window creation failed, return false
@@ -89,6 +101,10 @@ Window::Window() {
 
     // set to true to indicate the window is running properly
     m_is_run = true;
+
+    //GetClientRect(m_hwnd, &rc);
+    //std::cout << "Client: " << (rc.right - rc.left) << "x" << (rc.bottom - rc.top)
+    //    << " vs Settings: " << Settings::WindowWidth << "x" << Settings::WindowHeight << std::endl;
 }
 
 bool Window::isRun() {
@@ -139,7 +155,7 @@ bool Window::broadcast() {
     }
 
     EngineTime::LimitFPS(Settings::FrameRateLimit);
-    EngineTime::UpdateFPSCounter();
+    //EngineTime::UpdateFPSCounter();
 
     return true;
 }

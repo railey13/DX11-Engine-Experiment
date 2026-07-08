@@ -26,6 +26,8 @@ public:
 public:
 	Matrix4x4 getViewMatrix() const;
 	Matrix4x4 getProjectionMatrix() const;
+	Vector3D getForwardDirection() const;
+	Vector3D getPosition() const;
 private:
 	Vector3D m_position;
 	Matrix4x4 m_view;

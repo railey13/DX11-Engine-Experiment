@@ -56,9 +56,11 @@ public:
 	virtual void onRightMouseDown(const Point& mouse_pos) override;
 	virtual void onRightMouseUp(const Point& mouse_pos) override;
 private:
-	void SpawnObject();
+	void SpawnObject(AGameObject* object);
 	void DestroyObject();
 	void DestroyAllObjects();
+
+	void DrawCredits();
 private:
 	SwapChainPtr m_swap_chain;
 	VertexBufferPtr m_vb;
@@ -76,5 +78,7 @@ private:
 	size_t ps_size = 0;
 
 	Camera m_sceneCamera;
+
+	bool m_tool_active = true;
 };
 
