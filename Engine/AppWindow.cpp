@@ -118,13 +118,11 @@ void AppWindow::onKillFocus() {
 void AppWindow::onResize(ui32 width, ui32 height) {
 	if (width == 0 || height == 0) return;
 
-	std::cout << width << ", " << height << std::endl;
-
-	Settings::WindowWidth = width;
-	Settings::WindowHeight = height;
+	m_window_width = width;
+	m_window_height = height;
 
 	if (m_swap_chain) {
-		m_swap_chain->resize(width, height);
+		m_swap_chain->resize(m_window_width, m_window_height);
 	}
 }
 

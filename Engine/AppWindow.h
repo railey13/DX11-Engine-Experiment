@@ -33,7 +33,7 @@ public:
 	void createGraphicsWindow();
 private:
 	AppWindow(AppWindow const&);
-	AppWindow& operator=(AppWindow const&);
+	AppWindow& operator=(AppWindow const&) {};
 	static AppWindow* sharedInstance;
 public:
 	AppWindow();
@@ -69,7 +69,6 @@ private:
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
 
-	//std::vector<TestObject*> objects;
 	std::vector<AGameObject*> m_objects;
 private:
 	void* vs_byte_code = nullptr;

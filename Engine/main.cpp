@@ -15,7 +15,7 @@ int main() {
 			AppWindow* runningApp = AppWindow::get();
 
 			runningApp->createGraphicsWindow();
-	/*		runningApp->onCreate();*/
+			/*runningApp->onCreate();*/
 
 			while (runningApp->isRun());
 		}

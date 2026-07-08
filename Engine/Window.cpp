@@ -15,12 +15,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, ui32 msg, WPARAM wparam, LPARAM lparam) {
     }
 
     switch (msg) {
-        case WM_CREATE: {
-            // event fired when the window is created 
-            // (updated code)
-
-            break;
-        }
         case WM_SETFOCUS: {
 
             // Event fired when the window get focus
@@ -80,7 +74,7 @@ Window::Window() {
         throw std::exception("Window did not initiate successfully");
     }
 
-    RECT rc = { 0, 0, (LONG)Settings::WindowWidth, (LONG)Settings::WindowHeight };
+    RECT rc = { 0, 0, Settings::WindowWidth, Settings::WindowHeight };
     ::AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
     // create the window
@@ -101,10 +95,6 @@ Window::Window() {
 
     // set to true to indicate the window is running properly
     m_is_run = true;
-
-    //GetClientRect(m_hwnd, &rc);
-    //std::cout << "Client: " << (rc.right - rc.left) << "x" << (rc.bottom - rc.top)
-    //    << " vs Settings: " << Settings::WindowWidth << "x" << Settings::WindowHeight << std::endl;
 }
 
 bool Window::isRun() {

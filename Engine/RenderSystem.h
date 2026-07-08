@@ -4,10 +4,8 @@
 
 class RenderSystem {
 private:
-	// initialize the GraphicsEngine and DirectX 11 Device
 	RenderSystem();
 
-	// release all the resources loaded
 	~RenderSystem();
 public:
 	SwapChainPtr createSwapChain(HWND hwnd, ui32  width, ui32  height);
@@ -43,8 +41,6 @@ private:
 	ID3D11PixelShader* m_ps = nullptr;
 
 private:
-	// make swapchain a class friend of graphicsengine class so that it has access to private members
-	// without making any of the members public to other classes	
 	friend class SwapChain;
 	friend class VertexBuffer;
 	friend class IndexBuffer;
