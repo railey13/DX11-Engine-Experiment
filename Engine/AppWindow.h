@@ -63,11 +63,10 @@ private:
 	void DrawCredits();
 private:
 	SwapChainPtr m_swap_chain;
-	VertexBufferPtr m_vb;
-	IndexBufferPtr m_ib;
-	ConstantBufferPtr m_cb;
+
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
+	
 	std::vector<AGameObject*> m_objects;
 private:
 	void* vs_byte_code = nullptr;
@@ -77,8 +76,6 @@ private:
 
 	Camera m_sceneCamera;
 
-	bool m_tool_active = true;
-
-
+	bool m_tool_active = false;
 };
 

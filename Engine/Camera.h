@@ -26,28 +26,29 @@ public:
 public:
 	Matrix4x4 getViewMatrix() const;
 	Matrix4x4 getProjectionMatrix() const;
+	Matrix4x4 getRotationMatrix() const;
 	Vector3D getForwardDirection() const;
 	Vector3D getPosition() const;
+
+	void setAspect(f32 width, f32 height);
 private:
+	// Transform
 	Vector3D m_position;
-	Matrix4x4 m_view;
-	Matrix4x4 m_proj;
 	f32 m_pitch = 0.0f;
 	f32 m_yaw = 0.0f;
+	
+	// Camera Movement
 	f32 m_forward = 0.0f;
 	f32 m_strafe = 0.0f;
-	
+	f32 m_sensitivity = 0.005f;
+	Point m_lastMousePos;
+	bool m_moveLock = true;
+
+	// Projection
+	Matrix4x4 m_view;
 	f32 m_fov = 1.57f;
 	f32 m_znear = 0.1f;
 	f32 m_zfar = 100.0f;
-
-	f32 sensitivity = 0.005f;
-
-	Point lastMousePos;
-	Point savedMousePos;
-
-	bool ignoreNextMouseMove = false;
-
-	bool moveLock = true;
+	f32 m_aspect = (f32)Settings::WindowWidth / (f32)Settings::WindowHeight;
 };
 

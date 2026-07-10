@@ -72,7 +72,7 @@ void AppWindow::onUpdate() {
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
 	
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0, 0, 0, 1);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0.55f, 0.68f, 0.76f, 1);
 
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(m_window_width, m_window_height);
 
@@ -112,6 +112,8 @@ void AppWindow::onResize(ui32 width, ui32 height) {
 	if (m_swap_chain) {
 		m_swap_chain->resize(m_window_width, m_window_height);
 	}
+
+	m_sceneCamera.setAspect((f32)width, (f32)height);
 }
 
 void AppWindow::onKeyDown(i32 key) {
@@ -119,7 +121,18 @@ void AppWindow::onKeyDown(i32 key) {
 }
 
 void AppWindow::onKeyUp(i32 key) {
-
+	switch (key) {
+		case 'P': 
+			for (int i = 0; i < m_objects.size(); i++) {
+				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png"));
+			}
+			break;
+		case 'L':
+			for (int i = 0; i < m_objects.size(); i++) {
+				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/furina.png"));
+			}
+			break;
+	}
 }
 
 void AppWindow::onMouseMove(const Point& mouse_pos) {
@@ -170,7 +183,7 @@ void AppWindow::DrawCredits() {
 	ImGui::NewFrame();
 
 	if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::BeginMenu("GameObject")) {
+		if (ImGui::BeginMenu("GameObjects")) {
 			if (ImGui::MenuItem("Cube")) {
 				auto obj = new Cube(vs_byte_code, vs_size);
 				SpawnObject(obj);
@@ -186,10 +199,21 @@ void AppWindow::DrawCredits() {
 
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Panels")) {
+			if (ImGui::MenuItem("Scene Hierarchy")) {
+
+			}
+			if (ImGui::MenuItem("Inspector")) {
+
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Tools")) {
 			ImGui::EndMenu();
 		}
-
+		if (ImGui::MenuItem("About")) {
+			m_tool_active = true;
+		}
 		ImGui::EndMainMenuBar();
 	}
 	
@@ -216,10 +240,7 @@ void AppWindow::DrawCredits() {
 
 			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("Close").x) * 0.5f);
 			if (ImGui::Button("Close")) {
-				std::cout << "Close" << std::endl;
 				m_tool_active = false;
-				std::cout << m_tool_active << std::endl;
-
 			}
 		}
 
