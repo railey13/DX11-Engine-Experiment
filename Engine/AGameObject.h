@@ -26,6 +26,12 @@ struct constant {
 	f32 padding[3];
 };
 
+enum GAMEOBJECTS {
+	CUBE,
+	SPHERE,
+	PLANE
+};
+
 class AGameObject {
 public:
 	AGameObject();
@@ -44,8 +50,9 @@ public:
 	void setScale(Vector3D scale);	
 
 	void setTexture(TexturePtr tex);
-protected:
-	Vector3D m_position;
+
+public:
+	Vector3D m_position = Vector3D(0,0,0);
 	Vector3D m_rotation;
 	Vector3D m_scale = Vector3D(1,1,1);
 

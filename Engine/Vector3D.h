@@ -25,41 +25,52 @@ public:
 		return v;
 	}
 
-	Vector3D operator+(const Vector3D v) {
+	bool operator==(const Vector3D v) const {
+		if (
+			v.m_x == m_x &&
+			v.m_y == m_y &&
+			v.m_z == m_z
+			)
+			return true;
+
+		return false;
+	}
+
+	Vector3D operator+(const Vector3D v)  const {
 		return Vector3D(m_x + v.m_x, m_y + v.m_y, m_z + v.m_z);
 	}
 
-	Vector3D operator-(const Vector3D v) {
+	Vector3D operator-(const Vector3D v) const {
 		return Vector3D(m_x - v.m_x, m_y - v.m_y, m_z - v.m_z);
 	}
 
-	Vector3D operator/(const f32 v) {
+	Vector3D operator/(const f32 v) const {
 		return Vector3D(m_x / v, m_y / v, m_z / v);
 	}
 
-	Vector3D operator*(const f32 v) {
+	Vector3D operator*(const f32 v) const {
 		return Vector3D(m_x * v, m_y * v, m_z * v);
 	}
 	
-	f32 magnitude() {
+	f32 magnitude() const {
 		return sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
 	}
 
-	Vector3D normalize() {
+	Vector3D normalize() const {
 		return (Vector3D(m_x, m_y, m_z) * (1 / magnitude()));
 	}
 
-	Vector3D componentProduct(const Vector3D v) {
+	Vector3D componentProduct(const Vector3D v) const {
 		return Vector3D(m_x * v.m_x,
 			m_y * v.m_y,
 			m_z * v.m_z);
 	}
 
-	f32 scalarProduct(const Vector3D v) {
+	f32 scalarProduct(const Vector3D v) const {
 		return ((m_x * v.m_x) + (m_y * v.m_y) + (m_z * v.m_z));
 	}
 
-	Vector3D vectorProduct(const Vector3D v) {
+	Vector3D vectorProduct(const Vector3D v) const {
 		return Vector3D((m_y * v.m_z) - (m_z * v.m_y),
 			(m_z * v.m_x) - (m_x * v.m_z),
 			(m_x * v.m_y) - (m_y * v.m_x));
