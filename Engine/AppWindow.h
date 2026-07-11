@@ -74,7 +74,6 @@ private:
 	void DestroyObject();
 	void DestroyAllObjects();
 
-	void DrawCredits();
 
 	AGameObject* SpawnGameObject(GAMEOBJECTS type);
 	void RemoveObject(AGameObject* object);
@@ -95,8 +94,6 @@ private:
 	size_t ps_size = 0;
 
 	Camera m_sceneCamera;
-
-	bool m_tool_active = false;
 private:
 	friend class SpawnObjectCommand;
 	friend class DeleteObjectCommand;

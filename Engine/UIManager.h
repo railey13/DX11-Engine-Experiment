@@ -11,8 +11,6 @@
 #include "../IMGUI/backends/imgui_impl_dx11.h"
 #include "../IMGUI/backends/imgui_impl_win32.h"
 
-#include "MainMenuScreen.h"
-
 namespace UINames {
 	const std::string MAIN_MENU_BAR = "MAIN_MENU_BAR";
 	const std::string ABOUT_SCREEN = "ABOUT_SCREEN";

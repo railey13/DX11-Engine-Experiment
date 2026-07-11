@@ -5,8 +5,6 @@
 
 #include "UIManager.h"
 #include "SpawnObjectCommand.h"
-#include "DeleteObjectCommand.h"
-#include "DeleteAllObjectCommand.h"
 #include "CloseWindowCommand.h"
 
 AppWindow* AppWindow::sharedInstance = NULL;
@@ -58,11 +56,6 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::PLANE); });
 
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
-
-	//m_invoker.bindCommand(VK_SPACE, [this]() { return new SpawnObjectCommand(this); });
-	//m_invoker.bindCommand(VK_BACK, [this]() { return new DeleteObjectCommand(this); });
-	//m_invoker.bindCommand(VK_DELETE, [this]() { return new DeleteAllObjectCommand(this); });
-	//m_invoker.bindCommand(VK_ESCAPE, [this]() { return new CloseWindowCommand(this); });
 }
 
 void AppWindow::onUpdate() {
@@ -88,8 +81,6 @@ void AppWindow::onUpdate() {
 	}
 
 	UIManager::get()->drawAllUI();
-
-	DrawCredits();
 
 	m_swap_chain->present(false);
 }
@@ -195,42 +186,6 @@ void AppWindow::DestroyAllObjects() {
 		delete m_objects.back();
 		m_objects.pop_back();
 	}
-}
-
-void AppWindow::DrawCredits() {
-	
-	if (m_tool_active) {
-		if (ImGui::Begin("Credits", &m_tool_active, ImGuiWindowFlags_NoCollapse)) {
-			ImGui::Text("About");
-			ImGui::Text("Scene Editor v0.1");
-			ImGui::Text("Developed By: Nikos Bumanglag");
-			ImGui::Text("Acknowledgements");
-
-			static char ack_text[2048] =
-				"Engine Structure and pipeline is based on PardCode's C++ 3D Game Tutorial Series:\n"
-				"https://github.com/PardCode/CPP-3D-Game-Tutorial-Series\n"
-				"Scene Editor UI built using Dear ImGui by Omar Cornut and contributors:\n"
-				"https://github.com/ocornut/imgui\n";
-
-			ImGui::InputTextMultiline(
-				"acknowledgements",
-				ack_text,
-				IM_ARRAYSIZE(ack_text),
-				ImVec2(-FLT_MIN, 180),
-				ImGuiInputTextFlags_ReadOnly
-			);
-
-			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("Close").x) * 0.5f);
-			if (ImGui::Button("Close")) {
-				m_tool_active = false;
-			}
-		}
-
-		ImGui::End();
-
-	}
-	
-
 }
 
 AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {

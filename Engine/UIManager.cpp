@@ -1,6 +1,8 @@
 #include "UIManager.h"
-
 #include "GraphicsEngine.h"
+
+#include "MainMenuScreen.h"
+#include "AboutScreen.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -72,6 +74,9 @@ UIManager::UIManager(HWND hwnd) {
 	m_ui_table[UINames::MAIN_MENU_BAR] = mainmenuScreen;
 	m_ui_list.push_back(mainmenuScreen);
 
+	AboutScreen* aboutScreen = new AboutScreen();
+	m_ui_table[UINames::ABOUT_SCREEN] = aboutScreen;
+	m_ui_list.push_back(aboutScreen);
 }
 
 UIManager::~UIManager() {
