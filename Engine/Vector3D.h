@@ -25,7 +25,18 @@ public:
 		return v;
 	}
 
-	Vector3D operator+(const Vector3D v) const {
+	bool operator==(const Vector3D v) const {
+		if (
+			v.m_x == m_x &&
+			v.m_y == m_y &&
+			v.m_z == m_z
+			)
+			return true;
+
+		return false;
+	}
+
+	Vector3D operator+(const Vector3D v)  const {
 		return Vector3D(m_x + v.m_x, m_y + v.m_y, m_z + v.m_z);
 	}
 
@@ -85,16 +96,10 @@ public:
 		return (Vector3D(m_x, m_y, m_z) * (1 / magnitude()));
 	}
 
-	void normalized() {
-		f32 mag = 1 / magnitude();
-
-		m_x *= mag;
-		m_y *= mag;
-		m_z *= mag;
-	}
-
 	Vector3D componentProduct(const Vector3D v) const {
-		return Vector3D(m_x * v.m_x, m_y * v.m_y, m_z * v.m_z);
+		return Vector3D(m_x * v.m_x,
+			m_y * v.m_y,
+			m_z * v.m_z);
 	}
 
 	f32 scalarProduct(const Vector3D v) const {

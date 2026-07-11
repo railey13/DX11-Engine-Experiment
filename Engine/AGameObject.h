@@ -12,6 +12,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include <string>
+
 struct vertex {
 	Vector3D position;
 	Vector2D texcoord;
@@ -24,6 +26,12 @@ struct constant {
 	Matrix4x4 m_proj;
 	f32 m_time;
 	f32 padding[3];
+};
+
+enum GAMEOBJECTS {
+	CUBE,
+	SPHERE,
+	PLANE
 };
 
 class AGameObject {
@@ -44,11 +52,13 @@ public:
 	void setScale(Vector3D scale);	
 
 	void setTexture(TexturePtr tex);
-protected:
-	Vector3D m_position;
+public:
+	Vector3D m_position = Vector3D(0,0,0);
 	Vector3D m_rotation;
 	Vector3D m_scale = Vector3D(1,1,1);
 
 	TexturePtr m_tex = nullptr;
+
+	std::string m_name;
 };
 

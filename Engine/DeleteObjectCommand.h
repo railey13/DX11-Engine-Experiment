@@ -1,0 +1,53 @@
+#pragma once
+#include "Command.h"
+#include "AppWindow.h"
+
+class DeleteObjectCommand : public Command {
+public:
+	DeleteObjectCommand(AppWindow* receiver, AGameObject* target) : receiver(receiver), object(target){
+
+	}
+	// Inherited via Command
+	void execute() override {
+		if (receiver && object) {
+			std::vector<AGameObject*> objects = receiver->getGameObjects();
+
+			for (ui32 i = 0; i < objects.size(); i++) {
+				if (objects[i] == object) {
+					m_index = i;
+					break;
+				}
+			}
+
+			receiver->RemoveObject(object);
+			m_inScene = false;
+
+			if (receiver->m_selectedGameObject == object) {
+				receiver->m_selectedGameObject = nullptr;
+			}
+		}
+	}
+
+	void undo() override {
+		if (receiver && object) {
+			if (m_index >= receiver->m_objects.size()) {
+				receiver->m_objects.push_back(object);
+			}
+			else {
+				receiver->m_objects.insert(receiver->m_objects.begin() + m_index, object);
+			}
+			m_inScene = true;
+		}
+	}
+
+	~DeleteObjectCommand() override {
+		if (object && !m_inScene) {
+			delete object;
+		}
+	}
+private:
+	AppWindow* receiver;
+	AGameObject* object = nullptr;
+	bool m_inScene = false;
+	size_t m_index = 0;
+};

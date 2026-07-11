@@ -91,6 +91,7 @@ Sphere::Sphere(void* shader_byte_code, size_t size_shader) {
 	cc.m_time = 0;
 	m_cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
 
+	m_name = "Sphere";
 }
 
 Sphere::~Sphere() {

@@ -3,6 +3,10 @@
 #include "iostream"
 #include "../Settings.h"
 
+#include "UIManager.h"
+#include "SpawnObjectCommand.h"
+#include "DeleteObjectCommand.h"
+#include "CloseWindowCommand.h"
 
 AppWindow* AppWindow::sharedInstance = NULL;
 
@@ -23,7 +27,7 @@ void AppWindow::destroy() {
 }
 
 void AppWindow::createGraphicsWindow() {
-	m_sceneCamera = Camera();
+	m_sceneCamera = new Camera();
 
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
@@ -32,6 +36,8 @@ void AppWindow::createGraphicsWindow() {
 
 	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine/PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
 	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
+
+	UIManager::initialize(m_hwnd);
 }
 
 AppWindow::AppWindow() {
@@ -46,17 +52,15 @@ void AppWindow::onCreate() {
 	/*Window::onCreate();*/
 	InputSystem::get()->addListener(this);
 
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
+	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::CUBE); });
+	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::SPHERE); });
+	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::PLANE); });
 
-	ImGuiIO& io = ImGui::GetIO(); 
-	(void)io;	
+	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
+		return new DeleteObjectCommand(this, m_selectedGameObject);
+	});
 
-	ImGui::StyleColorsDark();
-	
-	ImGui_ImplWin32_Init(m_hwnd);
-	ImGui_ImplDX11_Init(GraphicsEngine::get()->getRenderSystem()->getD11Device(), 
-						GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->getContext());
+	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
 }
 
 void AppWindow::onUpdate() {
@@ -67,21 +71,21 @@ void AppWindow::onUpdate() {
 
 	f32 deltaTime = EngineTime::getDeltaTime();
 
-	m_sceneCamera.update(deltaTime);
+	m_sceneCamera->update(deltaTime);
 
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
 	
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0, 0, 0, 1);
+	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0.55f, 0.68f, 0.76f, 1);
 
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(m_window_width, m_window_height);
 
 	for (auto obj : m_objects) {
 		obj->update(deltaTime);
-		obj->draw(m_vs, m_ps, m_sceneCamera.getViewMatrix(), m_sceneCamera.getProjectionMatrix());
+		obj->draw(m_vs, m_ps, m_sceneCamera->getViewMatrix(), m_sceneCamera->getProjectionMatrix());
 	}
 
-	DrawCredits();
+	UIManager::get()->drawAllUI();
 
 	m_swap_chain->present(false);
 }
@@ -112,6 +116,8 @@ void AppWindow::onResize(ui32 width, ui32 height) {
 	if (m_swap_chain) {
 		m_swap_chain->resize(m_window_width, m_window_height);
 	}
+
+	m_sceneCamera->setAspect((f32)width, (f32)height);
 }
 
 void AppWindow::onKeyDown(i32 key) {
@@ -119,7 +125,42 @@ void AppWindow::onKeyDown(i32 key) {
 }
 
 void AppWindow::onKeyUp(i32 key) {
-
+	// temporary inputs to test textures
+	switch (key) {
+		case '0': 
+			for (int i = 0; i < m_objects.size(); i++) {
+				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png"));
+			}
+			break;
+		case '1':
+			for (int i = 0; i < m_objects.size(); i++) {
+				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/furina.png"));
+			}
+			break;
+		case '2':
+			for (int i = 0; i < m_objects.size(); i++) {
+				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
+			}
+			break;
+		case '3':
+			for (int i = 0; i < m_objects.size(); i++) {
+				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/MornyeThinking.gif"));
+			}
+			break;
+		case '4':
+			for (int i = 0; i < m_objects.size(); i++) {
+				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/AemeathGame.gif"));
+			}
+			break;
+		case 90: m_invoker.undo();
+			break;
+		case 89: m_invoker.redo();
+			break;
+		case VK_DELETE: 
+			if (m_selectedGameObject) {
+				m_invoker.executeCommand((int)Action::DeleteSelectedObject);
+			}
+	}
 }
 
 void AppWindow::onMouseMove(const Point& mouse_pos) {
@@ -142,14 +183,6 @@ void AppWindow::onRightMouseUp(const Point& mouse_pos) {
 
 }
 
-void AppWindow::SpawnObject(AGameObject* object) {
-	f32 spawnDistance = 1.0f; 
-	Vector3D spawnPos = m_sceneCamera.getPosition() + m_sceneCamera.getForwardDirection() * spawnDistance;
-
-	object->setPosition(spawnPos);
-	m_objects.push_back(object);
-}
-
 void AppWindow::DestroyObject() {
 	if (m_objects.empty()) return;
 	delete m_objects.back();
@@ -164,70 +197,36 @@ void AppWindow::DestroyAllObjects() {
 	}
 }
 
-void AppWindow::DrawCredits() {
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-
-	if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::BeginMenu("GameObject")) {
-			if (ImGui::MenuItem("Cube")) {
-				auto obj = new Cube(vs_byte_code, vs_size);
-				SpawnObject(obj);
-			}
-			if (ImGui::MenuItem("Sphere")) {
-				auto obj = new Sphere(vs_byte_code, vs_size);
-				SpawnObject(obj);
-			}
-			if (ImGui::MenuItem("Plane")) {
-				auto obj = new Plane(vs_byte_code, vs_size);
-				SpawnObject(obj);
-			}
-
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Tools")) {
-			ImGui::EndMenu();
-		}
-
-		ImGui::EndMainMenuBar();
+AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
+	AGameObject* obj = nullptr;
+	switch (type) {
+		case GAMEOBJECTS::CUBE:
+			obj = new Cube(vs_byte_code, vs_size);
+			break;
+		case GAMEOBJECTS::SPHERE:
+			obj = new Sphere(vs_byte_code, vs_size);
+			break;
+		case GAMEOBJECTS::PLANE:
+			obj = new Plane(vs_byte_code, vs_size);
+			break;
+		default: break;
 	}
-	
-	if (m_tool_active) {
-		if (ImGui::Begin("Credits", &m_tool_active, ImGuiWindowFlags_NoCollapse)) {
-			ImGui::Text("About");
-			ImGui::Text("Scene Editor v0.1");
-			ImGui::Text("Developed By: Nikos Bumanglag");
-			ImGui::Text("Acknowledgements");
 
-			static char ack_text[2048] =
-				"Engine Structure and pipeline is based on PardCode's C++ 3D Game Tutorial Series:\n"
-				"https://github.com/PardCode/CPP-3D-Game-Tutorial-Series\n"
-				"Scene Editor UI built using Dear ImGui by Omar Cornut and contributors:\n"
-				"https://github.com/ocornut/imgui\n";
+	f32 spawnDistance = 1.0f;
+	Vector3D spawnPos = m_sceneCamera->getPosition() + m_sceneCamera->getForwardDirection() * spawnDistance;
+	obj->setPosition(spawnPos);
 
-			ImGui::InputTextMultiline(
-				"acknowledgements",
-				ack_text,
-				IM_ARRAYSIZE(ack_text),
-				ImVec2(-FLT_MIN, 180),
-				ImGuiInputTextFlags_ReadOnly
-			);
-
-			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("Close").x) * 0.5f);
-			if (ImGui::Button("Close")) {
-				std::cout << "Close" << std::endl;
-				m_tool_active = false;
-				std::cout << m_tool_active << std::endl;
-
-			}
-		}
-
-		ImGui::End();
-
-	}
-	
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	m_objects.push_back(obj);
+	return obj;
 }
+
+void AppWindow::RemoveObject(AGameObject* object) {
+	auto it = std::find(m_objects.begin(), m_objects.end(), object);
+
+	if (it != m_objects.end()) {
+		m_objects.erase(it);
+	}
+}
+
+
 

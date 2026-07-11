@@ -1,6 +1,6 @@
 #include "AGameObject.h"
 
-AGameObject::AGameObject() {
+AGameObject::AGameObject() : m_name("GameObject") {
 	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png");
 }
 
