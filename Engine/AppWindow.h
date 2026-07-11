@@ -26,13 +26,13 @@
 
 class SpawnObjectCommand;
 class DeleteObjectCommand;
-class DeleteAllObjectCommand;
 class CloseWindowCommand;
 
 enum class Action {
 	SpawnCube,
 	SpawnSphere,
 	SpawnPlane,
+	DeleteSelectedObject,
 	Undo,
 	Redo,
 	CloseWindow,
@@ -74,11 +74,13 @@ private:
 	void DestroyObject();
 	void DestroyAllObjects();
 
-
 	AGameObject* SpawnGameObject(GAMEOBJECTS type);
 	void RemoveObject(AGameObject* object);
 public:
 	CommandInvoker& getInvoker() { return m_invoker; }
+	const std::vector<AGameObject*>& getGameObjects() const { return m_objects; }
+
+	AGameObject* m_selectedGameObject = nullptr;
 private:
 	SwapChainPtr m_swap_chain;
 
@@ -93,11 +95,10 @@ private:
 	void* ps_byte_code = nullptr;
 	size_t ps_size = 0;
 
-	Camera m_sceneCamera;
+	Camera* m_sceneCamera;
 private:
 	friend class SpawnObjectCommand;
 	friend class DeleteObjectCommand;
-	friend class DeleteAllObjectCommand;
 	friend class CloseWindowCommand;
 };
 

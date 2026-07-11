@@ -3,6 +3,7 @@
 
 #include "MainMenuScreen.h"
 #include "AboutScreen.h"
+#include "HierarchyScreen.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -77,6 +78,10 @@ UIManager::UIManager(HWND hwnd) {
 	AboutScreen* aboutScreen = new AboutScreen();
 	m_ui_table[UINames::ABOUT_SCREEN] = aboutScreen;
 	m_ui_list.push_back(aboutScreen);
+
+	HierarchyScreen* hierarchyScreen = new HierarchyScreen();
+	m_ui_table[UINames::HIERARCHY_SCREEN] = hierarchyScreen;
+	m_ui_list.push_back(hierarchyScreen);
 }
 
 UIManager::~UIManager() {

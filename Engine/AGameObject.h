@@ -12,6 +12,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include <string>
+
 struct vertex {
 	Vector3D position;
 	Vector2D texcoord;
@@ -50,12 +52,13 @@ public:
 	void setScale(Vector3D scale);	
 
 	void setTexture(TexturePtr tex);
-
 public:
 	Vector3D m_position = Vector3D(0,0,0);
 	Vector3D m_rotation;
 	Vector3D m_scale = Vector3D(1,1,1);
 
 	TexturePtr m_tex = nullptr;
+
+	std::string m_name;
 };
 

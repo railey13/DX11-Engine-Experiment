@@ -27,7 +27,7 @@ void MainMenuScreen::draw() {
 		}
 		if (ImGui::BeginMenu("Panels")) {
 			if (ImGui::MenuItem("Scene Hierarchy")) {
-
+				UIManager::get()->setUIScreenActive(UINames::HIERARCHY_SCREEN, !UIManager::get()->isUIScreenActive(UINames::HIERARCHY_SCREEN));
 			}
 			if (ImGui::MenuItem("Inspector")) {
 

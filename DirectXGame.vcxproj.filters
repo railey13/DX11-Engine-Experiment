@@ -186,6 +186,9 @@
     <ClCompile Include="Engine\AboutScreen.cpp">
       <Filter>Scene Editor\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\HierarchyScreen.cpp">
+      <Filter>Scene Editor\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AppWindow.h">
@@ -318,6 +321,10 @@
     <ClInclude Include="Engine\AboutScreen.h">
       <Filter>Scene Editor\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\HierarchyScreen.h">
+      <Filter>Scene Editor\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DeleteObjectCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

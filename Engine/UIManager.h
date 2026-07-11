@@ -13,6 +13,7 @@
 
 namespace UINames {
 	const std::string MAIN_MENU_BAR = "MAIN_MENU_BAR";
+	const std::string HIERARCHY_SCREEN = "HIERARCHY_SCREEN";
 	const std::string ABOUT_SCREEN = "ABOUT_SCREEN";
 }
 

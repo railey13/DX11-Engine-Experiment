@@ -5,6 +5,7 @@
 
 #include "UIManager.h"
 #include "SpawnObjectCommand.h"
+#include "DeleteObjectCommand.h"
 #include "CloseWindowCommand.h"
 
 AppWindow* AppWindow::sharedInstance = NULL;
@@ -26,7 +27,7 @@ void AppWindow::destroy() {
 }
 
 void AppWindow::createGraphicsWindow() {
-	m_sceneCamera = Camera();
+	m_sceneCamera = new Camera();
 
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
@@ -55,6 +56,10 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::SPHERE); });
 	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::PLANE); });
 
+	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
+		return new DeleteObjectCommand(this, m_selectedGameObject);
+	});
+
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
 }
 
@@ -66,7 +71,7 @@ void AppWindow::onUpdate() {
 
 	f32 deltaTime = EngineTime::getDeltaTime();
 
-	m_sceneCamera.update(deltaTime);
+	m_sceneCamera->update(deltaTime);
 
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
@@ -77,7 +82,7 @@ void AppWindow::onUpdate() {
 
 	for (auto obj : m_objects) {
 		obj->update(deltaTime);
-		obj->draw(m_vs, m_ps, m_sceneCamera.getViewMatrix(), m_sceneCamera.getProjectionMatrix());
+		obj->draw(m_vs, m_ps, m_sceneCamera->getViewMatrix(), m_sceneCamera->getProjectionMatrix());
 	}
 
 	UIManager::get()->drawAllUI();
@@ -112,7 +117,7 @@ void AppWindow::onResize(ui32 width, ui32 height) {
 		m_swap_chain->resize(m_window_width, m_window_height);
 	}
 
-	m_sceneCamera.setAspect((f32)width, (f32)height);
+	m_sceneCamera->setAspect((f32)width, (f32)height);
 }
 
 void AppWindow::onKeyDown(i32 key) {
@@ -150,7 +155,11 @@ void AppWindow::onKeyUp(i32 key) {
 		case 90: m_invoker.undo();
 			break;
 		case 89: m_invoker.redo();
-
+			break;
+		case VK_DELETE: 
+			if (m_selectedGameObject) {
+				m_invoker.executeCommand((int)Action::DeleteSelectedObject);
+			}
 	}
 }
 
@@ -204,7 +213,7 @@ AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
 	}
 
 	f32 spawnDistance = 1.0f;
-	Vector3D spawnPos = m_sceneCamera.getPosition() + m_sceneCamera.getForwardDirection() * spawnDistance;
+	Vector3D spawnPos = m_sceneCamera->getPosition() + m_sceneCamera->getForwardDirection() * spawnDistance;
 	obj->setPosition(spawnPos);
 
 	m_objects.push_back(obj);
