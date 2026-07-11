@@ -189,6 +189,9 @@
     <ClCompile Include="Engine\HierarchyScreen.cpp">
       <Filter>Scene Editor\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\InspectorScreen.cpp">
+      <Filter>Scene Editor\Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AppWindow.h">
@@ -316,7 +319,6 @@
     </ClInclude>
     <ClInclude Include="Engine\CloseWindowCommand.h" />
     <ClInclude Include="Engine\Command.h" />
-    <ClInclude Include="Engine\SpawnObjectCommand.h" />
     <ClInclude Include="Engine\CommandInvoker.h" />
     <ClInclude Include="Engine\AboutScreen.h">
       <Filter>Scene Editor\Screens</Filter>
@@ -325,6 +327,12 @@
       <Filter>Scene Editor\Screens</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DeleteObjectCommand.h" />
+    <ClInclude Include="Engine\InspectorScreen.h">
+      <Filter>Scene Editor\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SpawnObjectCommand.h">
+      <Filter>Scene Editor\Screens</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

@@ -1,9 +1,11 @@
 #include "UIManager.h"
 #include "GraphicsEngine.h"
+#include "AppWindow.h"
 
 #include "MainMenuScreen.h"
 #include "AboutScreen.h"
 #include "HierarchyScreen.h"
+#include "InspectorScreen.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -28,6 +30,10 @@ void UIManager::drawAllUI() {
 
 	for (auto* screen : m_ui_list) {
 		screen->draw();
+	}
+
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemHovered() && !ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
+		AppWindow::get()->m_selectedGameObject = nullptr;
 	}
 
 	ImGui::Render();
@@ -82,6 +88,10 @@ UIManager::UIManager(HWND hwnd) {
 	HierarchyScreen* hierarchyScreen = new HierarchyScreen();
 	m_ui_table[UINames::HIERARCHY_SCREEN] = hierarchyScreen;
 	m_ui_list.push_back(hierarchyScreen);
+
+	InspectorScreen* inspectorScreen = new InspectorScreen();
+	m_ui_table[UINames::INSPECTOR_SCREEN] = inspectorScreen;
+	m_ui_list.push_back(inspectorScreen);
 }
 
 UIManager::~UIManager() {

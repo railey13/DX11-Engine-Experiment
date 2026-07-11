@@ -3,7 +3,7 @@
 #include "AppWindow.h"
 
 HierarchyScreen::HierarchyScreen() : AUIScreen(UINames::HIERARCHY_SCREEN) {
-
+	m_isActive = true;
 }
 
 HierarchyScreen::~HierarchyScreen() {

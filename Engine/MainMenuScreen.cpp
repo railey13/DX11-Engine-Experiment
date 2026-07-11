@@ -30,7 +30,7 @@ void MainMenuScreen::draw() {
 				UIManager::get()->setUIScreenActive(UINames::HIERARCHY_SCREEN, !UIManager::get()->isUIScreenActive(UINames::HIERARCHY_SCREEN));
 			}
 			if (ImGui::MenuItem("Inspector")) {
-
+				UIManager::get()->setUIScreenActive(UINames::INSPECTOR_SCREEN, !UIManager::get()->isUIScreenActive(UINames::INSPECTOR_SCREEN));
 			}
 			ImGui::EndMenu();
 		}

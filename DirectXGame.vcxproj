@@ -154,6 +154,7 @@
     <ClCompile Include="Engine\HierarchyScreen.cpp" />
     <ClCompile Include="Engine\IndexBuffer.cpp" />
     <ClCompile Include="Engine\InputSystem.cpp" />
+    <ClCompile Include="Engine\InspectorScreen.cpp" />
     <ClCompile Include="Engine\main.cpp" />
     <ClCompile Include="Engine\MainMenuScreen.cpp" />
     <ClCompile Include="Engine\PixelShader.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Engine\IndexBuffer.h" />
     <ClInclude Include="Engine\InputListener.h" />
     <ClInclude Include="Engine\InputSystem.h" />
+    <ClInclude Include="Engine\InspectorScreen.h" />
     <ClInclude Include="Engine\MainMenuScreen.h" />
     <ClInclude Include="Engine\Matrix4x4.h" />
     <ClInclude Include="Engine\PixelShader.h" />
