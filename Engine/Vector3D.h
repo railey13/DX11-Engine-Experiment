@@ -51,6 +51,42 @@ public:
 	Vector3D operator*(const f32 v) const {
 		return Vector3D(m_x * v, m_y * v, m_z * v);
 	}
+
+	Vector3D& operator+=(const Vector3D v) {
+		m_x += v.m_x;
+		m_y += v.m_y;
+		m_z += v.m_z;
+		return *this;
+	}
+
+	Vector3D& operator-=(const Vector3D v) {
+		m_x -= v.m_x;
+		m_y -= v.m_y;
+		m_z -= v.m_z;
+		return *this;
+	}
+
+	Vector3D& operator/=(f32 v) {
+		m_x /= v;
+		m_y /= v;
+		m_z /= v;
+		return *this;
+	}
+
+	Vector3D& operator*=(f32 v) {
+		m_x *= v;
+		m_y *= v;
+		m_z *= v;
+		return *this;
+	}
+
+	bool operator==(const Vector3D& v) const{
+		return (m_x == v.m_x && m_y == v.m_y && m_z == v.m_z);
+	}
+
+	bool operator!=(const Vector3D& v) const{
+		return !(*this == v);
+	}
 	
 	f32 magnitude() const {
 		return sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
