@@ -12,6 +12,7 @@
 #include "PixelShader.h"
 #include "InputListener.h"
 #include "Camera.h"
+#include "CommandInvoker.h"
 
 #include "../IMGUI/imgui.h"
 #include "../IMGUI/backends/imgui_impl_dx11.h"
@@ -22,6 +23,20 @@
 #include "Cube.h"
 #include "Plane.h"
 #include "Sphere.h"
+
+class SpawnObjectCommand;
+class DeleteObjectCommand;
+class DeleteAllObjectCommand;
+class CloseWindowCommand;
+
+enum class Action {
+	SpawnCube,
+	SpawnSphere,
+	SpawnPlane,
+	Undo,
+	Redo,
+	CloseWindow,
+};
 
 class AppWindow: public Window, public InputListener{
 public:
@@ -56,11 +71,15 @@ public:
 	virtual void onRightMouseDown(const Point& mouse_pos) override;
 	virtual void onRightMouseUp(const Point& mouse_pos) override;
 private:
-	void SpawnObject(AGameObject* object);
 	void DestroyObject();
 	void DestroyAllObjects();
 
 	void DrawCredits();
+
+	AGameObject* SpawnGameObject(GAMEOBJECTS type);
+	void RemoveObject(AGameObject* object);
+public:
+	CommandInvoker& getInvoker() { return m_invoker; }
 private:
 	SwapChainPtr m_swap_chain;
 
@@ -68,6 +87,7 @@ private:
 	PixelShaderPtr m_ps;
 	
 	std::vector<AGameObject*> m_objects;
+	CommandInvoker m_invoker;
 private:
 	void* vs_byte_code = nullptr;
 	size_t vs_size = 0;
@@ -77,5 +97,10 @@ private:
 	Camera m_sceneCamera;
 
 	bool m_tool_active = false;
+private:
+	friend class SpawnObjectCommand;
+	friend class DeleteObjectCommand;
+	friend class DeleteAllObjectCommand;
+	friend class CloseWindowCommand;
 };
 
