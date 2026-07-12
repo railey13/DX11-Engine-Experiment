@@ -125,6 +125,8 @@ void AppWindow::onKeyDown(i32 key) {
 }
 
 void AppWindow::onKeyUp(i32 key) {
+	// return if any input field is highlighted
+	if (ImGui::GetIO().WantCaptureKeyboard) return;
 	// temporary inputs to test textures
 	switch (key) {
 		case '0': 
@@ -176,7 +178,7 @@ void AppWindow::onLeftMouseUp(const Point& mouse_pos) {
 }
 
 void AppWindow::onRightMouseDown(const Point& mouse_pos) {
-
+	ImGui::SetWindowFocus(nullptr);
 }
 
 void AppWindow::onRightMouseUp(const Point& mouse_pos) {

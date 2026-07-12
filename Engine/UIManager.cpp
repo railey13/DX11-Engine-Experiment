@@ -32,10 +32,6 @@ void UIManager::drawAllUI() {
 		screen->draw();
 	}
 
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !ImGui::IsAnyItemHovered() && !ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow)) {
-		AppWindow::get()->m_selectedGameObject = nullptr;
-	}
-
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }

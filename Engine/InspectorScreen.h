@@ -1,5 +1,6 @@
 #pragma once
 #include "AUIScreen.h"
+#include "Prerequisites.h"
 
 class InspectorScreen : public AUIScreen{
 public:
@@ -10,6 +11,7 @@ public:
 	void draw() override;
 private:
 	char m_nameBuffer[128] = "";
-	//AGameObject* m_lastSelected = nullptr;
+	f32 m_transform_speed = 0.05f;
+	
 };
 
