@@ -3,6 +3,7 @@
 #include "Vector3D.h"
 #include "Vector2D.h"
 #include "Matrix4x4.h"
+#include "ShaderLibrary.h"
 
 #include "DeviceContext.h"
 #include "GraphicsEngine.h"
@@ -38,7 +39,7 @@ public:
 	virtual ~AGameObject();
 public:
 	virtual void update(f32 deltaTime) = 0;
-	virtual void draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) = 0;
+	virtual void draw(Matrix4x4 view, Matrix4x4 proj) = 0;
 public:
 	TransformComponent* getTransform();
 public:

@@ -13,7 +13,7 @@ public:
 		if (!receiver) return;
 
 		if (object == nullptr){
-			object = GameObjectManager::get()->createObject(type, receiver->vs_byte_code, receiver->vs_size);
+			object = GameObjectManager::get()->createObject(type);
 		}
 		else {
 			GameObjectManager::get()->addObject(object);

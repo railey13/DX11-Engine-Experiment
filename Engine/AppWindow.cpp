@@ -5,6 +5,7 @@
 
 #include "UIManager.h"
 #include "GameObjectManager.h"
+#include "ShaderLibrary.h"
 
 #include "SpawnObjectCommand.h"
 #include "DeleteObjectCommand.h"
@@ -33,12 +34,7 @@ void AppWindow::createGraphicsWindow() {
 
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
-	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"Engine/VertexShader.hlsl", "vsmain", &vs_byte_code, &vs_size);
-	m_vs = GraphicsEngine::get()->getRenderSystem()->createVertexShader(vs_byte_code, vs_size);
-
-	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine/PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
-	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
-
+	ShaderLibrary::initialize();
 	GameObjectManager::initialize();
 
 	UIManager::initialize(m_hwnd);
@@ -71,21 +67,15 @@ void AppWindow::onUpdate() {
 	/*Window::onUpdate();*/
 	//screen
 	InputSystem::get()->update();
-	GraphicsEngine* graphEngine = GraphicsEngine::get();
+	DeviceContextPtr context = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
-	f32 deltaTime = EngineTime::getDeltaTime();
+	m_sceneCamera->update(EngineTime::getDeltaTime());
 
-	m_sceneCamera->update(deltaTime);
-
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
-	
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->ClearRenderTargetColor(this->m_swap_chain, 0.55f, 0.68f, 0.76f, 1);
-
-	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(m_window_width, m_window_height);
+	context->ClearRenderTargetColor(this->m_swap_chain, 0.55f, 0.68f, 0.76f, 1);
+	context->setViewportSize(m_window_width, m_window_height);
 
 	GameObjectManager::get()->updateObjects();
-	GameObjectManager::get()->renderObjects(m_vs, m_ps, m_sceneCamera->getViewMatrix(), m_sceneCamera->getProjectionMatrix());
+	GameObjectManager::get()->renderObjects(m_sceneCamera->getViewMatrix(), m_sceneCamera->getProjectionMatrix());
 
 	UIManager::get()->drawAllUI();
 
@@ -96,7 +86,7 @@ void AppWindow::onDestroy() {
 	Window::onDestroy();
 
 	InputSystem::get()->removeListener(this);
-
+	ShaderLibrary::get()->destroy();
 	GameObjectManager::get()->destroy();
 	GraphicsEngine::get()->destroy();
 }

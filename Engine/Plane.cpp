@@ -1,7 +1,12 @@
 #include "Plane.h"
 #include "iostream"
 
-Plane::Plane(void* shader_byte_code, size_t size_shader) {
+Plane::Plane() {
+	void* shader_byte_code = nullptr;
+	size_t size_shader = 0;
+
+	ShaderLibrary::get()->requestVertexShaderData(ShaderNames::BASE_VERTEX_SHADER_NAME, &shader_byte_code, &size_shader);
+
 	Vector3D position_list[] = {
 		{Vector3D(-1, 0, -1), }, // POS1
 		{Vector3D(-1, 0,  1), }, // POS2
@@ -53,7 +58,12 @@ void Plane::update(f32 deltaTime) {
 
 }
 
-void Plane::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) {
+void Plane::draw(Matrix4x4 view, Matrix4x4 proj) {
+	DeviceContextPtr context = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+
+	context->setVertexShader(ShaderLibrary::get()->getVertexShader(ShaderNames::BASE_VERTEX_SHADER_NAME));
+	context->setPixelShader(ShaderLibrary::get()->getPixelShader(ShaderNames::BASE_PIXEL_SHADER_NAME));
+
 	constant cc;
 	Matrix4x4 temp;
 
@@ -66,13 +76,12 @@ void Plane::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x
 
 	m_cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &cc);
 
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(vs, m_cb);
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(ps, m_cb);
+	context->setConstantBuffer(m_cb);
 
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setTexutre(ps, m_tex);
+	context->setTexutre(ShaderLibrary::get()->getPixelShader(ShaderNames::BASE_PIXEL_SHADER_NAME), m_tex);
 
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
+	context->setVertexBuffer(m_vb);
+	context->setIndexBuffer(m_ib);
 
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+	context->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
 }

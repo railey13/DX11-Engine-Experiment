@@ -71,17 +71,7 @@ public:
 	Camera* getCamera() { return m_sceneCamera; }
 private:
 	SwapChainPtr m_swap_chain;
-
-	VertexShaderPtr m_vs;
-	PixelShaderPtr m_ps;
-	
 	CommandInvoker m_invoker;
-private:
-	void* vs_byte_code = nullptr;
-	size_t vs_size = 0;
-	void* ps_byte_code = nullptr;
-	size_t ps_size = 0;
-
 	Camera* m_sceneCamera;
 private:
 	friend class SpawnObjectCommand;

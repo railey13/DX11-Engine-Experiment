@@ -26,11 +26,11 @@ public:
 	static GameObjectManager* sharedInstance;
 public:
 	void updateObjects();
-	void renderObjects(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj);
+	void renderObjects(Matrix4x4 view, Matrix4x4 proj);
 
 	void insertObject(AGameObject* object, size_t index);
 	void addObject(AGameObject* object);
-	AGameObject* createObject(PrimitiveType type, void* shader_byte_code, size_t size_shader);
+	AGameObject* createObject(PrimitiveType type);
 
 	void removeObject(AGameObject* object);
 	void deleteObject(AGameObject* object);

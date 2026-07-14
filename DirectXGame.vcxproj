@@ -164,6 +164,7 @@
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\Resource.cpp" />
     <ClCompile Include="Engine\ResourceManager.cpp" />
+    <ClCompile Include="Engine\ShaderLibrary.cpp" />
     <ClCompile Include="Engine\Sphere.cpp" />
     <ClCompile Include="Engine\SwapChain.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Engine\RenderSystem.h" />
     <ClInclude Include="Engine\Resource.h" />
     <ClInclude Include="Engine\ResourceManager.h" />
+    <ClInclude Include="Engine\ShaderLibrary.h" />
     <ClInclude Include="Engine\SpawnObjectCommand.h" />
     <ClInclude Include="Engine\Sphere.h" />
     <ClInclude Include="Engine\SwapChain.h" />

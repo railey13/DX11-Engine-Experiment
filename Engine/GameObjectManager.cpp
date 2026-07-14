@@ -43,9 +43,9 @@ void GameObjectManager::updateObjects() {
 	}
 }
 
-void GameObjectManager::renderObjects(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) {
+void GameObjectManager::renderObjects(Matrix4x4 view, Matrix4x4 proj) {
 	for (AGameObject* obj : m_gameobject_list) {
-		obj->draw(vs, ps, view, proj);
+		obj->draw(view, proj);
 	}
 }
 
@@ -73,17 +73,17 @@ void GameObjectManager::addObject(AGameObject* object) {
 	m_gameobject_list.push_back(object);
 }
 
-AGameObject* GameObjectManager::createObject(PrimitiveType type, void* shader_byte_code, size_t size_shader) {
+AGameObject* GameObjectManager::createObject(PrimitiveType type) {
 	AGameObject* obj = nullptr;
 	switch (type) {
 		case PrimitiveType::CUBE:
-			obj = new Cube(shader_byte_code, size_shader);
+			obj = new Cube();
 			break;
 		case PrimitiveType::SPHERE:
-			obj = new Sphere(shader_byte_code, size_shader);
+			obj = new Sphere();
 			break;
 		case PrimitiveType::PLANE:
-			obj = new Plane(shader_byte_code, size_shader);
+			obj = new Plane();
 			break;
 		default: break;
 	}

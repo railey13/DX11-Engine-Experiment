@@ -3,12 +3,12 @@
 
 class Sphere : public AGameObject {
 public:
-	Sphere(void* shader_byte_code, size_t size_shader);
+	Sphere();
 	~Sphere();
 public:
 	// Inherited via AGameObject
 	void update(f32 deltaTime) override;
-	void draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) override;
+	void draw(Matrix4x4 view, Matrix4x4 proj) override;
 private:
 	VertexBufferPtr m_vb;
 	IndexBufferPtr m_ib;
