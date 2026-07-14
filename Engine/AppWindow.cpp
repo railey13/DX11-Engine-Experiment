@@ -118,7 +118,7 @@ void AppWindow::onResize() {
 	}
 
 	m_sceneCamera->setAspect((f32)m_window_width, (f32)m_window_height);
-	onUpdate()
+	onUpdate();
 }
 
 void AppWindow::onKeyDown(i32 key) {
