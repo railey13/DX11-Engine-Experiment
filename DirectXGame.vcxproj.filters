@@ -61,26 +61,32 @@
     <Filter Include="Scene Editor\Screens">
       <UniqueIdentifier>{ba3f5e7f-4262-4870-acc2-b78da129bf98}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game">
-      <UniqueIdentifier>{334a53c4-6385-40be-80da-351aa487758f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameObjects">
-      <UniqueIdentifier>{9a7de1f4-0930-4606-a003-c7bfb0df8448}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameObjects\Cube">
-      <UniqueIdentifier>{d07539b7-d04b-4c9c-88a6-94e1c80d3edd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameObjects\Plane">
-      <UniqueIdentifier>{1ce999aa-21c5-4500-9429-1d93b01e3cbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\GameObjects\Sphere">
-      <UniqueIdentifier>{066cb201-07b5-4e81-80df-88abc1e2a571}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Engine\EngineTime">
       <UniqueIdentifier>{3da925a3-3c62-4887-849d-d698b7de3d1b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scene Editor\Scene Camera">
       <UniqueIdentifier>{010fa813-0e72-466a-aba9-67e255ac6210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GameObjects">
+      <UniqueIdentifier>{9a7de1f4-0930-4606-a003-c7bfb0df8448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GameObjects\Cube">
+      <UniqueIdentifier>{d07539b7-d04b-4c9c-88a6-94e1c80d3edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GameObjects\Plane">
+      <UniqueIdentifier>{1ce999aa-21c5-4500-9429-1d93b01e3cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GameObjects\Sphere">
+      <UniqueIdentifier>{066cb201-07b5-4e81-80df-88abc1e2a571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\Components">
+      <UniqueIdentifier>{2bccf87f-84e0-4ff4-a799-70e37e889f25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{334a53c4-6385-40be-80da-351aa487758f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\Components\TransformComponent">
+      <UniqueIdentifier>{609a52b1-4578-46d4-9926-da86da7cb34d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -127,16 +133,16 @@
       <Filter>Game Engine\GraphicsEngine\Render System</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Cube.cpp">
-      <Filter>Game\GameObjects\Cube</Filter>
+      <Filter>Game Engine\GameObjects\Cube</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Plane.cpp">
-      <Filter>Game\GameObjects\Plane</Filter>
+      <Filter>Game Engine\GameObjects\Plane</Filter>
     </ClCompile>
     <ClCompile Include="Engine\AGameObject.cpp">
-      <Filter>Game\GameObjects</Filter>
+      <Filter>Game Engine\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Sphere.cpp">
-      <Filter>Game\GameObjects\Sphere</Filter>
+      <Filter>Game Engine\GameObjects\Sphere</Filter>
     </ClCompile>
     <ClCompile Include="IMGUI\imgui.cpp">
       <Filter>IMGUI</Filter>
@@ -191,6 +197,13 @@
     </ClCompile>
     <ClCompile Include="Engine\InspectorScreen.cpp">
       <Filter>Scene Editor\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ColorPickerScreen.cpp" />
+    <ClCompile Include="Engine\AComponent.cpp">
+      <Filter>Game Engine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\TransformComponent.cpp">
+      <Filter>Game Engine\Components\TransformComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -255,16 +268,16 @@
       <Filter>Game Engine\GraphicsEngine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Cube.h">
-      <Filter>Game\GameObjects\Cube</Filter>
+      <Filter>Game Engine\GameObjects\Cube</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Plane.h">
-      <Filter>Game\GameObjects\Plane</Filter>
+      <Filter>Game Engine\GameObjects\Plane</Filter>
     </ClInclude>
     <ClInclude Include="Engine\AGameObject.h">
-      <Filter>Game\GameObjects</Filter>
+      <Filter>Game Engine\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Sphere.h">
-      <Filter>Game\GameObjects\Sphere</Filter>
+      <Filter>Game Engine\GameObjects\Sphere</Filter>
     </ClInclude>
     <ClInclude Include="IMGUI\imconfig.h">
       <Filter>IMGUI</Filter>
@@ -332,6 +345,13 @@
     </ClInclude>
     <ClInclude Include="Engine\SpawnObjectCommand.h">
       <Filter>Scene Editor\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\ColorPickerScreen.h" />
+    <ClInclude Include="Engine\AComponent.h">
+      <Filter>Game Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\TransformComponent.h">
+      <Filter>Game Engine\Components\TransformComponent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,34 +2,35 @@
 
 AGameObject::AGameObject() : m_name("GameObject") {
 	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png");
+	m_transform = createComponent<TransformComponent>();
 }
 
 AGameObject::~AGameObject() {
 
 }
 
-void AGameObject::setPosition(f32 x, f32 y, f32 z) {
-	m_position = Vector3D(x,y,z);
+TransformComponent* AGameObject::getTransform() {
+	return m_transform;
 }
 
-void AGameObject::setPosition(Vector3D position) {
-	m_position = position;
+void AGameObject::createComponentInternal(AComponent* component, size_t id) {
+	auto compPtr = std::unique_ptr<AComponent>(component);
+	m_components.emplace(id, std::move(compPtr));
+	component->m_typeId = id;
+	component->m_gameobject = this;
 }
 
-void AGameObject::setRotation(f32 x, f32 y, f32 z) {
-	m_rotation = Vector3D(x, y, z);
+AComponent* AGameObject::getComponentInternal(size_t id) {
+
+	auto it = m_components.find(id);
+
+	if (it == m_components.end()) return nullptr;
+
+	return it->second.get();
 }
 
-void AGameObject::setRotation(Vector3D rotation) {
-	m_rotation = rotation;
-}
-
-void AGameObject::setScale(f32 x, f32 y, f32 z) {
-	m_scale = Vector3D(x, y, z);
-}
-
-void AGameObject::setScale(Vector3D scale) {
-	m_scale = scale;
+void AGameObject::removeComponent(size_t id) {
+	m_components.erase(id);
 }
 
 void AGameObject::setTexture(TexturePtr tex) {

@@ -216,7 +216,7 @@ AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
 
 	f32 spawnDistance = 1.0f;
 	Vector3D spawnPos = m_sceneCamera->getPosition() + m_sceneCamera->getForwardDirection() * spawnDistance;
-	obj->setPosition(spawnPos);
+	obj->getTransform()->setPosition(spawnPos);
 
 	m_objects.push_back(obj);
 	return obj;

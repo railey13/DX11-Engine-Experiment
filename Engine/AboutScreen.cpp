@@ -1,5 +1,7 @@
 #include "AboutScreen.h"
 #include "UIManager.h"
+#include "GraphicsEngine.h"
+#include "Texture.h"
 
 AboutScreen::AboutScreen() : AUIScreen(UINames::ABOUT_SCREEN) {
 
@@ -14,7 +16,7 @@ void AboutScreen::draw() {
 		if (ImGui::Begin("Credits", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 			ImGui::Text("About");
 			ImGui::Text("Scene Editor v0.1");
-			ImGui::Text("Developed By: Nikos Bumanglag");
+			ImGui::Text("Developed By: Nikos Railey Bumanglag");
 			ImGui::Text("Acknowledgements");
 
 			static char ack_text[2048] =

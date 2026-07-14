@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\AboutScreen.cpp" />
+    <ClCompile Include="Engine\AComponent.cpp" />
     <ClCompile Include="Engine\AGameObject.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp" />
     <ClCompile Include="Engine\AUIScreen.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="Engine\SwapChain.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Engine\TextureManager.cpp" />
+    <ClCompile Include="Engine\TransformComponent.cpp" />
     <ClCompile Include="Engine\UIManager.cpp" />
     <ClCompile Include="Engine\VertexBuffer.cpp" />
     <ClCompile Include="Engine\VertexShader.cpp" />
@@ -180,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AboutScreen.h" />
+    <ClInclude Include="Engine\AComponent.h" />
     <ClInclude Include="Engine\AGameObject.h" />
     <ClInclude Include="Engine\AppWindow.h" />
     <ClInclude Include="Engine\AUIScreen.h" />
@@ -212,6 +215,7 @@
     <ClInclude Include="Engine\SwapChain.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\TextureManager.h" />
+    <ClInclude Include="Engine\TransformComponent.h" />
     <ClInclude Include="Engine\UIManager.h" />
     <ClInclude Include="Engine\Vector2D.h" />
     <ClInclude Include="Engine\Vector3D.h" />
