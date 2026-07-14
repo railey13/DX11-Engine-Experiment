@@ -18,7 +18,7 @@ public:
 	virtual void onDestroy();
 	virtual void onFocus();
 	virtual void onKillFocus();
-	virtual void onResize(ui32 width, ui32 height) = 0;
+	virtual void onResize() = 0;
 
 	// release the window
 	~Window();

@@ -107,17 +107,18 @@ void AppWindow::onKillFocus() {
 	InputSystem::get()->removeListener(this);
 }
 
-void AppWindow::onResize(ui32 width, ui32 height) {
-	if (width == 0 || height == 0) return;
+void AppWindow::onResize() {
+	RECT rc = this->getClientWindowRect();
 
-	m_window_width = width;
-	m_window_height = height;
+	m_window_width = rc.right - rc.left;
+	m_window_height = rc.bottom - rc.top;
 
 	if (m_swap_chain) {
-		m_swap_chain->resize(m_window_width, m_window_height);
+		m_swap_chain->resize(rc.right, rc.bottom);
 	}
 
-	m_sceneCamera->setAspect((f32)width, (f32)height);
+	m_sceneCamera->setAspect((f32)m_window_width, (f32)m_window_height);
+	onUpdate()
 }
 
 void AppWindow::onKeyDown(i32 key) {

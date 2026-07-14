@@ -60,7 +60,7 @@ public:
 	void onDestroy() override;
 	void onFocus() override;
 	void onKillFocus() override;
-	void onResize(ui32 width, ui32 height) override;
+	void onResize() override;
 	// Inherited via InputListener
 	void onKeyDown(i32 key) override;
 	void onKeyUp(i32 key) override;
