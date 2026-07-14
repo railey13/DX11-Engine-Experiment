@@ -32,12 +32,6 @@ struct constant {
 	f32 padding[3];
 };
 
-enum GAMEOBJECTS {
-	CUBE,
-	SPHERE,
-	PLANE
-};
-
 class AGameObject {
 public:
 	AGameObject();

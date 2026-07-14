@@ -4,6 +4,8 @@
 #include "../Settings.h"
 
 #include "UIManager.h"
+#include "GameObjectManager.h"
+
 #include "SpawnObjectCommand.h"
 #include "DeleteObjectCommand.h"
 #include "CloseWindowCommand.h"
@@ -37,6 +39,8 @@ void AppWindow::createGraphicsWindow() {
 	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine/PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
 	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
 
+	GameObjectManager::initialize();
+
 	UIManager::initialize(m_hwnd);
 }
 
@@ -52,12 +56,12 @@ void AppWindow::onCreate() {
 	/*Window::onCreate();*/
 	InputSystem::get()->addListener(this);
 
-	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::CUBE); });
-	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::SPHERE); });
-	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::PLANE); });
+	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, GameObjectManager::CUBE); });
+	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, GameObjectManager::SPHERE); });
+	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, GameObjectManager::PLANE); });
 
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
-		return new DeleteObjectCommand(this, m_selectedGameObject);
+		return new DeleteObjectCommand(this, GameObjectManager::get()->getSelectedObject());
 	});
 
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
@@ -80,10 +84,8 @@ void AppWindow::onUpdate() {
 
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setViewportSize(m_window_width, m_window_height);
 
-	for (auto obj : m_objects) {
-		obj->update(deltaTime);
-		obj->draw(m_vs, m_ps, m_sceneCamera->getViewMatrix(), m_sceneCamera->getProjectionMatrix());
-	}
+	GameObjectManager::get()->updateObjects();
+	GameObjectManager::get()->renderObjects(m_vs, m_ps, m_sceneCamera->getViewMatrix(), m_sceneCamera->getProjectionMatrix());
 
 	UIManager::get()->drawAllUI();
 
@@ -94,8 +96,8 @@ void AppWindow::onDestroy() {
 	Window::onDestroy();
 
 	InputSystem::get()->removeListener(this);
-	m_objects.clear();
 
+	GameObjectManager::get()->destroy();
 	GraphicsEngine::get()->destroy();
 }
 
@@ -113,6 +115,8 @@ void AppWindow::onResize() {
 	m_window_width = rc.right - rc.left;
 	m_window_height = rc.bottom - rc.top;
 
+	if (m_window_width == 0 || m_window_height == 0) return;
+	
 	if (m_swap_chain) {
 		m_swap_chain->resize(rc.right, rc.bottom);
 	}
@@ -129,30 +133,32 @@ void AppWindow::onKeyUp(i32 key) {
 	// return if any input field is highlighted
 	if (ImGui::GetIO().WantCaptureKeyboard) return;
 	// temporary inputs to test textures
+	auto objects = GameObjectManager::get()->getAllObjects();
+	int size = objects.size();
 	switch (key) {
 		case '0': 
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png"));
+			for (int i = 0; i < size; i++) {
+				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png"));
 			}
 			break;
 		case '1':
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/furina.png"));
+			for (int i = 0; i < size; i++) {
+				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/furina.png"));
 			}
 			break;
 		case '2':
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
+			for (int i = 0; i < size; i++) {
+				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
 			}
 			break;
 		case '3':
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/MornyeThinking.gif"));
+			for (int i = 0; i < size; i++) {
+				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/MornyeThinking.gif"));
 			}
 			break;
 		case '4':
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/AemeathGame.gif"));
+			for (int i = 0; i < size; i++) {
+				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/AemeathGame.gif"));
 			}
 			break;
 		case 90: m_invoker.undo();
@@ -160,7 +166,7 @@ void AppWindow::onKeyUp(i32 key) {
 		case 89: m_invoker.redo();
 			break;
 		case VK_DELETE: 
-			if (m_selectedGameObject) {
+			if (GameObjectManager::get()->getSelectedObject()) {
 				m_invoker.executeCommand((int)Action::DeleteSelectedObject);
 			}
 	}
@@ -184,51 +190,6 @@ void AppWindow::onRightMouseDown(const Point& mouse_pos) {
 
 void AppWindow::onRightMouseUp(const Point& mouse_pos) {
 
-}
-
-void AppWindow::DestroyObject() {
-	if (m_objects.empty()) return;
-	delete m_objects.back();
-	m_objects.pop_back();
-}
-
-void AppWindow::DestroyAllObjects() {
-	if (m_objects.empty()) return;
-	while (!m_objects.empty()) {
-		delete m_objects.back();
-		m_objects.pop_back();
-	}
-}
-
-AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
-	AGameObject* obj = nullptr;
-	switch (type) {
-		case GAMEOBJECTS::CUBE:
-			obj = new Cube(vs_byte_code, vs_size);
-			break;
-		case GAMEOBJECTS::SPHERE:
-			obj = new Sphere(vs_byte_code, vs_size);
-			break;
-		case GAMEOBJECTS::PLANE:
-			obj = new Plane(vs_byte_code, vs_size);
-			break;
-		default: break;
-	}
-
-	f32 spawnDistance = 1.0f;
-	Vector3D spawnPos = m_sceneCamera->getPosition() + m_sceneCamera->getForwardDirection() * spawnDistance;
-	obj->getTransform()->setPosition(spawnPos);
-
-	m_objects.push_back(obj);
-	return obj;
-}
-
-void AppWindow::RemoveObject(AGameObject* object) {
-	auto it = std::find(m_objects.begin(), m_objects.end(), object);
-
-	if (it != m_objects.end()) {
-		m_objects.erase(it);
-	}
 }
 
 

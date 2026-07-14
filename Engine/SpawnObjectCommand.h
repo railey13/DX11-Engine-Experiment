@@ -1,10 +1,11 @@
 #pragma once
 #include "Command.h"
 #include "AppWindow.h"
+#include "GameObjectManager.h"
 
 class SpawnObjectCommand : public Command {
 public:
-	SpawnObjectCommand(AppWindow* receiver, GAMEOBJECTS type) : receiver(receiver), type(type) {
+	SpawnObjectCommand(AppWindow* receiver, GameObjectManager::PrimitiveType type) : receiver(receiver), type(type) {
 
 	}
 	// Inherited via Command
@@ -12,21 +13,21 @@ public:
 		if (!receiver) return;
 
 		if (object == nullptr){
-			object = receiver->SpawnGameObject(type);
+			object = GameObjectManager::get()->createObject(type, receiver->vs_byte_code, receiver->vs_size);
 		}
 		else {
-			receiver->m_objects.push_back(object);
+			GameObjectManager::get()->addObject(object);
 		}
 	}
 
 	void undo() override {
 		if (object) {
-			receiver->RemoveObject(object);
+			GameObjectManager::get()->removeObject(object);
 		}
 	}
 
 private:
 	AppWindow* receiver;
 	AGameObject* object = nullptr;
-	GAMEOBJECTS type;
+	GameObjectManager::PrimitiveType type;
 };

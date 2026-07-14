@@ -1,6 +1,7 @@
 #pragma once
 #include "Command.h"
 #include "AppWindow.h"
+#include "GameObjectManager.h"
 
 class DeleteObjectCommand : public Command {
 public:
@@ -10,7 +11,7 @@ public:
 	// Inherited via Command
 	void execute() override {
 		if (receiver && object) {
-			std::vector<AGameObject*> objects = receiver->getGameObjects();
+			std::vector<AGameObject*> objects = GameObjectManager::get()->getAllObjects();
 
 			for (ui32 i = 0; i < objects.size(); i++) {
 				if (objects[i] == object) {
@@ -19,22 +20,18 @@ public:
 				}
 			}
 
-			receiver->RemoveObject(object);
+			GameObjectManager::get()->removeObject(object);
 			m_inScene = false;
-
-			if (receiver->m_selectedGameObject == object) {
-				receiver->m_selectedGameObject = nullptr;
-			}
 		}
 	}
 
 	void undo() override {
 		if (receiver && object) {
-			if (m_index >= receiver->m_objects.size()) {
-				receiver->m_objects.push_back(object);
+			if (m_index >= GameObjectManager::get()->getAllObjects().size()) {
+				GameObjectManager::get()->addObject(object);
 			}
 			else {
-				receiver->m_objects.insert(receiver->m_objects.begin() + m_index, object);
+				GameObjectManager::get()->insertObject(object, m_index);
 			}
 			m_inScene = true;
 		}

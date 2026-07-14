@@ -151,6 +151,7 @@
     <ClCompile Include="Engine\Cube.cpp" />
     <ClCompile Include="Engine\DeviceContext.cpp" />
     <ClCompile Include="Engine\EngineTime.cpp" />
+    <ClCompile Include="Engine\GameObjectManager.cpp" />
     <ClCompile Include="Engine\GraphicsEngine.cpp" />
     <ClCompile Include="Engine\HierarchyScreen.cpp" />
     <ClCompile Include="Engine\IndexBuffer.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Engine\DeleteObjectCommand.h" />
     <ClInclude Include="Engine\DeviceContext.h" />
     <ClInclude Include="Engine\EngineTime.h" />
+    <ClInclude Include="Engine\GameObjectManager.h" />
     <ClInclude Include="Engine\GraphicsEngine.h" />
     <ClInclude Include="Engine\HierarchyScreen.h" />
     <ClInclude Include="Engine\IndexBuffer.h" />

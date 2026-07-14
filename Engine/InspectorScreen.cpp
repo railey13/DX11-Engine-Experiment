@@ -2,6 +2,7 @@
 #include "UIManager.h"
 #include "AppWindow.h"
 #include "AGameObject.h"
+#include "GameObjectManager.h"
 
 InspectorScreen::InspectorScreen() : AUIScreen(UINames::INSPECTOR_SCREEN){
 	m_isActive = true;
@@ -12,7 +13,7 @@ InspectorScreen::~InspectorScreen() {
 }
 
 void InspectorScreen::draw() {
-	AGameObject* obj = AppWindow::get()->m_selectedGameObject;
+	AGameObject* obj = GameObjectManager::get()->getSelectedObject();
 
 	if (m_isActive) {
 		if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {

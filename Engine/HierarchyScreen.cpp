@@ -1,6 +1,7 @@
 #include "HierarchyScreen.h"
 #include "UIManager.h"
 #include "AppWindow.h"
+#include "GameObjectManager.h"
 
 HierarchyScreen::HierarchyScreen() : AUIScreen(UINames::HIERARCHY_SCREEN) {
 	m_isActive = true;
@@ -13,14 +14,14 @@ HierarchyScreen::~HierarchyScreen() {
 void HierarchyScreen::draw() {
 	if (m_isActive) {
 		if (ImGui::Begin("Hierarchy Tree", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
-			const std::vector<AGameObject*> objects = AppWindow::get()->getGameObjects();
+			const std::vector<AGameObject*> objects = GameObjectManager::get()->getAllObjects();
 			for (int i = 0; i < (int)objects.size(); i++) {
 				AGameObject* obj = objects[i];
 				ImGui::PushID(i); 
 
-				bool isSelected = (AppWindow::get()->m_selectedGameObject == obj);
+				bool isSelected = (GameObjectManager::get()->getSelectedObject() == obj);
 				if (ImGui::Selectable(obj->m_name.c_str(), isSelected)) {
-					AppWindow::get()->m_selectedGameObject = obj;
+					GameObjectManager::get()->setSelectedObject(obj);
 				}
 
 				ImGui::PopID();

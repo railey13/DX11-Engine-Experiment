@@ -19,10 +19,6 @@
 #include "../IMGUI/backends/imgui_impl_win32.h"
 
 #include "vector"
-#include "AGameObject.h"
-#include "Cube.h"
-#include "Plane.h"
-#include "Sphere.h"
 
 class SpawnObjectCommand;
 class DeleteObjectCommand;
@@ -70,24 +66,15 @@ public:
 	virtual void onLeftMouseUp(const Point& mouse_pos) override;
 	virtual void onRightMouseDown(const Point& mouse_pos) override;
 	virtual void onRightMouseUp(const Point& mouse_pos) override;
-private:
-	void DestroyObject();
-	void DestroyAllObjects();
-
-	AGameObject* SpawnGameObject(GAMEOBJECTS type);
-	void RemoveObject(AGameObject* object);
 public:
 	CommandInvoker& getInvoker() { return m_invoker; }
-	const std::vector<AGameObject*>& getGameObjects() const { return m_objects; }
-
-	AGameObject* m_selectedGameObject = nullptr;
+	Camera* getCamera() { return m_sceneCamera; }
 private:
 	SwapChainPtr m_swap_chain;
 
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
 	
-	std::vector<AGameObject*> m_objects;
 	CommandInvoker m_invoker;
 private:
 	void* vs_byte_code = nullptr;
