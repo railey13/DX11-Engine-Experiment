@@ -133,42 +133,36 @@ void AppWindow::onKeyUp(i32 key) {
 	// return if any input field is highlighted
 	if (ImGui::GetIO().WantCaptureKeyboard) return;
 	// temporary inputs to test textures
-	auto objects = GameObjectManager::get()->getAllObjects();
-	int size = objects.size();
+	AGameObject* obj = GameObjectManager::get()->getSelectedObject();
+	TextureManager* texture = GraphicsEngine::get()->getTextureManager();
 	switch (key) {
 		case '0': 
-			for (int i = 0; i < size; i++) {
-				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png"));
-			}
+			if (obj)
+				obj->setTexture(texture->createTextureFromFile(L"Assets/Textures/white.png"));
 			break;
 		case '1':
-			for (int i = 0; i < size; i++) {
-				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/furina.png"));
-			}
+			if (obj)
+				obj->setTexture(texture->createTextureFromFile(L"Assets/Textures/furina.png"));
 			break;
 		case '2':
-			for (int i = 0; i < size; i++) {
-				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
-			}
+			if (obj)
+				obj->setTexture(texture->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
 			break;
 		case '3':
-			for (int i = 0; i < size; i++) {
-				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/MornyeThinking.gif"));
-			}
+			if (obj)
+				obj->setTexture(texture->createTextureFromFile(L"Assets/Textures/MornyeThinking.gif"));
 			break;
 		case '4':
-			for (int i = 0; i < size; i++) {
-				objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/AemeathGame.gif"));
-			}
+			if(obj)
+				obj->setTexture(texture->createTextureFromFile(L"Assets/Textures/AemeathGame.gif"));
 			break;
 		case 90: m_invoker.undo();
 			break;
 		case 89: m_invoker.redo();
 			break;
 		case VK_DELETE: 
-			if (GameObjectManager::get()->getSelectedObject()) {
+			if (obj)
 				m_invoker.executeCommand((int)Action::DeleteSelectedObject);
-			}
 	}
 }
 
@@ -177,7 +171,9 @@ void AppWindow::onMouseMove(const Point& mouse_pos) {
 }
 
 void AppWindow::onLeftMouseDown(const Point& mouse_pos) {
+	if (ImGui::GetIO().WantCaptureMouse) return;
 
+	GameObjectManager::get()->setSelectedObject(nullptr);
 }
 
 void AppWindow::onLeftMouseUp(const Point& mouse_pos) {
@@ -185,7 +181,7 @@ void AppWindow::onLeftMouseUp(const Point& mouse_pos) {
 }
 
 void AppWindow::onRightMouseDown(const Point& mouse_pos) {
-	ImGui::SetWindowFocus(nullptr);
+	GameObjectManager::get()->setSelectedObject(nullptr);
 }
 
 void AppWindow::onRightMouseUp(const Point& mouse_pos) {

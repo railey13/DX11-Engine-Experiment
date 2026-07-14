@@ -139,7 +139,7 @@ AGameObject* GameObjectManager::getSelectedObject() {
 AGameObject* GameObjectManager::findObjectByName(std::string name) {
 	auto it = m_gameobject_table.find(name);
 	if (it != m_gameobject_table.end()) {
-		m_selectedGameObject = it->second;
+		return m_gameobject_table[name];
 	}
 	return nullptr;
 }

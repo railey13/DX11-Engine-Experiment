@@ -26,6 +26,11 @@ void HierarchyScreen::draw() {
 
 				ImGui::PopID();
 			}
+
+			if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)
+				&& !ImGui::IsAnyItemHovered()) {
+				GameObjectManager::get()->setSelectedObject(nullptr);
+			}
 		}
 
 		ImGui::End();
