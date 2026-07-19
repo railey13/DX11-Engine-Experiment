@@ -1,16 +1,20 @@
-#include "MainMenuScreen.h"
+#include "MainBarUI.h"
 #include "UIManager.h"
 #include "AppWindow.h"
+#include "HierarchyUI.h"
+#include "InspectorUI.h"
+#include "AboutUI.h"
 
-MainMenuScreen::MainMenuScreen() : AUIScreen(UINames::MAIN_MENU_BAR) {
+MainBarUI::MainBarUI() {
 
 }
 
-MainMenuScreen::~MainMenuScreen() {
+MainBarUI::~MainBarUI() {
 
 }
 
-void MainMenuScreen::draw() {
+void MainBarUI::draw() {
+	UIManager* ui = UIManager::get();
 	if (ImGui::BeginMainMenuBar()) {
 		if (ImGui::BeginMenu("GameObjects")) {
 			if (ImGui::MenuItem("Cube")) {
@@ -27,10 +31,14 @@ void MainMenuScreen::draw() {
 		}
 		if (ImGui::BeginMenu("Panels")) {
 			if (ImGui::MenuItem("Scene Hierarchy")) {
-				UIManager::get()->setUIScreenActive(UINames::HIERARCHY_SCREEN, !UIManager::get()->isUIScreenActive(UINames::HIERARCHY_SCREEN));
+				if (HierarchyUI* hierarchy = ui->getUI<HierarchyUI>()) {
+					hierarchy->toggleActive();
+				}
 			}
 			if (ImGui::MenuItem("Inspector")) {
-				UIManager::get()->setUIScreenActive(UINames::INSPECTOR_SCREEN, !UIManager::get()->isUIScreenActive(UINames::INSPECTOR_SCREEN));
+				if (InspectorUI* inspector = ui->getUI<InspectorUI>()) {
+					inspector->toggleActive();
+				}
 			}
 			ImGui::EndMenu();
 		}
@@ -38,7 +46,9 @@ void MainMenuScreen::draw() {
 			ImGui::EndMenu();
 		}
 		if (ImGui::MenuItem("About")) {
-			UIManager::get()->setUIScreenActive(UINames::ABOUT_SCREEN, !UIManager::get()->isUIScreenActive(UINames::ABOUT_SCREEN));
+			if (AboutUI* inspector = ui->getUI<AboutUI>()) {
+				inspector->toggleActive();
+			}
 		}
 		ImGui::EndMainMenuBar();
 	}

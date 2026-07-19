@@ -6,6 +6,8 @@ class Texture : public Resource{
 public:
 	Texture(const wchar_t* full_path);
 	~Texture();
+public:
+	ID3D11ShaderResourceView* getSRV() const { return m_shader_res_view; }
 private:
 	ID3D11Resource* m_texture = nullptr;
 	ID3D11ShaderResourceView* m_shader_res_view = nullptr;

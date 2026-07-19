@@ -1,12 +1,12 @@
 #pragma once
-#include "AGameObject.h"
+#include "GameObject.h"
 
-class Plane : public AGameObject {
+class Plane : public GameObject {
 public:
 	Plane();
 	~Plane();
 public:
-	// Inherited via AGameObject
+	// Inherited via GameObject
 	void update(f32 deltaTime) override;
 	void draw(Matrix4x4 view, Matrix4x4 proj) override;
 private:

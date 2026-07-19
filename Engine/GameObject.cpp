@@ -1,26 +1,26 @@
-#include "AGameObject.h"
+#include "GameObject.h"
 
-AGameObject::AGameObject() : m_name("GameObject") {
+GameObject::GameObject() : m_name("GameObject") {
 	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png");
 	m_transform = createComponent<TransformComponent>();
 }
 
-AGameObject::~AGameObject() {
-
+GameObject::~GameObject() {
+	m_components.clear();
 }
 
-TransformComponent* AGameObject::getTransform() {
+TransformComponent* GameObject::getTransform() {
 	return m_transform;
 }
 
-void AGameObject::createComponentInternal(AComponent* component, size_t id) {
-	auto compPtr = std::unique_ptr<AComponent>(component);
+void GameObject::createComponentInternal(Component* component, size_t id) {
+	auto compPtr = std::unique_ptr<Component>(component);
 	m_components.emplace(id, std::move(compPtr));
 	component->m_typeId = id;
 	component->m_gameobject = this;
 }
 
-AComponent* AGameObject::getComponentInternal(size_t id) {
+Component* GameObject::getComponentInternal(size_t id) {
 
 	auto it = m_components.find(id);
 
@@ -29,11 +29,11 @@ AComponent* AGameObject::getComponentInternal(size_t id) {
 	return it->second.get();
 }
 
-void AGameObject::removeComponent(size_t id) {
+void GameObject::removeComponent(size_t id) {
 	m_components.erase(id);
 }
 
-void AGameObject::setTexture(TexturePtr tex) {
+void GameObject::setTexture(TexturePtr tex) {
 	m_tex = tex;
 }
 

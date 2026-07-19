@@ -1,24 +1,22 @@
 #pragma once
 #include "Prerequisites.h"
-#include "AComponent.h"
+#include "Component.h"
 #include "Vector3D.h"
 #include "Matrix4x4.h"
 	
-class TransformComponent : public AComponent  {
+class TransformComponent : public Component  {
 public:
 	TransformComponent();
 	~TransformComponent();
 public:
 	void setPosition(const Vector3D& position);
-	Vector3D getPosition();
-
 	void setRotation(const Vector3D& rotation);
-	Vector3D getRotation();
-
 	void setScale(const Vector3D& scale);
-	Vector3D getScale();
 
-	void getWorldMatrix(Matrix4x4& mat);
+	Vector3D getPosition() const { return m_position; };
+	Vector3D getRotation() const { return m_rotation; };
+	Vector3D getScale() const { return m_scale; };
+	void getWorldMatrix(Matrix4x4& mat) const { return mat.setMatrix(m_worldMatrix); };
 protected:
 	void updateWorldMatrix();
 protected:

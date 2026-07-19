@@ -2,10 +2,11 @@
 #include "GraphicsEngine.h"
 #include "AppWindow.h"
 
-#include "MainMenuScreen.h"
-#include "AboutScreen.h"
-#include "HierarchyScreen.h"
-#include "InspectorScreen.h"
+#include "MainBarUI.h"
+#include "AboutUI.h"
+#include "HierarchyUI.h"
+#include "InspectorUI.h"
+#include "MainBarUI.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -23,44 +24,19 @@ void UIManager::destroy() {
 	delete sharedInstance;
 }
 
-void UIManager::drawAllUI() {
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-
-	for (auto* screen : m_ui_list) {
-		screen->draw();
-	}
-
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
-}
-
-AUIScreen* UIManager::getUIScreen(std::string name) {
-	auto it = m_ui_table.find(name);
-	if (it != m_ui_table.end()) {
-		return it->second;
-	}
-	return nullptr;
-}
-
-void UIManager::setUIScreenActive(std::string name, bool flag) {
-	auto it = m_ui_table.find(name);
-	if (it != m_ui_table.end() && it->second) {
-		it->second->setActive(flag);
-	}
-}
-
-bool UIManager::isUIScreenActive(std::string name) {
-	auto it = m_ui_table.find(name);
-	if (it != m_ui_table.end()) {
-		return it->second->m_isActive;
-	}
-
-	return false;
-}
-
 UIManager::UIManager(HWND hwnd) {
+	IMGUISetUp(hwnd);
+	registerUI<HierarchyUI>();
+	registerUI<InspectorUI>();
+	registerUI<MainBarUI>();
+	registerUI<ViewportUI>();
+}
+
+UIManager::~UIManager() {
+	m_ui_table.clear();
+}
+
+void UIManager::IMGUISetUp(HWND hwnd) {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
@@ -69,27 +45,36 @@ UIManager::UIManager(HWND hwnd) {
 
 	ImGui::StyleColorsDark();
 
+	GraphicsEngine* graphEngine = GraphicsEngine::get();
+
 	ImGui_ImplWin32_Init(hwnd);
-	ImGui_ImplDX11_Init(GraphicsEngine::get()->getRenderSystem()->getD11Device(),
-		GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->getContext());
-
-	MainMenuScreen* mainmenuScreen = new MainMenuScreen();
-	m_ui_table[UINames::MAIN_MENU_BAR] = mainmenuScreen;
-	m_ui_list.push_back(mainmenuScreen);
-
-	AboutScreen* aboutScreen = new AboutScreen();
-	m_ui_table[UINames::ABOUT_SCREEN] = aboutScreen;
-	m_ui_list.push_back(aboutScreen);
-
-	HierarchyScreen* hierarchyScreen = new HierarchyScreen();
-	m_ui_table[UINames::HIERARCHY_SCREEN] = hierarchyScreen;
-	m_ui_list.push_back(hierarchyScreen);
-
-	InspectorScreen* inspectorScreen = new InspectorScreen();
-	m_ui_table[UINames::INSPECTOR_SCREEN] = inspectorScreen;
-	m_ui_list.push_back(inspectorScreen);
+	ImGui_ImplDX11_Init(graphEngine->getRenderSystem()->getD11Device(),
+		graphEngine->getRenderSystem()->getImmediateDeviceContext()->getContext());
 }
 
-UIManager::~UIManager() {
+void UIManager::registerUIInternal(UI* ui, size_t id) {
+	auto compPtr = std::unique_ptr<UI>(ui);
+	m_ui_table.emplace(id, std::move(compPtr));
+	ui->m_typeId = id;
+}
 
+UI* UIManager::getUIInternal(size_t id) const {
+	auto it = m_ui_table.find(id);
+
+	if (it == m_ui_table.end()) return nullptr;
+
+	return it->second.get();
+}
+
+void UIManager::draw() {
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	for (auto& [type, ui] : m_ui_table) {
+		ui->draw();
+	}
+
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }

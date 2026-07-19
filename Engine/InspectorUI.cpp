@@ -1,18 +1,18 @@
-#include "InspectorScreen.h"
+#include "InspectorUI.h"
 #include "UIManager.h"
 #include "AppWindow.h"
 #include "AGameObject.h"
 #include "GameObjectManager.h"
 
-InspectorScreen::InspectorScreen() : AUIScreen(UINames::INSPECTOR_SCREEN){
+InspectorUI::InspectorUI() {
 	m_isActive = true;
 }
 
-InspectorScreen::~InspectorScreen() {
+InspectorUI::~InspectorUI() {
 
 }
 
-void InspectorScreen::draw() {
+void InspectorUI::draw() {
 	AGameObject* obj = GameObjectManager::get()->getSelectedObject();
 
 	if (m_isActive) {

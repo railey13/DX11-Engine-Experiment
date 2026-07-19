@@ -13,7 +13,7 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
-#include "AComponent.h"
+#include "Component.h"
 #include "TransformComponent.h"
 
 #include <string>
@@ -33,10 +33,10 @@ struct constant {
 	f32 padding[3];
 };
 
-class AGameObject {
+class GameObject {
 public:
-	AGameObject();
-	virtual ~AGameObject();
+	GameObject();
+	virtual ~GameObject();
 public:
 	virtual void update(f32 deltaTime) = 0;
 	virtual void draw(Matrix4x4 view, Matrix4x4 proj) = 0;
@@ -45,7 +45,7 @@ public:
 public:
 	template <typename T>
 	T* createComponent() {
-		static_assert(std::is_base_of <AComponent, T>::value, "T must be derive from AComponent Class");
+		static_assert(std::is_base_of <Component, T>::value, "T must be derive from AComponent Class");
 		auto e = getComponent<T>();
 		if (!e) {
 			auto id = typeid(T).hash_code();
@@ -57,13 +57,13 @@ public:
 	}
 	template <typename T>
 	T* getComponent() {
-		static_assert(std::is_base_of <AComponent, T>::value, "T must be derive from AComponent Class");
+		static_assert(std::is_base_of <Component, T>::value, "T must be derive from AComponent Class");
 		auto id = typeid(T).hash_code();
 		return static_cast<T*>(getComponentInternal(id));
 	}
 private:
-	void createComponentInternal(AComponent* component, size_t id);
-	AComponent* getComponentInternal(size_t id);
+	void createComponentInternal(Component* component, size_t id);
+	Component* getComponentInternal(size_t id);
 	void removeComponent(size_t id);
 public:
 	void setTexture(TexturePtr tex);
@@ -74,8 +74,8 @@ public:
 protected:
 	TransformComponent* m_transform = nullptr;
 protected:
-	std::map<size_t, std::unique_ptr<AComponent>> m_components;
+	std::map<size_t, std::unique_ptr<Component>> m_components;
 	
-	friend class AComponent;
+	friend class Component;
 };
 

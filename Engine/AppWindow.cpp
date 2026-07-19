@@ -123,7 +123,7 @@ void AppWindow::onKeyUp(i32 key) {
 	// return if any input field is highlighted
 	if (ImGui::GetIO().WantCaptureKeyboard) return;
 	// temporary inputs to test textures
-	AGameObject* obj = GameObjectManager::get()->getSelectedObject();
+	GameObject* obj = GameObjectManager::get()->getSelectedObject();
 	TextureManager* texture = GraphicsEngine::get()->getTextureManager();
 	switch (key) {
 		case '0': 

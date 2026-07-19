@@ -1,17 +1,17 @@
-#include "HierarchyScreen.h"
+#include "HierarchyUI.h"
 #include "UIManager.h"
 #include "AppWindow.h"
 #include "GameObjectManager.h"
 
-HierarchyScreen::HierarchyScreen() : AUIScreen(UINames::HIERARCHY_SCREEN) {
+HierarchyUI::HierarchyUI() {
 	m_isActive = true;
 }
 
-HierarchyScreen::~HierarchyScreen() {
+HierarchyUI::~HierarchyUI() {
 
 }
 
-void HierarchyScreen::draw() {
+void HierarchyUI::draw() {
 	if (m_isActive) {
 		if (ImGui::Begin("Hierarchy Tree", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 			const std::vector<AGameObject*> objects = GameObjectManager::get()->getAllObjects();

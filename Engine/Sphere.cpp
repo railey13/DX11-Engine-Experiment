@@ -10,7 +10,7 @@ Sphere::Sphere() {
 	size_t size_shader = 0;
 
 	ShaderLibrary::get()->requestVertexShaderData(ShaderNames::BASE_VERTEX_SHADER_NAME, &shader_byte_code, &size_shader);
-
+	
 	std::vector<vertex> verts;
 	std::vector<ui32> indices;
 

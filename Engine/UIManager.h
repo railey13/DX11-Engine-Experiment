@@ -1,22 +1,12 @@
 #pragma once
-#include <vector>
-#include <string>
 #include <unordered_map>
+#include <memory>
 
-#include "Window.h"
+#include "UI.h"
 #include "DeviceContext.h"
-#include "AUIScreen.h"
+#include "Window.h"
 
-#include "../IMGUI/imgui.h"
-#include "../IMGUI/backends/imgui_impl_dx11.h"
-#include "../IMGUI/backends/imgui_impl_win32.h"
-
-namespace UINames {
-	const std::string MAIN_MENU_BAR = "MAIN_MENU_BAR";
-	const std::string HIERARCHY_SCREEN = "HIERARCHY_SCREEN";
-	const std::string INSPECTOR_SCREEN = "INSPECTOR_SCREEN";
-	const std::string ABOUT_SCREEN = "ABOUT_SCREEN";
-}
+class ViewportUI;
 
 class UIManager {
 public:
@@ -24,14 +14,6 @@ public:
 
 	static void initialize(HWND hwnd);
 	static void destroy();
-
-	void drawAllUI();
-	
-	AUIScreen* getUIScreen(std::string name);
-
-	void setUIScreenActive(std::string name, bool flag);
-
-	bool isUIScreenActive(std::string name);
 private:
 	UIManager(HWND hwnd);
 
@@ -41,7 +23,32 @@ private:
 
 	~UIManager();
 private:
-	std::vector<AUIScreen*> m_ui_list;
-	std::unordered_map<std::string, AUIScreen*> m_ui_table;
+	void IMGUISetUp(HWND hwnd);
+private:
+	template<typename T>
+	void registerUI() {
+		static_assert(std::is_base_of <UI, T>::value, "T must be derive from UI Class");
+		auto e = getUI<T>();
+		if (!e) {
+			auto id = typeid(T).hash_code();
+			auto c = new T();
+			registerUIInternal(c, id);
+		}
+	}
+
+	void registerUIInternal(UI* ui, size_t id);
+	UI* getUIInternal(size_t id) const;
+public:
+	template <typename T>
+	T* getUI() const {
+		static_assert(std::is_base_of<UI, T>::value, "T must be derive from UI Class");
+		auto id = typeid(T).hash_code();
+		return static_cast<T*>(getUIInternal(id));
+	}
+public:
+	void draw();
+private:
+	std::unordered_map<size_t, std::unique_ptr<UI>> m_ui_table;
+	friend class UI;
 };
 

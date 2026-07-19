@@ -1,7 +1,7 @@
 #pragma once
 #include "Command.h"
 #include "AppWindow.h"
-#include "GameObjectManager.h"
+#include "GameObjectManager.h"z
 
 class SpawnObjectCommand : public Command {
 public:
@@ -28,6 +28,6 @@ public:
 
 private:
 	AppWindow* receiver;
-	AGameObject* object = nullptr;
+	GameObject* object = nullptr;
 	GameObjectManager::PrimitiveType type;
 };
