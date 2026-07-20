@@ -19,6 +19,10 @@
 #include <string>
 #include <map>
 
+class DeleteObjectCommand;
+class CreateObjectCommand;
+class GameObjectManager;
+
 struct vertex {
 	Vector3D position;
 	Vector2D texcoord;
@@ -67,6 +71,8 @@ private:
 	void removeComponent(size_t id);
 public:
 	void setTexture(TexturePtr tex);
+
+	GameObjectID getID() const { return m_id; }
 public:
 	TexturePtr m_tex = nullptr;
 
@@ -77,5 +83,9 @@ protected:
 	std::map<size_t, std::unique_ptr<Component>> m_components;
 	
 	friend class Component;
+private:
+	GameObjectID m_id;
+
+	friend class GameObjectManager;
 };
 

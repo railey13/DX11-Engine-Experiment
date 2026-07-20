@@ -2,17 +2,13 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <functional>
 
-#include "AGameObject.h"
+#include "Prerequisites.h"
+#include "Matrix4x4.h"
 
 class GameObjectManager {
 public:
-	enum PrimitiveType {
-		CUBE,
-		SPHERE,
-		PLANE	
-	};
-
 	static GameObjectManager* get();
 
 	static void initialize();
@@ -21,31 +17,63 @@ public:
 	GameObjectManager();
 	~GameObjectManager();
 	
-	GameObjectManager(GameObjectManager const&);
+	GameObjectManager(GameObjectManager const&) {};
 	GameObjectManager& operator=(GameObjectManager const&) {};
 	static GameObjectManager* sharedInstance;
 public:
-	void updateObjects();
-	void renderObjects(Matrix4x4 view, Matrix4x4 proj);
+	void update(f32 deltaTime);
+	void draw(Matrix4x4 view, Matrix4x4 proj);
 
-	void insertObject(AGameObject* object, size_t index);
-	void addObject(AGameObject* object);
-	AGameObject* createObject(PrimitiveType type);
+	GameObjectID insertGameObject(GameObjectPtr object, size_t index);
 
-	void removeObject(AGameObject* object);
-	void deleteObject(AGameObject* object);
-	void deleteObjectByName(std::string name);
+	GameObjectPtr removeObject(GameObjectID gameobject_id);
 
-	void setSelectedObject(std::string name);
-	void setSelectedObject(AGameObject* object);
-	AGameObject* getSelectedObject();
+	void setSelectedGameObject(GameObjectID gameobject_id);
 
-	AGameObject* findObjectByName(std::string name);
-	std::vector<AGameObject*> getAllObjects();
+	GameObject* getSelectedGameObject() const;
+	GameObjectID getSelectedGameObjectID() const;
+
+	std::vector<GameObjectID> getAllObjects() const;
 private:
-	std::vector<AGameObject*> m_gameobject_list;
-	std::unordered_map<std::string, AGameObject*> m_gameobject_table;
+	GameObjectID createGameObjectInternal(GameObjectPtr object);
+	std::string generateUniqueName(const std::string& baseName);
+public:
+	template<typename T>
+	GameObjectID createGameObjectID() {
+		static_assert(std::is_base_of <GameObject, T>::value, "T must be derive from GameObject Class");
 
-	AGameObject* m_selectedGameObject = nullptr;
+		auto c = std::make_unique<T>();
+		return createGameObjectInternal(std::move(c));
+	}
+
+	template <typename T>
+	T* createGameObject() {
+		static_assert(std::is_base_of <GameObject, T>::value, "T must be derive from GameObject Class");
+
+		auto c = std::make_unique<T>();
+		GameObject* obj = c.get();
+		createGameObjectInternal(std::move(c));
+		return static_cast<T*>(obj);
+	}
+
+	template <typename T>
+	T* getGameObject() const {
+		static_assert(std::is_base_of<GameObject, T>::value, "T must be derive from GameObject Class");
+		for (auto id : m_gameobject_list) {
+			GameObject* temp = getGameObjectInternal(id);
+			if (!temp) continue;
+			if (auto object = dynamic_cast<T*>(temp)) return object;
+		}
+		return nullptr;
+	}
+
+	GameObject* getGameObjectInternal(GameObjectID id) const;
+private:
+	std::unordered_map<GameObjectID, GameObjectPtr> m_gameobject_table;
+	std::vector<GameObjectID> m_gameobject_list;
+
+	GameObjectID m_selected_gameObject;
+private:
+	GameObjectID m_nextId = 1;
 };
 

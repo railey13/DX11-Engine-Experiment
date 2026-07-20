@@ -15,9 +15,9 @@ class ResourceManager;
 class Texture;
 class TextureManager;
 
-class AGameObject;
+class GameObject;
 
-class AComponent;
+class Component;
 class TransformComponent;
 
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
@@ -30,7 +30,11 @@ typedef std::shared_ptr<PixelShader> PixelShaderPtr;
 typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
 
+typedef std::unique_ptr<GameObject> GameObjectPtr;
+
 typedef unsigned int ui32;
 typedef int	i32;
 typedef float f32;
 typedef double d64;
+
+using GameObjectID = uint32_t;

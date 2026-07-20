@@ -2,6 +2,7 @@
 #include "UIManager.h"
 #include "AppWindow.h"
 #include "GameObjectManager.h"
+#include "GameObject.h"
 
 HierarchyUI::HierarchyUI() {
 	m_isActive = true;
@@ -14,14 +15,16 @@ HierarchyUI::~HierarchyUI() {
 void HierarchyUI::draw() {
 	if (m_isActive) {
 		if (ImGui::Begin("Hierarchy Tree", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
-			const std::vector<AGameObject*> objects = GameObjectManager::get()->getAllObjects();
-			for (int i = 0; i < (int)objects.size(); i++) {
-				AGameObject* obj = objects[i];
+			auto ids = GameObjectManager::get()->getAllObjects();
+			for (int i = 0; i < ids.size(); i++) {
+				GameObject* obj = GameObjectManager::get()->getGameObjectInternal(ids[i]);
+				if (!obj) continue;
+
 				ImGui::PushID(i); 
 
-				bool isSelected = (GameObjectManager::get()->getSelectedObject() == obj);
+				bool isSelected = (GameObjectManager::get()->getSelectedGameObject() == obj);
 				if (ImGui::Selectable(obj->m_name.c_str(), isSelected)) {
-					GameObjectManager::get()->setSelectedObject(obj);
+					GameObjectManager::get()->setSelectedGameObject(ids[i]);
 				}
 
 				ImGui::PopID();
@@ -29,7 +32,7 @@ void HierarchyUI::draw() {
 
 			if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)
 				&& !ImGui::IsAnyItemHovered()) {
-				GameObjectManager::get()->setSelectedObject(nullptr);
+				GameObjectManager::get()->setSelectedGameObject(0);
 			}
 		}
 

@@ -11,6 +11,12 @@
 #include "DeleteObjectCommand.h"
 #include "CloseWindowCommand.h"
 
+// temp for texture
+#include "GameObject.h"
+#include "Cube.h"
+#include "Sphere.h"
+#include "Plane.h"
+
 AppWindow* AppWindow::sharedInstance = NULL;
 
 AppWindow* AppWindow::get() {
@@ -49,35 +55,34 @@ AppWindow::~AppWindow() {
 }
 
 void AppWindow::onCreate() {
-	/*Window::onCreate();*/
 	InputSystem::get()->addListener(this);
 
-	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, GameObjectManager::CUBE); });
-	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, GameObjectManager::SPHERE); });
-	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, GameObjectManager::PLANE); });
+	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand<Cube>(); });
+	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand<Sphere>(); });
+	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand<Plane>(); });
 
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
-		return new DeleteObjectCommand(this, GameObjectManager::get()->getSelectedObject());
+		return new DeleteObjectCommand(GameObjectManager::get()->getSelectedGameObjectID());
 	});
 
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
 }
 
 void AppWindow::onUpdate() {
-	/*Window::onUpdate();*/
-	//screen
+	f32 deltaTime = EngineTime::getDeltaTime();
+
 	InputSystem::get()->update();
 	DeviceContextPtr context = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
-	m_sceneCamera->update(EngineTime::getDeltaTime());
+	m_sceneCamera->update(deltaTime);
 
 	context->ClearRenderTargetColor(this->m_swap_chain, 0.55f, 0.68f, 0.76f, 1);
 	context->setViewportSize(m_window_width, m_window_height);
 
-	GameObjectManager::get()->updateObjects();
-	GameObjectManager::get()->renderObjects(m_sceneCamera->getViewMatrix(), m_sceneCamera->getProjectionMatrix());
+	GameObjectManager::get()->update(deltaTime);
+	GameObjectManager::get()->draw(m_sceneCamera->getViewMatrix(), m_sceneCamera->getProjectionMatrix());
 
-	UIManager::get()->drawAllUI();
+	UIManager::get()->draw();
 
 	m_swap_chain->present(false);
 }
@@ -123,7 +128,7 @@ void AppWindow::onKeyUp(i32 key) {
 	// return if any input field is highlighted
 	if (ImGui::GetIO().WantCaptureKeyboard) return;
 	// temporary inputs to test textures
-	GameObject* obj = GameObjectManager::get()->getSelectedObject();
+	GameObject* obj = GameObjectManager::get()->getSelectedGameObject();
 	TextureManager* texture = GraphicsEngine::get()->getTextureManager();
 	switch (key) {
 		case '0': 
@@ -153,6 +158,7 @@ void AppWindow::onKeyUp(i32 key) {
 		case VK_DELETE: 
 			if (obj)
 				m_invoker.executeCommand((int)Action::DeleteSelectedObject);
+			break;
 	}
 }
 
@@ -163,7 +169,7 @@ void AppWindow::onMouseMove(const Point& mouse_pos) {
 void AppWindow::onLeftMouseDown(const Point& mouse_pos) {
 	if (ImGui::GetIO().WantCaptureMouse) return;
 
-	GameObjectManager::get()->setSelectedObject(nullptr);
+	GameObjectManager::get()->setSelectedGameObject(0);
 }
 
 void AppWindow::onLeftMouseUp(const Point& mouse_pos) {
@@ -171,7 +177,7 @@ void AppWindow::onLeftMouseUp(const Point& mouse_pos) {
 }
 
 void AppWindow::onRightMouseDown(const Point& mouse_pos) {
-	GameObjectManager::get()->setSelectedObject(nullptr);
+	GameObjectManager::get()->setSelectedGameObject(0);
 }
 
 void AppWindow::onRightMouseUp(const Point& mouse_pos) {

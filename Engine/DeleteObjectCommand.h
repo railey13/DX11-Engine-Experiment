@@ -5,46 +5,32 @@
 
 class DeleteObjectCommand : public Command {
 public:
-	DeleteObjectCommand(AppWindow* receiver, AGameObject* target) : receiver(receiver), object(target){
+	DeleteObjectCommand(GameObjectID target) : selected_object(target){
 
 	}
 	// Inherited via Command
 	void execute() override {
-		if (receiver && object) {
-			std::vector<AGameObject*> objects = GameObjectManager::get()->getAllObjects();
+		if (selected_object != 0) {
+			auto ids = GameObjectManager::get()->getAllObjects();
 
-			for (ui32 i = 0; i < objects.size(); i++) {
-				if (objects[i] == object) {
-					m_index = i;
+			for (ui32 i = 0; i < ids.size(); i++) {
+				if (ids[i] == selected_object) {
+					m_index = i; 
 					break;
 				}
 			}
 
-			GameObjectManager::get()->removeObject(object);
-			m_inScene = false;
+			removed_object = GameObjectManager::get()->removeObject(selected_object);
 		}
 	}
 
 	void undo() override {
-		if (receiver && object) {
-			if (m_index >= GameObjectManager::get()->getAllObjects().size()) {
-				GameObjectManager::get()->addObject(object);
-			}
-			else {
-				GameObjectManager::get()->insertObject(object, m_index);
-			}
-			m_inScene = true;
-		}
-	}
+		if (selected_object == 0) return; 
 
-	~DeleteObjectCommand() override {
-		if (object && !m_inScene) {
-			delete object;
-		}
+		GameObjectManager::get()->insertGameObject(std::move(removed_object), m_index);
 	}
 private:
-	AppWindow* receiver;
-	AGameObject* object = nullptr;
-	bool m_inScene = false;
+	GameObjectID selected_object;
+	GameObjectPtr removed_object;
 	size_t m_index = 0;
 };

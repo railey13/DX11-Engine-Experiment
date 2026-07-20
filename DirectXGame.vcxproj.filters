@@ -58,9 +58,6 @@
     <Filter Include="Scene Editor">
       <UniqueIdentifier>{dd73680c-8aa1-4a43-86cc-2dacc74b34c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene Editor\Screens">
-      <UniqueIdentifier>{ba3f5e7f-4262-4870-acc2-b78da129bf98}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Engine\EngineTime">
       <UniqueIdentifier>{3da925a3-3c62-4887-849d-d698b7de3d1b}</UniqueIdentifier>
     </Filter>
@@ -87,6 +84,12 @@
     </Filter>
     <Filter Include="Game Engine\Components\TransformComponent">
       <UniqueIdentifier>{609a52b1-4578-46d4-9926-da86da7cb34d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene Editor\UI">
+      <UniqueIdentifier>{ba3f5e7f-4262-4870-acc2-b78da129bf98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene Editor\UI\Windows">
+      <UniqueIdentifier>{d1c59cb3-e56c-4d7f-8507-cc17e4c5ceac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +141,7 @@
     <ClCompile Include="Engine\Plane.cpp">
       <Filter>Game Engine\GameObjects\Plane</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\AGameObject.cpp">
+    <ClCompile Include="Engine\GameObject.cpp">
       <Filter>Game Engine\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Sphere.cpp">
@@ -177,33 +180,34 @@
     <ClCompile Include="Engine\TextureManager.cpp">
       <Filter>Game Engine\GraphicsEngine\ResourceManager\TextureManager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\UIManager.cpp">
-      <Filter>Scene Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\AUIScreen.cpp">
-      <Filter>Scene Editor</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Camera.cpp">
       <Filter>Scene Editor\Scene Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\MainMenuScreen.cpp">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\AboutScreen.cpp">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\HierarchyScreen.cpp">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\InspectorScreen.cpp">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ColorPickerScreen.cpp" />
-    <ClCompile Include="Engine\AComponent.cpp">
+    <ClCompile Include="Engine\Component.cpp">
       <Filter>Game Engine\Components</Filter>
     </ClCompile>
     <ClCompile Include="Engine\TransformComponent.cpp">
       <Filter>Game Engine\Components\TransformComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObjectManager.cpp" />
+    <ClCompile Include="Engine\ShaderLibrary.cpp" />
+    <ClCompile Include="Engine\UI.cpp">
+      <Filter>Scene Editor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\UIManager.cpp">
+      <Filter>Scene Editor\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\AboutUI.cpp">
+      <Filter>Scene Editor\UI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\HierarchyUI.cpp">
+      <Filter>Scene Editor\UI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\InspectorUI.cpp">
+      <Filter>Scene Editor\UI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\MainBarUI.cpp">
+      <Filter>Scene Editor\UI\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -273,7 +277,7 @@
     <ClInclude Include="Engine\Plane.h">
       <Filter>Game Engine\GameObjects\Plane</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\AGameObject.h">
+    <ClInclude Include="Engine\GameObject.h">
       <Filter>Game Engine\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Sphere.h">
@@ -318,40 +322,39 @@
     <ClInclude Include="Engine\Vector2D.h">
       <Filter>Game Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\UIManager.h">
-      <Filter>Scene Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\AUIScreen.h">
-      <Filter>Scene Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Camera.h">
       <Filter>Scene Editor\Scene Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\MainMenuScreen.h">
-      <Filter>Scene Editor\Screens</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CloseWindowCommand.h" />
     <ClInclude Include="Engine\Command.h" />
     <ClInclude Include="Engine\CommandInvoker.h" />
-    <ClInclude Include="Engine\AboutScreen.h">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\HierarchyScreen.h">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DeleteObjectCommand.h" />
-    <ClInclude Include="Engine\InspectorScreen.h">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\SpawnObjectCommand.h">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ColorPickerScreen.h" />
-    <ClInclude Include="Engine\AComponent.h">
+    <ClInclude Include="Engine\Component.h">
       <Filter>Game Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Engine\TransformComponent.h">
       <Filter>Game Engine\Components\TransformComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObjectManager.h" />
+    <ClInclude Include="Engine\ShaderLibrary.h" />
+    <ClInclude Include="Engine\SpawnObjectCommand.h" />
+    <ClInclude Include="Engine\UI.h">
+      <Filter>Scene Editor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\UIManager.h">
+      <Filter>Scene Editor\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\MainBarUI.h">
+      <Filter>Scene Editor\UI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\AboutUI.h">
+      <Filter>Scene Editor\UI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\HierarchyUI.h">
+      <Filter>Scene Editor\UI\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\InspectorUI.h">
+      <Filter>Scene Editor\UI\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

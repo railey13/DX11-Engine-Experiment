@@ -141,11 +141,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\AboutScreen.cpp" />
-    <ClCompile Include="Engine\AComponent.cpp" />
-    <ClCompile Include="Engine\AGameObject.cpp" />
+    <ClCompile Include="Engine\AboutUI.cpp" />
+    <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp" />
-    <ClCompile Include="Engine\AUIScreen.cpp" />
+    <ClCompile Include="Engine\UI.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\ConstantBuffer.cpp" />
     <ClCompile Include="Engine\Cube.cpp" />
@@ -153,12 +153,12 @@
     <ClCompile Include="Engine\EngineTime.cpp" />
     <ClCompile Include="Engine\GameObjectManager.cpp" />
     <ClCompile Include="Engine\GraphicsEngine.cpp" />
-    <ClCompile Include="Engine\HierarchyScreen.cpp" />
+    <ClCompile Include="Engine\HierarchyUI.cpp" />
     <ClCompile Include="Engine\IndexBuffer.cpp" />
     <ClCompile Include="Engine\InputSystem.cpp" />
-    <ClCompile Include="Engine\InspectorScreen.cpp" />
+    <ClCompile Include="Engine\InspectorUI.cpp" />
     <ClCompile Include="Engine\main.cpp" />
-    <ClCompile Include="Engine\MainMenuScreen.cpp" />
+    <ClCompile Include="Engine\MainBarUI.cpp" />
     <ClCompile Include="Engine\PixelShader.cpp" />
     <ClCompile Include="Engine\Plane.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
@@ -183,11 +183,11 @@
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\AboutScreen.h" />
-    <ClInclude Include="Engine\AComponent.h" />
-    <ClInclude Include="Engine\AGameObject.h" />
+    <ClInclude Include="Engine\AboutUI.h" />
+    <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\AppWindow.h" />
-    <ClInclude Include="Engine\AUIScreen.h" />
+    <ClInclude Include="Engine\UI.h" />
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\CloseWindowCommand.h" />
     <ClInclude Include="Engine\Command.h" />
@@ -199,12 +199,12 @@
     <ClInclude Include="Engine\EngineTime.h" />
     <ClInclude Include="Engine\GameObjectManager.h" />
     <ClInclude Include="Engine\GraphicsEngine.h" />
-    <ClInclude Include="Engine\HierarchyScreen.h" />
+    <ClInclude Include="Engine\HierarchyUI.h" />
     <ClInclude Include="Engine\IndexBuffer.h" />
     <ClInclude Include="Engine\InputListener.h" />
     <ClInclude Include="Engine\InputSystem.h" />
-    <ClInclude Include="Engine\InspectorScreen.h" />
-    <ClInclude Include="Engine\MainMenuScreen.h" />
+    <ClInclude Include="Engine\InspectorUI.h" />
+    <ClInclude Include="Engine\MainBarUI.h" />
     <ClInclude Include="Engine\Matrix4x4.h" />
     <ClInclude Include="Engine\PixelShader.h" />
     <ClInclude Include="Engine\Plane.h" />

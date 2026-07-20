@@ -20,8 +20,6 @@
 
 #include "vector"
 
-class SpawnObjectCommand;
-class DeleteObjectCommand;
 class CloseWindowCommand;
 
 enum class Action {
@@ -73,9 +71,7 @@ private:
 	SwapChainPtr m_swap_chain;
 	CommandInvoker m_invoker;
 	Camera* m_sceneCamera;
-private:
-	friend class SpawnObjectCommand;
-	friend class DeleteObjectCommand;
+
 	friend class CloseWindowCommand;
 };
 

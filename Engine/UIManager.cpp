@@ -6,7 +6,6 @@
 #include "AboutUI.h"
 #include "HierarchyUI.h"
 #include "InspectorUI.h"
-#include "MainBarUI.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -29,7 +28,7 @@ UIManager::UIManager(HWND hwnd) {
 	registerUI<HierarchyUI>();
 	registerUI<InspectorUI>();
 	registerUI<MainBarUI>();
-	registerUI<ViewportUI>();
+	registerUI<AboutUI>();
 }
 
 UIManager::~UIManager() {

@@ -1,7 +1,7 @@
 #include "InspectorUI.h"
 #include "UIManager.h"
 #include "AppWindow.h"
-#include "AGameObject.h"
+#include "GameObject.h"
 #include "GameObjectManager.h"
 
 InspectorUI::InspectorUI() {
@@ -13,7 +13,8 @@ InspectorUI::~InspectorUI() {
 }
 
 void InspectorUI::draw() {
-	AGameObject* obj = GameObjectManager::get()->getSelectedObject();
+	
+	GameObject* obj = GameObjectManager::get()->getSelectedGameObject();
 
 	if (m_isActive) {
 		if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
