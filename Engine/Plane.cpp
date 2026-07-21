@@ -2,11 +2,6 @@
 #include "iostream"
 
 Plane::Plane() {
-	void* shader_byte_code = nullptr;
-	size_t size_shader = 0;
-
-	ShaderLibrary::get()->requestVertexShaderData(ShaderNames::BASE_VERTEX_SHADER_NAME, &shader_byte_code, &size_shader);
-
 	Vector3D position_list[] = {
 		{Vector3D(-1, 0, -1), }, // POS1
 		{Vector3D(-1, 0,  1), }, // POS2
@@ -40,7 +35,7 @@ Plane::Plane() {
 
 	ui32 size_index_list = ARRAYSIZE(index_list);
 
-	m_vb = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
+	m_vb = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(list, sizeof(vertex), size_list, ShaderLibrary::get()->getVSByteCode(), ShaderLibrary::get()->getVSSize());
 	m_ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(index_list, size_index_list);
 
 	constant cc;
@@ -59,11 +54,6 @@ void Plane::update(f32 deltaTime) {
 }
 
 void Plane::draw(Matrix4x4 view, Matrix4x4 proj) {
-	DeviceContextPtr context = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
-
-	context->setVertexShader(ShaderLibrary::get()->getVertexShader(ShaderNames::BASE_VERTEX_SHADER_NAME));
-	context->setPixelShader(ShaderLibrary::get()->getPixelShader(ShaderNames::BASE_PIXEL_SHADER_NAME));
-
 	constant cc;
 	Matrix4x4 temp;
 
@@ -75,10 +65,12 @@ void Plane::draw(Matrix4x4 view, Matrix4x4 proj) {
 	cc.m_proj = proj;
 
 	m_cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &cc);
+	
+	DeviceContextPtr context = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
 	context->setConstantBuffer(m_cb);
 
-	context->setTexutre(ShaderLibrary::get()->getPixelShader(ShaderNames::BASE_PIXEL_SHADER_NAME), m_tex);
+	context->setTexutre(ShaderLibrary::get()->getPS(), m_tex);
 
 	context->setVertexBuffer(m_vb);
 	context->setIndexBuffer(m_ib);

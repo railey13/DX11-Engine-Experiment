@@ -36,6 +36,9 @@ GameObjectManager::~GameObjectManager() {
 }
 
 void GameObjectManager::update(f32 deltaTime) {
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(ShaderLibrary::get()->getVS());
+	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(ShaderLibrary::get()->getPS());
+
 	for (auto& [type, obj] : m_gameobject_table) {
 		obj->update(deltaTime);
 	}
@@ -67,30 +70,6 @@ GameObjectID GameObjectManager::insertGameObject(GameObjectPtr object, size_t in
 	return id;
 }
 
-//GameObjectPtr GameObjectManager::createGameObject(PrimitiveType type) {
-//	GameObjectPtr object;
-//	switch (type) {
-//		case PrimitiveType::CUBE:
-//			object = std::make_unique<Cube>();
-//			break;
-//		case PrimitiveType::SPHERE:
-//			object = std::make_unique<Sphere>();
-//			break;
-//		case PrimitiveType::PLANE:
-//			object = std::make_unique<Plane>();
-//			break;
-//		default: return nullptr;
-//	}
-//		
-//	f32 spawnDistance = 1.0f;
-//	Camera* camera = AppWindow::get()->getCamera();
-//	Vector3D spawnPos = camera->getPosition() + camera->getForwardDirection() * spawnDistance;
-//	object->getTransform()->setPosition(spawnPos);
-//
-//	addGameObject(object);
-//
-//	return object;
-//}
 
 GameObjectPtr GameObjectManager::removeObject(GameObjectID gameobject_id) {
 	if (gameobject_id == 0) return nullptr;

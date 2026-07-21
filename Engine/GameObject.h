@@ -19,8 +19,6 @@
 #include <string>
 #include <map>
 
-class DeleteObjectCommand;
-class CreateObjectCommand;
 class GameObjectManager;
 
 struct vertex {

@@ -13,11 +13,11 @@ public:
 
 	static void initialize();
 	static void destroy();
-public:
+private:
 	GameObjectManager();
 	~GameObjectManager();
 	
-	GameObjectManager(GameObjectManager const&) {};
+	GameObjectManager(GameObjectManager const&);
 	GameObjectManager& operator=(GameObjectManager const&) {};
 	static GameObjectManager* sharedInstance;
 public:
