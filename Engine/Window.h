@@ -22,7 +22,7 @@ public:
 
 	// release the window
 	~Window();
-private:
+public:
 	bool broadcast();
 protected:
 	HWND m_hwnd;

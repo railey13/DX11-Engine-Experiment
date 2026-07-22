@@ -5,7 +5,7 @@
 
 #include "UIManager.h"
 #include "GameObjectManager.h"
-#include "ShaderLibrary.h"
+#include "ShaderManager.h"
 
 #include "SpawnObjectCommand.h"
 #include "DeleteObjectCommand.h"
@@ -16,6 +16,7 @@
 #include "Cube.h"
 #include "Sphere.h"
 #include "Plane.h"
+#include "Pot.h"
 
 AppWindow* AppWindow::sharedInstance = NULL;
 
@@ -40,14 +41,13 @@ void AppWindow::createGraphicsWindow() {
 
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
-	ShaderLibrary::initialize();
 	GameObjectManager::initialize();
 
 	UIManager::initialize(m_hwnd);
 }
 
 AppWindow::AppWindow() {
-	
+
 }
 
 AppWindow::~AppWindow() {
@@ -60,12 +60,15 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand<Cube>(); });
 	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand<Sphere>(); });
 	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand<Plane>(); });
+	m_invoker.bindCommand((int)Action::SpawnPot, [this]() { return new SpawnObjectCommand<Pot>(); });
 
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
 		return new DeleteObjectCommand(GameObjectManager::get()->getSelectedGameObjectID());
-	});
+		});
 
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
+
+	createGraphicsWindow();
 }
 
 void AppWindow::onUpdate() {
@@ -91,7 +94,6 @@ void AppWindow::onDestroy() {
 	Window::onDestroy();
 
 	InputSystem::get()->removeListener(this);
-	ShaderLibrary::get()->destroy();
 	GameObjectManager::get()->destroy();
 	GraphicsEngine::get()->destroy();
 }

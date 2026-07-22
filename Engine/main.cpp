@@ -12,12 +12,12 @@ int main() {
 		try {
 			AppWindow::initialize();
 			EngineTime::initialize();
-			AppWindow* runningApp = AppWindow::get();
 
-			runningApp->createGraphicsWindow();
-			/*runningApp->onCreate();*/
+			AppWindow* app = AppWindow::get();
 
-			while (runningApp->isRun());
+			while (app->isRun()) {
+				app->broadcast();
+			};
 		}
 		catch (...) {
 			GraphicsEngine::destroy();

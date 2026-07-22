@@ -35,12 +35,15 @@ Plane::Plane() {
 
 	ui32 size_index_list = ARRAYSIZE(index_list);
 
-	m_vb = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(list, sizeof(vertex), size_list, ShaderLibrary::get()->getVSByteCode(), ShaderLibrary::get()->getVSSize());
-	m_ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(index_list, size_index_list);
+	RenderSystem* render = GraphicsEngine::get()->getRenderSystem();
+	ShaderManager* shader = GraphicsEngine::get()->getShaderManager();
+
+	m_vb = render->createVertexBuffer(list, sizeof(vertex), size_list, shader->getVSByteCode(), shader->getVSSize());
+	m_ib = render->createIndexBuffer(index_list, size_index_list);
 
 	constant cc;
 	cc.m_time = 0;
-	m_cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
+	m_cb = render->createConstantBuffer(&cc, sizeof(constant));
 
 	m_name = "Plane";
 }
@@ -64,13 +67,15 @@ void Plane::draw(Matrix4x4 view, Matrix4x4 proj) {
 	cc.m_view = view;
 	cc.m_proj = proj;
 
-	m_cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &cc);
-	
-	DeviceContextPtr context = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
+	RenderSystem* render = GraphicsEngine::get()->getRenderSystem();
+
+	m_cb->update(render->getImmediateDeviceContext(), &cc);
+
+	DeviceContextPtr context = render->getImmediateDeviceContext();
 
 	context->setConstantBuffer(m_cb);
 
-	context->setTexutre(ShaderLibrary::get()->getPS(), m_tex);
+	context->setTexutre(GraphicsEngine::get()->getShaderManager()->getPS(), m_tex);
 
 	context->setVertexBuffer(m_vb);
 	context->setIndexBuffer(m_ib);

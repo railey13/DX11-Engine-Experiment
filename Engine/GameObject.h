@@ -3,7 +3,7 @@
 #include "Vector3D.h"
 #include "Vector2D.h"
 #include "Matrix4x4.h"
-#include "ShaderLibrary.h"
+#include "ShaderManager.h"
 
 #include "DeviceContext.h"
 #include "GraphicsEngine.h"

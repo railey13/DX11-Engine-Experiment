@@ -2,9 +2,11 @@
 #include "EngineTime.h"
 #include "AppWindow.h"
 
-#include "Cube.h"
-#include "Plane.h"
-#include "Sphere.h"
+#include "GameObject.h"
+//#include "Cube.h"
+//#include "Plane.h"
+//#include "Sphere.h"
+//#include "Pot.h"
 
 #include <set>
 
@@ -36,8 +38,11 @@ GameObjectManager::~GameObjectManager() {
 }
 
 void GameObjectManager::update(f32 deltaTime) {
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(ShaderLibrary::get()->getVS());
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(ShaderLibrary::get()->getPS());
+	RenderSystem* render = GraphicsEngine::get()->getRenderSystem();
+	ShaderManager* shader = GraphicsEngine::get()->getShaderManager();
+
+	render->getImmediateDeviceContext()->setVertexShader(shader->getVS());
+	render->getImmediateDeviceContext()->setPixelShader(shader->getPS());
 
 	for (auto& [type, obj] : m_gameobject_table) {
 		obj->update(deltaTime);

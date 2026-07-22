@@ -26,6 +26,7 @@ enum class Action {
 	SpawnCube,
 	SpawnSphere,
 	SpawnPlane,
+	SpawnPot,
 	DeleteSelectedObject,
 	Undo,
 	Redo,
@@ -38,7 +39,7 @@ public:
 
 	static void initialize();
 	static void destroy();
-public:
+private:
 	void createGraphicsWindow();
 private:
 	AppWindow(AppWindow const&);

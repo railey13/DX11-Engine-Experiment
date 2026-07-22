@@ -27,6 +27,14 @@ TextureManager* GraphicsEngine::getTextureManager() {
     return m_tex_manager;
 }
 
+ShaderManager* GraphicsEngine::getShaderManager() {
+    return m_shader_manager;
+}
+
+MeshManager* GraphicsEngine::getMeshManager() {
+    return m_mesh_manager;
+}
+
 GraphicsEngine::GraphicsEngine() {
     try {
         m_render_system = new RenderSystem();
@@ -41,10 +49,27 @@ GraphicsEngine::GraphicsEngine() {
     catch (...) {
         throw std::exception("Texture manager did not initiate successfully");
     }
+
+    try {
+        m_shader_manager = new ShaderManager(m_render_system);
+    }
+    catch (...) {
+        throw std::exception("Shader manager did not initiate successfully");
+    }
+
+    try {
+        m_mesh_manager = new MeshManager();
+    }
+    catch (...) {
+        throw std::exception("Mesh manager did not initiate successfully");
+    }
 }
 
 GraphicsEngine::~GraphicsEngine() {
     sharedInstance = nullptr;
+    delete m_shader_manager;
+    delete m_mesh_manager;
     delete m_tex_manager;
     delete m_render_system;
+
 }

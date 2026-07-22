@@ -25,6 +25,9 @@ void MainBarUI::draw() {
 			}
 			if (ImGui::MenuItem("Plane")) {
 				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnPlane);
+			}			
+			if (ImGui::MenuItem("Pot")) {
+				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnPot);
 			}
 
 			ImGui::EndMenu();

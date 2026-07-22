@@ -1,10 +1,10 @@
 #pragma once
 #include "GameObject.h"
 #include "Mesh.h"
-class Plane : public GameObject {
+class Pot : public GameObject {
 public:
-	Plane();
-	~Plane();
+	Pot();
+	~Pot();
 public:
 	// Inherited via GameObject
 	void update(f32 deltaTime) override;
@@ -13,5 +13,7 @@ private:
 	VertexBufferPtr m_vb;
 	IndexBufferPtr m_ib;
 	ConstantBufferPtr m_cb;
+
+	MeshPtr mesh;
 };
 

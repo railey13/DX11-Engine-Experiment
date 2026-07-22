@@ -27,6 +27,7 @@ InputSystem::InputSystem() {
 }
 
 InputSystem::~InputSystem() {
+	m_set_listeners.clear();
 	sharedInstance = nullptr;
 }
 

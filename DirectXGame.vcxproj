@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>Libs\DirectXTex\include;$(IncludePath)</IncludePath>
+    <IncludePath>Libs\DirectXTex\include;LIbs\tinyobjloader\include;$(IncludePath)</IncludePath>
     <LibraryPath>Libs\DirectXTex\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libs\DirectXTex\include;$(IncludePath)</IncludePath>
+    <IncludePath>Libs\DirectXTex\include;LIbs\tinyobjloader\include;$(IncludePath)</IncludePath>
     <LibraryPath>Libs\DirectXTex\bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -145,6 +145,9 @@
     <ClCompile Include="Engine\Component.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp" />
+    <ClCompile Include="Engine\Mesh.cpp" />
+    <ClCompile Include="Engine\MeshManager.cpp" />
+    <ClCompile Include="Engine\Pot.cpp" />
     <ClCompile Include="Engine\UI.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\ConstantBuffer.cpp" />
@@ -164,7 +167,7 @@
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\Resource.cpp" />
     <ClCompile Include="Engine\ResourceManager.cpp" />
-    <ClCompile Include="Engine\ShaderLibrary.cpp" />
+    <ClCompile Include="Engine\ShaderManager.cpp" />
     <ClCompile Include="Engine\Sphere.cpp" />
     <ClCompile Include="Engine\SwapChain.cpp" />
     <ClCompile Include="Engine\Texture.cpp" />
@@ -187,6 +190,9 @@
     <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\AppWindow.h" />
+    <ClInclude Include="Engine\Mesh.h" />
+    <ClInclude Include="Engine\MeshManager.h" />
+    <ClInclude Include="Engine\Pot.h" />
     <ClInclude Include="Engine\UI.h" />
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\CloseWindowCommand.h" />
@@ -213,7 +219,7 @@
     <ClInclude Include="Engine\RenderSystem.h" />
     <ClInclude Include="Engine\Resource.h" />
     <ClInclude Include="Engine\ResourceManager.h" />
-    <ClInclude Include="Engine\ShaderLibrary.h" />
+    <ClInclude Include="Engine\ShaderManager.h" />
     <ClInclude Include="Engine\SpawnObjectCommand.h" />
     <ClInclude Include="Engine\Sphere.h" />
     <ClInclude Include="Engine\SwapChain.h" />
@@ -225,6 +231,7 @@
     <ClInclude Include="Engine\Vector3D.h" />
     <ClInclude Include="Engine\Vector4D.h" />
     <ClInclude Include="Engine\VertexBuffer.h" />
+    <ClInclude Include="Engine\VertexMesh.h" />
     <ClInclude Include="Engine\VertexShader.h" />
     <ClInclude Include="Engine\Window.h" />
     <ClInclude Include="IMGUI\backends\imgui_impl_dx11.h" />
@@ -243,6 +250,10 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\VertexMeshLayoutShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>

@@ -64,18 +64,6 @@
     <Filter Include="Scene Editor\Scene Camera">
       <UniqueIdentifier>{010fa813-0e72-466a-aba9-67e255ac6210}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Engine\GameObjects">
-      <UniqueIdentifier>{9a7de1f4-0930-4606-a003-c7bfb0df8448}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GameObjects\Cube">
-      <UniqueIdentifier>{d07539b7-d04b-4c9c-88a6-94e1c80d3edd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GameObjects\Plane">
-      <UniqueIdentifier>{1ce999aa-21c5-4500-9429-1d93b01e3cbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GameObjects\Sphere">
-      <UniqueIdentifier>{066cb201-07b5-4e81-80df-88abc1e2a571}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Engine\Components">
       <UniqueIdentifier>{2bccf87f-84e0-4ff4-a799-70e37e889f25}</UniqueIdentifier>
     </Filter>
@@ -90,6 +78,30 @@
     </Filter>
     <Filter Include="Scene Editor\UI\Windows">
       <UniqueIdentifier>{d1c59cb3-e56c-4d7f-8507-cc17e4c5ceac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GraphicsEngine\MeshManager">
+      <UniqueIdentifier>{86198e21-d2cf-4fcb-a1b4-c09f8f0d0091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GraphicsEngine\ShaderManager">
+      <UniqueIdentifier>{dc5a6225-4a26-4061-a58b-06594c82ae26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GameObjectManager">
+      <UniqueIdentifier>{9a7de1f4-0930-4606-a003-c7bfb0df8448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GameObjectManager\Cube">
+      <UniqueIdentifier>{d07539b7-d04b-4c9c-88a6-94e1c80d3edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GameObjectManager\Plane">
+      <UniqueIdentifier>{1ce999aa-21c5-4500-9429-1d93b01e3cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GameObjectManager\Sphere">
+      <UniqueIdentifier>{066cb201-07b5-4e81-80df-88abc1e2a571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\Command">
+      <UniqueIdentifier>{4c7a4ccd-923b-4e8f-bcc6-0e612c108131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine\GameObjectManager\Pot">
+      <UniqueIdentifier>{736088b8-2b05-4808-9224-06a1c0e9a851}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -136,16 +148,16 @@
       <Filter>Game Engine\GraphicsEngine\Render System</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Cube.cpp">
-      <Filter>Game Engine\GameObjects\Cube</Filter>
+      <Filter>Game Engine\GameObjectManager\Cube</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Plane.cpp">
-      <Filter>Game Engine\GameObjects\Plane</Filter>
+      <Filter>Game Engine\GameObjectManager\Plane</Filter>
     </ClCompile>
     <ClCompile Include="Engine\GameObject.cpp">
-      <Filter>Game Engine\GameObjects</Filter>
+      <Filter>Game Engine\GameObjectManager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Sphere.cpp">
-      <Filter>Game Engine\GameObjects\Sphere</Filter>
+      <Filter>Game Engine\GameObjectManager\Sphere</Filter>
     </ClCompile>
     <ClCompile Include="IMGUI\imgui.cpp">
       <Filter>IMGUI</Filter>
@@ -189,8 +201,6 @@
     <ClCompile Include="Engine\TransformComponent.cpp">
       <Filter>Game Engine\Components\TransformComponent</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\GameObjectManager.cpp" />
-    <ClCompile Include="Engine\ShaderLibrary.cpp" />
     <ClCompile Include="Engine\UI.cpp">
       <Filter>Scene Editor\UI</Filter>
     </ClCompile>
@@ -208,6 +218,21 @@
     </ClCompile>
     <ClCompile Include="Engine\MainBarUI.cpp">
       <Filter>Scene Editor\UI\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\ShaderManager.cpp">
+      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameObjectManager.cpp">
+      <Filter>Game Engine\GameObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\MeshManager.cpp">
+      <Filter>Game Engine\GraphicsEngine\MeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Mesh.cpp">
+      <Filter>Game Engine\GraphicsEngine\MeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Pot.cpp">
+      <Filter>Game Engine\GameObjectManager\Pot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,16 +297,16 @@
       <Filter>Game Engine\GraphicsEngine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Cube.h">
-      <Filter>Game Engine\GameObjects\Cube</Filter>
+      <Filter>Game Engine\GameObjectManager\Cube</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Plane.h">
-      <Filter>Game Engine\GameObjects\Plane</Filter>
+      <Filter>Game Engine\GameObjectManager\Plane</Filter>
     </ClInclude>
     <ClInclude Include="Engine\GameObject.h">
-      <Filter>Game Engine\GameObjects</Filter>
+      <Filter>Game Engine\GameObjectManager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Sphere.h">
-      <Filter>Game Engine\GameObjects\Sphere</Filter>
+      <Filter>Game Engine\GameObjectManager\Sphere</Filter>
     </ClInclude>
     <ClInclude Include="IMGUI\imconfig.h">
       <Filter>IMGUI</Filter>
@@ -325,19 +350,12 @@
     <ClInclude Include="Engine\Camera.h">
       <Filter>Scene Editor\Scene Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\CloseWindowCommand.h" />
-    <ClInclude Include="Engine\Command.h" />
-    <ClInclude Include="Engine\CommandInvoker.h" />
-    <ClInclude Include="Engine\DeleteObjectCommand.h" />
     <ClInclude Include="Engine\Component.h">
       <Filter>Game Engine\Components</Filter>
     </ClInclude>
     <ClInclude Include="Engine\TransformComponent.h">
       <Filter>Game Engine\Components\TransformComponent</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\GameObjectManager.h" />
-    <ClInclude Include="Engine\ShaderLibrary.h" />
-    <ClInclude Include="Engine\SpawnObjectCommand.h" />
     <ClInclude Include="Engine\UI.h">
       <Filter>Scene Editor\UI</Filter>
     </ClInclude>
@@ -356,13 +374,49 @@
     <ClInclude Include="Engine\InspectorUI.h">
       <Filter>Scene Editor\UI\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\ShaderManager.h">
+      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameObjectManager.h">
+      <Filter>Game Engine\GameObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\MeshManager.h">
+      <Filter>Game Engine\GraphicsEngine\MeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CloseWindowCommand.h">
+      <Filter>Game Engine\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Command.h">
+      <Filter>Game Engine\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CommandInvoker.h">
+      <Filter>Game Engine\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DeleteObjectCommand.h">
+      <Filter>Game Engine\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\SpawnObjectCommand.h">
+      <Filter>Game Engine\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Mesh.h">
+      <Filter>Game Engine\GraphicsEngine\MeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\VertexMesh.h">
+      <Filter>Game Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Pot.h">
+      <Filter>Game Engine\GameObjectManager\Pot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">
-      <Filter>App</Filter>
+      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
     </FxCompile>
     <FxCompile Include="Engine\PixelShader.hlsl">
-      <Filter>App</Filter>
+      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\VertexMeshLayoutShader.hlsl">
+      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -14,6 +14,8 @@ class Resource;
 class ResourceManager;
 class Texture;
 class TextureManager;
+class Mesh;
+class MesheManager;
 
 class GameObject;
 
@@ -29,6 +31,7 @@ typedef std::shared_ptr<VertexShader> VertexShaderPtr;
 typedef std::shared_ptr<PixelShader> PixelShaderPtr;
 typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
+typedef std::shared_ptr<Mesh> MeshPtr;
 
 typedef std::unique_ptr<GameObject> GameObjectPtr;
 

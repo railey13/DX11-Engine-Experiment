@@ -3,6 +3,8 @@
 #include "Prerequisites.h"
 #include "RenderSystem.h"
 #include "TextureManager.h"
+#include "ShaderManager.h"
+#include "MeshManager.h"
 
 class GraphicsEngine {
 public: 
@@ -13,6 +15,8 @@ public:
 public:
 	RenderSystem* getRenderSystem();
 	TextureManager* getTextureManager();
+	ShaderManager* getShaderManager();
+	MeshManager* getMeshManager();
 private:
 	// initialize the GraphicsEngine and DirectX 11 Device
 	GraphicsEngine();
@@ -26,5 +30,7 @@ private:
 private:
 	RenderSystem* m_render_system = nullptr;
 	TextureManager* m_tex_manager = nullptr;
+	ShaderManager* m_shader_manager = nullptr;
+	MeshManager* m_mesh_manager = nullptr;
 };
 

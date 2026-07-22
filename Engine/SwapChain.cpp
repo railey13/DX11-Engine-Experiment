@@ -35,7 +35,6 @@ SwapChain::SwapChain(HWND hwnd, ui32  width, ui32  height, RenderSystem* system)
 	}
 
 	reloadBuffers(width, height);
-	
 }
 
 bool SwapChain::present(bool vsync) {
@@ -110,4 +109,6 @@ void SwapChain::reloadBuffers(ui32 width, ui32 height) {
 	if (FAILED(hr)) {
 		throw std::exception("DepthStencilView did not initiate successfully");
 	}
+
+
 }
