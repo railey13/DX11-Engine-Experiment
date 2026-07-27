@@ -1,77 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="App">
-      <UniqueIdentifier>{5aa9d9b5-c7f4-42e9-b917-943a2eb43f60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine">
-      <UniqueIdentifier>{a5e706c5-d633-454d-9bad-20ab5bbbc609}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\WindowingSystem">
-      <UniqueIdentifier>{6bc62103-a9d6-4044-a480-0fad1118a23b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine">
-      <UniqueIdentifier>{e88ba9c0-b1a0-480d-b55b-8a9f3d86b5dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\Math">
-      <UniqueIdentifier>{7f84d2a5-b152-4275-a796-09b768cd65dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\InputSystem">
-      <UniqueIdentifier>{de312694-f81b-4676-9e3a-b8d869aaa565}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\Render System">
-      <UniqueIdentifier>{ddd22fc3-a4e7-4743-89e1-f62af505c144}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\Render System\ConstantBuffer">
-      <UniqueIdentifier>{5269d60d-f823-4a8c-a6a7-b55d1b624ce2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\Render System\DeviceContext">
-      <UniqueIdentifier>{bf235553-cc79-42f9-9c93-b07483989168}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\Render System\IndexBuffer">
-      <UniqueIdentifier>{3e8c58b7-ca5b-4684-8689-0c3e55636599}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\Render System\PixelShader">
-      <UniqueIdentifier>{f91e4b11-8e7a-4391-829f-aa36031ec7bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\Render System\SwapChain">
-      <UniqueIdentifier>{83ef068a-91f7-4450-9d42-e574a5397b0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\Render System\VertexBuffer">
-      <UniqueIdentifier>{2d46f61d-e749-4098-aa02-54b51be7bdc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\Render System\VertexShader">
-      <UniqueIdentifier>{20fd9d8d-87da-49a0-b792-20223ebb7e96}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IMGUI">
       <UniqueIdentifier>{56967b73-edfb-4d8a-aac3-7f71967b4285}</UniqueIdentifier>
     </Filter>
     <Filter Include="IMGUI\backends">
       <UniqueIdentifier>{de0754ac-e855-4b5f-8675-267a1390bc6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\ResourceManager">
-      <UniqueIdentifier>{eae83ed7-0096-43c8-a126-1e44942df0ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\ResourceManager\TextureManager">
-      <UniqueIdentifier>{ae8ee4f9-5453-4ed8-b562-8df2215346e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene Editor">
       <UniqueIdentifier>{dd73680c-8aa1-4a43-86cc-2dacc74b34c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Engine\EngineTime">
-      <UniqueIdentifier>{3da925a3-3c62-4887-849d-d698b7de3d1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene Editor\Scene Camera">
       <UniqueIdentifier>{010fa813-0e72-466a-aba9-67e255ac6210}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\Components">
-      <UniqueIdentifier>{2bccf87f-84e0-4ff4-a799-70e37e889f25}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game">
-      <UniqueIdentifier>{334a53c4-6385-40be-80da-351aa487758f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\Components\TransformComponent">
-      <UniqueIdentifier>{609a52b1-4578-46d4-9926-da86da7cb34d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scene Editor\UI">
       <UniqueIdentifier>{ba3f5e7f-4262-4870-acc2-b78da129bf98}</UniqueIdentifier>
@@ -79,344 +19,237 @@
     <Filter Include="Scene Editor\UI\Windows">
       <UniqueIdentifier>{d1c59cb3-e56c-4d7f-8507-cc17e4c5ceac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\MeshManager">
-      <UniqueIdentifier>{86198e21-d2cf-4fcb-a1b4-c09f8f0d0091}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GraphicsEngine\ShaderManager">
-      <UniqueIdentifier>{dc5a6225-4a26-4061-a58b-06594c82ae26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GameObjectManager">
-      <UniqueIdentifier>{9a7de1f4-0930-4606-a003-c7bfb0df8448}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GameObjectManager\Cube">
-      <UniqueIdentifier>{d07539b7-d04b-4c9c-88a6-94e1c80d3edd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GameObjectManager\Plane">
-      <UniqueIdentifier>{1ce999aa-21c5-4500-9429-1d93b01e3cbd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\GameObjectManager\Sphere">
-      <UniqueIdentifier>{066cb201-07b5-4e81-80df-88abc1e2a571}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Engine\Command">
+    <Filter Include="Command">
       <UniqueIdentifier>{4c7a4ccd-923b-4e8f-bcc6-0e612c108131}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Engine\GameObjectManager\Pot">
+    <Filter Include="Components">
+      <UniqueIdentifier>{2bccf87f-84e0-4ff4-a799-70e37e889f25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\TransformComponent">
+      <UniqueIdentifier>{609a52b1-4578-46d4-9926-da86da7cb34d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components\MeshComponent">
+      <UniqueIdentifier>{dd610c27-8279-4eef-adad-2c52544b88c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineTime">
+      <UniqueIdentifier>{3da925a3-3c62-4887-849d-d698b7de3d1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjectManager">
+      <UniqueIdentifier>{9a7de1f4-0930-4606-a003-c7bfb0df8448}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjectManager\Cube">
+      <UniqueIdentifier>{d07539b7-d04b-4c9c-88a6-94e1c80d3edd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjectManager\Plane">
+      <UniqueIdentifier>{1ce999aa-21c5-4500-9429-1d93b01e3cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjectManager\Sphere">
+      <UniqueIdentifier>{066cb201-07b5-4e81-80df-88abc1e2a571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjectManager\Pot">
       <UniqueIdentifier>{736088b8-2b05-4808-9224-06a1c0e9a851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjectManager\Bunny">
+      <UniqueIdentifier>{0f12ea97-8ee4-4560-aa57-0c790aa05159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjectManager\Armadillo">
+      <UniqueIdentifier>{8605ebff-c00b-4bb1-a93b-2f8b4d3f3512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine">
+      <UniqueIdentifier>{e88ba9c0-b1a0-480d-b55b-8a9f3d86b5dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\Render System">
+      <UniqueIdentifier>{ddd22fc3-a4e7-4743-89e1-f62af505c144}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\Render System\ConstantBuffer">
+      <UniqueIdentifier>{5269d60d-f823-4a8c-a6a7-b55d1b624ce2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\Render System\DeviceContext">
+      <UniqueIdentifier>{bf235553-cc79-42f9-9c93-b07483989168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\Render System\IndexBuffer">
+      <UniqueIdentifier>{3e8c58b7-ca5b-4684-8689-0c3e55636599}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\Render System\PixelShader">
+      <UniqueIdentifier>{f91e4b11-8e7a-4391-829f-aa36031ec7bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\Render System\SwapChain">
+      <UniqueIdentifier>{83ef068a-91f7-4450-9d42-e574a5397b0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\Render System\VertexBuffer">
+      <UniqueIdentifier>{2d46f61d-e749-4098-aa02-54b51be7bdc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\Render System\VertexShader">
+      <UniqueIdentifier>{20fd9d8d-87da-49a0-b792-20223ebb7e96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\ResourceManager">
+      <UniqueIdentifier>{eae83ed7-0096-43c8-a126-1e44942df0ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\ResourceManager\TextureManager">
+      <UniqueIdentifier>{ae8ee4f9-5453-4ed8-b562-8df2215346e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\MeshManager">
+      <UniqueIdentifier>{86198e21-d2cf-4fcb-a1b4-c09f8f0d0091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicsEngine\ShaderManager">
+      <UniqueIdentifier>{dc5a6225-4a26-4061-a58b-06594c82ae26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="InputSystem">
+      <UniqueIdentifier>{de312694-f81b-4676-9e3a-b8d869aaa565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{7f84d2a5-b152-4275-a796-09b768cd65dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WindowingSystem">
+      <UniqueIdentifier>{6bc62103-a9d6-4044-a480-0fad1118a23b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX3D">
+      <UniqueIdentifier>{a9a42843-664b-4f2b-89c3-f5a0b987cbe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX3D\Include">
+      <UniqueIdentifier>{4970e152-82ff-4e79-88c0-c6be09b90f0d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\AppWindow.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ConstantBuffer.cpp">
-      <Filter>Game Engine\GraphicsEngine\Render System\ConstantBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DeviceContext.cpp">
-      <Filter>Game Engine\GraphicsEngine\Render System\DeviceContext</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\EngineTime.cpp">
-      <Filter>Game Engine\EngineTime</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GraphicsEngine.cpp">
-      <Filter>Game Engine\GraphicsEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\IndexBuffer.cpp">
-      <Filter>Game Engine\GraphicsEngine\Render System\IndexBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\InputSystem.cpp">
-      <Filter>Game Engine\InputSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\main.cpp">
-      <Filter>App</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\PixelShader.cpp">
-      <Filter>Game Engine\GraphicsEngine\Render System\PixelShader</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\SwapChain.cpp">
-      <Filter>Game Engine\GraphicsEngine\Render System\SwapChain</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\VertexBuffer.cpp">
-      <Filter>Game Engine\GraphicsEngine\Render System\VertexBuffer</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\VertexShader.cpp">
-      <Filter>Game Engine\GraphicsEngine\Render System\VertexShader</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Window.cpp">
-      <Filter>Game Engine\WindowingSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\RenderSystem.cpp">
-      <Filter>Game Engine\GraphicsEngine\Render System</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Cube.cpp">
-      <Filter>Game Engine\GameObjectManager\Cube</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Plane.cpp">
-      <Filter>Game Engine\GameObjectManager\Plane</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObject.cpp">
-      <Filter>Game Engine\GameObjectManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Sphere.cpp">
-      <Filter>Game Engine\GameObjectManager\Sphere</Filter>
-    </ClCompile>
-    <ClCompile Include="IMGUI\imgui.cpp">
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui.cpp">
       <Filter>IMGUI</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\imgui_demo.cpp">
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui_demo.cpp">
       <Filter>IMGUI</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\imgui_draw.cpp">
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui_draw.cpp">
       <Filter>IMGUI</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\imgui_tables.cpp">
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui_tables.cpp">
       <Filter>IMGUI</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\imgui_widgets.cpp">
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui_widgets.cpp">
       <Filter>IMGUI</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\backends\imgui_impl_win32.cpp">
+    <ClCompile Include="DX3D\Vendor\IMGUI\backends\imgui_impl_win32.cpp">
       <Filter>IMGUI\backends</Filter>
     </ClCompile>
-    <ClCompile Include="IMGUI\backends\imgui_impl_dx11.cpp">
+    <ClCompile Include="DX3D\Vendor\IMGUI\backends\imgui_impl_dx11.cpp">
       <Filter>IMGUI\backends</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ResourceManager.cpp">
-      <Filter>Game Engine\GraphicsEngine\ResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Resource.cpp">
-      <Filter>Game Engine\GraphicsEngine\ResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Texture.cpp">
-      <Filter>Game Engine\GraphicsEngine\ResourceManager\TextureManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\TextureManager.cpp">
-      <Filter>Game Engine\GraphicsEngine\ResourceManager\TextureManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Camera.cpp">
-      <Filter>Scene Editor\Scene Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Component.cpp">
-      <Filter>Game Engine\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\TransformComponent.cpp">
-      <Filter>Game Engine\Components\TransformComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UI.cpp">
-      <Filter>Scene Editor\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\UIManager.cpp">
-      <Filter>Scene Editor\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\AboutUI.cpp">
-      <Filter>Scene Editor\UI\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\HierarchyUI.cpp">
-      <Filter>Scene Editor\UI\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\InspectorUI.cpp">
-      <Filter>Scene Editor\UI\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\MainBarUI.cpp">
-      <Filter>Scene Editor\UI\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\ShaderManager.cpp">
-      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\GameObjectManager.cpp">
-      <Filter>Game Engine\GameObjectManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\MeshManager.cpp">
-      <Filter>Game Engine\GraphicsEngine\MeshManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Mesh.cpp">
-      <Filter>Game Engine\GraphicsEngine\MeshManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Pot.cpp">
-      <Filter>Game Engine\GameObjectManager\Pot</Filter>
-    </ClCompile>
+    <ClCompile Include="DX3D\Source\DX3D\Window\Window.cpp" />
+    <ClCompile Include="Game\main.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\Game.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\Win32\Win32.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\GraphicsEngine.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\RenderSystem.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\DeviceContext.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\ConstantBuffer.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\PixelShader.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\SwapChain.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\VertexShader.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\Display.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\ResourceManager.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\Resource.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\Mesh.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\Texture2D.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\Texture.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\Material.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Input\InputSystem.cpp" />
+    <ClCompile Include="Game\MainGame.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\World.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\GameObject.cpp" />
+    <ClCompile Include="Game\Player.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\Component.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\MeshComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\TransformComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\CameraComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\EditorCamera.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\UIHandler.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\UI.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\MainBarUI.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\PrimitiveFactory.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\HierarchyUI.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\InspectorUI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\AppWindow.h">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ConstantBuffer.h">
-      <Filter>Game Engine\GraphicsEngine\Render System\ConstantBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DeviceContext.h">
-      <Filter>Game Engine\GraphicsEngine\Render System\DeviceContext</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\EngineTime.h">
-      <Filter>Game Engine\EngineTime</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GraphicsEngine.h">
-      <Filter>Game Engine\GraphicsEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\IndexBuffer.h">
-      <Filter>Game Engine\GraphicsEngine\Render System\IndexBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\InputListener.h">
-      <Filter>Game Engine\InputSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\InputSystem.h">
-      <Filter>Game Engine\InputSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Matrix4x4.h">
-      <Filter>Game Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\PixelShader.h">
-      <Filter>Game Engine\GraphicsEngine\Render System\PixelShader</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Point.h">
-      <Filter>Game Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\SwapChain.h">
-      <Filter>Game Engine\GraphicsEngine\Render System\SwapChain</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Vector3D.h">
-      <Filter>Game Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Vector4D.h">
-      <Filter>Game Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\VertexBuffer.h">
-      <Filter>Game Engine\GraphicsEngine\Render System\VertexBuffer</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\VertexShader.h">
-      <Filter>Game Engine\GraphicsEngine\Render System\VertexShader</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Window.h">
-      <Filter>Game Engine\WindowingSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Settings.h">
-      <Filter>App</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\RenderSystem.h">
-      <Filter>Game Engine\GraphicsEngine\Render System</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Prerequisites.h">
-      <Filter>Game Engine\GraphicsEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Cube.h">
-      <Filter>Game Engine\GameObjectManager\Cube</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Plane.h">
-      <Filter>Game Engine\GameObjectManager\Plane</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObject.h">
-      <Filter>Game Engine\GameObjectManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Sphere.h">
-      <Filter>Game Engine\GameObjectManager\Sphere</Filter>
-    </ClInclude>
-    <ClInclude Include="IMGUI\imconfig.h">
+    <ClInclude Include="DX3D\Vendor\IMGUI\imconfig.h">
       <Filter>IMGUI</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imgui.h">
+    <ClInclude Include="DX3D\Vendor\IMGUI\imgui.h">
       <Filter>IMGUI</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imgui_internal.h">
+    <ClInclude Include="DX3D\Vendor\IMGUI\imgui_internal.h">
       <Filter>IMGUI</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imstb_rectpack.h">
+    <ClInclude Include="DX3D\Vendor\IMGUI\imstb_rectpack.h">
       <Filter>IMGUI</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imstb_textedit.h">
+    <ClInclude Include="DX3D\Vendor\IMGUI\imstb_textedit.h">
       <Filter>IMGUI</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\imstb_truetype.h">
+    <ClInclude Include="DX3D\Vendor\IMGUI\imstb_truetype.h">
       <Filter>IMGUI</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\backends\imgui_impl_win32.h">
+    <ClInclude Include="DX3D\Vendor\IMGUI\backends\imgui_impl_win32.h">
       <Filter>IMGUI\backends</Filter>
     </ClInclude>
-    <ClInclude Include="IMGUI\backends\imgui_impl_dx11.h">
+    <ClInclude Include="DX3D\Vendor\IMGUI\backends\imgui_impl_dx11.h">
       <Filter>IMGUI\backends</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ResourceManager.h">
-      <Filter>Game Engine\GraphicsEngine\ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Resource.h">
-      <Filter>Game Engine\GraphicsEngine\ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\TextureManager.h">
-      <Filter>Game Engine\GraphicsEngine\ResourceManager\TextureManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Texture.h">
-      <Filter>Game Engine\GraphicsEngine\ResourceManager\TextureManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Vector2D.h">
-      <Filter>Game Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Camera.h">
-      <Filter>Scene Editor\Scene Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Component.h">
-      <Filter>Game Engine\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\TransformComponent.h">
-      <Filter>Game Engine\Components\TransformComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UI.h">
-      <Filter>Scene Editor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\UIManager.h">
-      <Filter>Scene Editor\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\MainBarUI.h">
-      <Filter>Scene Editor\UI\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\AboutUI.h">
-      <Filter>Scene Editor\UI\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\HierarchyUI.h">
-      <Filter>Scene Editor\UI\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\InspectorUI.h">
-      <Filter>Scene Editor\UI\Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ShaderManager.h">
-      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\GameObjectManager.h">
-      <Filter>Game Engine\GameObjectManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\MeshManager.h">
-      <Filter>Game Engine\GraphicsEngine\MeshManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\CloseWindowCommand.h">
-      <Filter>Game Engine\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Command.h">
-      <Filter>Game Engine\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\CommandInvoker.h">
-      <Filter>Game Engine\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DeleteObjectCommand.h">
-      <Filter>Game Engine\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\SpawnObjectCommand.h">
-      <Filter>Game Engine\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Mesh.h">
-      <Filter>Game Engine\GraphicsEngine\MeshManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\VertexMesh.h">
-      <Filter>Game Engine\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Pot.h">
-      <Filter>Game Engine\GameObjectManager\Pot</Filter>
-    </ClInclude>
+    <ClInclude Include="DX3D\Include\DX3D\Window\Window.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Rect.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Settings.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Prerequisites.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Game\Game.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\GraphicsEngine.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\RenderSystem.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\DeviceContext.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\ConstantBuffer.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\IndexBuffer.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\PixelShader.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\SwapChain.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\VertexBuffer.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\VertexShader.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Game\Display.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\ResourceManager.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\Resource.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\Mesh.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Matrix4x4.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Vector2D.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Vector3D.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Vector4D.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\VertexMesh.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\Texture2D.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\Texture.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\Material.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Input\InputSystem.h" />
+    <ClInclude Include="Game\MainGame.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Game\World.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\GameObject.h" />
+    <ClInclude Include="DX3D\Include\DX3D\All.h" />
+    <ClInclude Include="Game\Player.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\Component.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\TransformComponent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\MeshComponent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Game\EditorCamera.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\UIHandler.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\UI.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\MainBarUI.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\PrimitiveFactory.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\HierarchyUI.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\InspectorUI.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\VertexShader.hlsl">
-      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
+    <FxCompile Include="Assets\Shaders\VertexShader.hlsl">
+      <Filter>GraphicsEngine\ShaderManager</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\PixelShader.hlsl">
-      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
+    <FxCompile Include="Assets\Shaders\PixelShader.hlsl">
+      <Filter>GraphicsEngine\ShaderManager</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\VertexMeshLayoutShader.hlsl">
-      <Filter>Game Engine\GraphicsEngine\ShaderManager</Filter>
+    <FxCompile Include="Assets\Shaders\VertexMeshLayoutShader.hlsl">
+      <Filter>GraphicsEngine\ShaderManager</Filter>
     </FxCompile>
+    <FxCompile Include="Assets\Shaders\Material.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DX3D\Include\DX3D\GameObject\CameraComponent.h" />
   </ItemGroup>
 </Project>

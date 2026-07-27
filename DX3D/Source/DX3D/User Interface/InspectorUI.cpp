@@ -1,0 +1,65 @@
+#include <DX3D/User Interface/InspectorUI.h>
+#include <DX3D/User Interface/UIHandler.h>
+#include <DX3D/Game/World.h>
+#include <DX3D/Game/Game.h>
+#include <DX3D/GameObject/GameObject.h>
+#include <DX3D/GameObject/TransformComponent.h>
+#include <DX3D/GameObject/MeshComponent.h>
+
+InspectorUI::InspectorUI(UIHandler* handler) : UI(handler) {
+	m_isActive = true;
+}
+
+InspectorUI::~InspectorUI() {
+
+}
+
+void InspectorUI::draw() {
+	
+	GameObject* obj = m_world->getSelectedGameObject();
+
+	if (m_isActive) {
+		if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
+			if (obj) {
+				// GameObject Name
+				{
+					strncpy_s(m_nameBuffer, obj->getName().c_str(), sizeof(m_nameBuffer) - 1);
+					m_nameBuffer[sizeof(m_nameBuffer) - 1] = '\0';
+
+					if (ImGui::InputText("Name", m_nameBuffer, sizeof(m_nameBuffer))) {
+						if (m_nameBuffer[0] == '\0') {
+							obj->setName("GameObject");
+						}
+						else {
+							obj->setName(m_nameBuffer);
+						}
+					}
+				}
+				// GameObject Transform
+				{
+					TransformComponent* transform = obj->getTransform();
+					Vector3D pos = transform->getPosition();
+					Vector3D rot = transform->getRotation();
+					Vector3D scale = transform->getScale();
+
+					ImGui::Text("Transform");
+					if (ImGui::DragFloat3("Position", &pos.m_x, m_transform_speed)) {
+						obj->getTransform()->setPosition(pos);
+					}
+					if (ImGui::DragFloat3("Rotation", &rot.m_x, m_transform_speed)) {
+						obj->getTransform()->setRotation(rot);
+					}
+					if (ImGui::DragFloat3("Scale", &scale.m_x, m_transform_speed)) {
+						obj->getTransform()->setScale(scale);
+					}
+				}
+				// GameObject Texture
+				{
+					
+				}
+			}		
+		}
+
+		ImGui::End();
+	}
+}
