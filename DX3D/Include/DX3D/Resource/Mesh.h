@@ -27,7 +27,7 @@ public:
 	MaterialSlot getMaterialSlot(ui32 slot);
 	size_t getNumMaterialSlots() { return m_material_slots.size(); }
 private:
-	void computeTangents(
+	static void computeTangents(
 		const Vector3D& v0, const Vector3D& v1, const Vector3D& v2,
 		const Vector2D& t0, const Vector2D& t1, const Vector2D& t2,
 		Vector3D& tangent, Vector3D& binormal);
@@ -38,4 +38,5 @@ private:
 private:
 	friend class DeviceContext;
 	friend class GraphicsEngine;
+	friend class PrimitiveFactory;
 };

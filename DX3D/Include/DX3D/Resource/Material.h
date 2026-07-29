@@ -5,30 +5,27 @@
 #include <DX3D/Prerequisites.h>
 #include <vector>
 
-enum CULL_MODE {
-	CULL_MODE_FRONT = 0,
-	CULL_MODE_BACK
-};
-
 class Material : public Resource { 
 public:
 	Material(const wchar_t* path, ResourceManager* manager);
 	Material(const MaterialPtr& material, ResourceManager* manager);
 
+	void setTexture(ui32 index, const TexturePtr& texture);
+	void setMainTexture(const TexturePtr& texture);
 	void addTexture(const TexturePtr& texture);
 	void removeTexture(ui32 index);
 
 	void setData(void* data, ui32 size);
 
-	void setCullMode(CULL_MODE mode);
-	CULL_MODE getCullMode() { return m_cull_mode; }
+	void setCullMode(CullMode mode);
+	CullMode getCullMode() { return m_cull_mode; }
 private:
 	VertexShaderPtr m_vertex_shader;
 	PixelShaderPtr m_pixel_shader;
 	ConstantBufferPtr m_constant_buffer;
 	std::vector<Texture2DPtr> m_vec_textures;
 	
-	CULL_MODE m_cull_mode = CULL_MODE_BACK;
+	CullMode m_cull_mode = CullMode::Back;
 private:
 	friend class GraphicsEngine;
 };

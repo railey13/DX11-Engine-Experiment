@@ -13,6 +13,7 @@ void Player::onCreate() {
 	m_camera = getComponent<CameraComponent>();
 	m_camera->setSensitivity(0.001f);
 	getTransform()->setPosition(Vector3D(0,0,-1));
+
 }
 
 void Player::update(f32 deltaTime) {

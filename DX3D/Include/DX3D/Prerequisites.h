@@ -34,6 +34,7 @@ class Component;
 class TransformComponent;
 class MeshComponent;
 class CameraComponent;
+class LightComponent;
 
 class Material;
 
@@ -65,6 +66,13 @@ enum class CameraType {
 	Orthographic = 0,
 	Perspective
 };
+
+enum CullMode {
+	None = 0,
+	Front,
+	Back
+};
+
 
 enum class Key {
 	A = 0,

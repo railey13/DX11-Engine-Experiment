@@ -28,19 +28,6 @@ MainBarUI::~MainBarUI() {
 
 void MainBarUI::draw() {
 	if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::BeginMenu("Panels")) {
-			if (ImGui::MenuItem("Hierarchy Panel")) {
-				if (HierarchyUI* ui = m_handler->getUI<HierarchyUI>()) {
-					ui->toggleActive();
-				}
-			}
-			if (ImGui::MenuItem("Inspector Panel")) {
-				if (InspectorUI* ui = m_handler->getUI<InspectorUI>()) {
-					ui->toggleActive();
-				}
-			}
-			ImGui::EndMenu();
-		}
 		if (ImGui::BeginMenu("3D Objects")) {
 			if (ImGui::MenuItem("Cube")) {
 				auto obj = m_world->createGameObject<GameObject>();
@@ -57,6 +44,19 @@ void MainBarUI::draw() {
 			if (ImGui::MenuItem("Capsule")) {
 				auto obj = m_world->createGameObject<GameObject>();
 				PrimitiveFactory::createCapsule(resource, obj);
+			}
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Panels")) {
+			if (ImGui::MenuItem("Hierarchy Panel")) {
+				if (HierarchyUI* ui = m_handler->getUI<HierarchyUI>()) {
+					ui->toggleActive();
+				}
+			}
+			if (ImGui::MenuItem("Inspector Panel")) {
+				if (InspectorUI* ui = m_handler->getUI<InspectorUI>()) {
+					ui->toggleActive();
+				}
 			}
 			ImGui::EndMenu();
 		}

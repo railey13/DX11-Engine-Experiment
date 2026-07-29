@@ -11,6 +11,6 @@ public:
 private:
 	GameObject* m_gameObject = nullptr;
 	f32 m_elapsedSeconds = 0.0f;
-	f32 rotation = 0.0f;
+	f32 m_rotation = 0.0f;
 };
 

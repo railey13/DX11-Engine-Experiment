@@ -63,13 +63,13 @@ RenderSystem::RenderSystem() {
     m_dxgi_device->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgi_adapter); // get the dxgi adapter instance
     m_dxgi_adapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgi_factory); // get the dxgi factory instance
 
+    initRasterizerStates();
     compilePrivateShaders();
 }
 
 RenderSystem::~RenderSystem() {
 
 }
-
 
 SwapChainPtr RenderSystem::createSwapChain(HWND hwnd, ui32  width, ui32  height) {
     return std::make_shared<SwapChain>(hwnd, width, height, this);
@@ -107,41 +107,17 @@ Texture2DPtr RenderSystem::createTexture(const Rect& size, Texture2D::Texture2DT
     return std::make_shared<Texture2D>(size, type, this);
 }
 
-//bool RenderSystem::compileVertexShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size) {
-//    ID3DBlob* error_blob = nullptr;
-//    if (!SUCCEEDED(D3DCompileFromFile(file_name, nullptr, nullptr, entry_point_name, "vs_5_0", 0, 0, &m_blob, &error_blob))) {
-//        if (error_blob) {
-//            error_blob->Release();
-//        }
-//        return false;
-//    }
-//
-//    *shader_byte_code = m_blob->GetBufferPointer();
-//    *byte_code_size = m_blob->GetBufferSize();
-//
-//    return true;
-//}
-//
-//bool RenderSystem::compilePixelShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size) {
-//    ID3DBlob* error_blob = nullptr;
-//    if (!SUCCEEDED(D3DCompileFromFile(file_name, nullptr, nullptr, entry_point_name, "ps_5_0", 0, 0, &m_blob, &error_blob))) {
-//        if (error_blob) {
-//            error_blob->Release();
-//        }
-//        return false;
-//    }
-//
-//    *shader_byte_code = m_blob->GetBufferPointer();
-//    *byte_code_size = m_blob->GetBufferSize();
-//
-//    return true;
-//}
-//
-//void RenderSystem::releaseCompiledShader() {
-//    if (m_blob) {
-//        m_blob->Release();
-//    }
-//}
+void RenderSystem::setCullMode(const CullMode& mode) {
+    if (mode == CullMode::Front) {
+        m_imm_context->RSSetState(m_cull_front_state.Get());
+    }
+    else if (mode == CullMode::Back) {
+        m_imm_context->RSSetState(m_cull_back_state.Get());
+    }
+    else if (mode == CullMode::None) {
+        m_imm_context->RSSetState(m_cull_none_state.Get());
+    }
+}
 
 void RenderSystem::compilePrivateShaders() {
     Microsoft::WRL::ComPtr<ID3DBlob> blob = nullptr;
@@ -150,14 +126,17 @@ void RenderSystem::compilePrivateShaders() {
     auto meshLayoutCode = R"(
         struct VS_INPUT
         {
-            float4 position : POSITION;
-            float2 texcoord : TEXCOORD;
+            float4 position : POSITION0;
+            float2 texcoord : TEXCOORD0;
+            float3 normal : NORMAL0;
+	        float3 tangent: TANGENT0;
+	        float3 binormal: BINORMAL0;
         };
 
         struct VS_OUTPUT
         {
-            float4 position : SV_POSITION;
-            float2 texcoord : TEXCOORD;
+            float4 position : SV_POSITION0;
+            float2 texcoord : TEXCOORD0;
         };
     
         VS_OUTPUT vsmain(VS_INPUT input)
@@ -175,4 +154,18 @@ void RenderSystem::compilePrivateShaders() {
 
     memcpy(m_mesh_layout_byte_code, blob->GetBufferPointer(), blob->GetBufferSize());
     m_mesh_layout_size = blob->GetBufferSize();
+}
+
+void RenderSystem::initRasterizerStates() {
+    D3D11_RASTERIZER_DESC desc = {};
+    desc.DepthClipEnable = true;
+    desc.FillMode = D3D11_FILL_SOLID;
+    desc.FrontCounterClockwise = true;
+
+    desc.CullMode = D3D11_CULL_FRONT;
+    m_d3d_device->CreateRasterizerState(&desc, &m_cull_front_state);
+    desc.CullMode = D3D11_CULL_BACK;
+    m_d3d_device->CreateRasterizerState(&desc, &m_cull_back_state);
+    desc.CullMode = D3D11_CULL_NONE;
+    m_d3d_device->CreateRasterizerState(&desc, &m_cull_none_state);
 }

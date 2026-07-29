@@ -90,7 +90,9 @@ public:
 	}
 
 	Vector3D normalize() const {
-		return (Vector3D(m_x, m_y, m_z) * (1 / magnitude()));
+		f32 len = magnitude();
+		if (!len) return Vector3D();
+		return Vector3D(m_x, m_y, m_z) * (1.0f / len);
 	}
 
 	Vector3D componentProduct(const Vector3D v) const {

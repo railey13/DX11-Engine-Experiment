@@ -13,15 +13,30 @@
 #include <DX3D/GameObject/MeshComponent.h>
 #include <DX3D/GameObject/TransformComponent.h>
 #include <DX3D/GameObject/CameraComponent.h>
+#include <DX3D/GameObject/LightComponent.h>
 #include <DX3D/GameObject/GameObject.h>
 
 #include <DX3D/Math/Matrix4x4.h>
+#include <DX3D/Math/Vector4D.h>
+
+__declspec(align(16))
+struct LightData
+{
+    Vector4D color;
+    Vector4D direction;
+    Vector4D position;
+    f32 radius;
+    LightType type;
+};
 
 __declspec(align(16))
 struct constant {
     Matrix4x4 m_world;
     Matrix4x4 m_view;
     Matrix4x4 m_proj;
+    Vector4D cameraPosition;
+    LightData lights[10];
+    i32 num_active_lights;
 };
     
 GraphicsEngine::GraphicsEngine(Game* game) : m_game(game){
@@ -46,6 +61,7 @@ void GraphicsEngine::update() {
     constant cc = {};
 
     if (m_activeCamera) {
+        cc.cameraPosition = m_activeCamera->getGameObject()->getTransform()->getPosition();
         m_activeCamera->setScreenArea(winSize);
         m_activeCamera->getViewMatrix(cc.m_view);
         m_activeCamera->getProjectionMatrix(cc.m_proj);
@@ -56,6 +72,21 @@ void GraphicsEngine::update() {
    //    c->getViewMatrix(cc.m_view);
    //    c->getProjectionMatrix(cc.m_proj);
    //}
+    i32 i = 0;
+    for (auto l : m_lights) {
+        auto t = l->getGameObject()->getTransform();
+        Matrix4x4 world;
+        t->getWorldMatrix(world);
+
+        cc.lights[i].direction = world.getZDirection();
+        cc.lights[i].color = l->getColor();
+        cc.lights[i].position = l->getGameObject()->getTransform()->getPosition();
+        cc.lights[i].type = l->getLightType();
+        cc.lights[i].radius = l->getRadius();
+
+        i++;
+    }
+    cc.num_active_lights = i;
 
    for (auto m : m_meshes) {
        auto transform = m->getGameObject()->getTransform();
@@ -71,6 +102,8 @@ void GraphicsEngine::update() {
 
            if (i >= materials.size()) break;
            auto mat = materials[i].get();
+
+           m_render_system->setCullMode(mat->getCullMode());
 
            mat->setData(&cc, sizeof(constant));
 
@@ -99,7 +132,8 @@ void GraphicsEngine::addComponent(Component* component) {
         m_meshes.emplace(c);
     else if (auto c = dynamic_cast<CameraComponent*>(component))
         m_cameras.emplace(c);
-
+    else if (auto c = dynamic_cast<LightComponent*>(component))
+        m_lights.emplace(c);
 }
 
 void GraphicsEngine::removeComponent(Component* component) {
@@ -107,4 +141,6 @@ void GraphicsEngine::removeComponent(Component* component) {
         m_meshes.erase(c);
     else if (auto c = dynamic_cast<CameraComponent*>(component))
         m_cameras.erase(c);
+    else if (auto c = dynamic_cast<LightComponent*>(component))
+        m_lights.erase(c);
 }

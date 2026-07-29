@@ -1,6 +1,5 @@
 #include <DX3D/Resource/PrimitiveFactory.h>
 #include <DX3D/Resource/Mesh.h>
-#include <DX3D/Math/VertexMesh.h>
 #include <DX3D/Math/Vector3D.h>
 #include <DX3D/Math/Vector2D.h>
 
@@ -12,6 +11,37 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+
+void PrimitiveFactory::setTangentBinormal(VertexMesh* faceVerts, unsigned char count) {
+	if (count < 3) return;
+
+	Vector3D tangent, binormal;
+	Mesh::computeTangents(
+		faceVerts[0].m_position, faceVerts[1].m_position, faceVerts[2].m_position,
+		faceVerts[0].m_texcoord, faceVerts[1].m_texcoord, faceVerts[2].m_texcoord,
+		tangent, binormal
+	);
+
+	for (unsigned char i = 0; i < count; i++) {
+		faceVerts[i].m_tangent = tangent;
+		faceVerts[i].m_binormal = binormal;
+	}
+}
+
+void PrimitiveFactory::setTangentBinormal(VertexMesh& v, f32 theta) {
+	Vector3D tangent = Vector3D(-sinf(theta), 0.0f, cosf(theta));
+	f32 len = tangent.magnitude();
+	tangent = len ? (tangent * (1.0f / len)) : Vector3D(1, 0, 0);
+
+	v.m_tangent = tangent;
+	v.m_binormal = v.m_normal.vectorProduct(tangent);
+}
+
+void PrimitiveFactory::reverseWinding(ui32* indices, size_t count) {
+	for (size_t i = 0; i + 2 < count; i += 3) {
+		std::swap(indices[i + 1], indices[i + 2]);
+	}
+}
 
 void PrimitiveFactory::createCube(ResourceManager* manager, GameObject* obj) {
 	Vector3D position_list[] = {
@@ -33,40 +63,51 @@ void PrimitiveFactory::createCube(ResourceManager* manager, GameObject* obj) {
 		Vector2D(1.0f, 1.0f)
 	};
 
+	Vector3D normal_front = Vector3D(0, 0, -1);
+	Vector3D normal_back = Vector3D(0, 0, 1);
+	Vector3D normal_top = Vector3D(0, 1, 0);
+	Vector3D normal_bottom = Vector3D(0, -1, 0);
+	Vector3D normal_right = Vector3D(1, 0, 0);
+	Vector3D normal_left = Vector3D(-1, 0, 0);
+
 	VertexMesh vertices[] = {
 		// FRONT SIDE
-		VertexMesh(position_list[0], texcoord_list[1]),
-		VertexMesh(position_list[1], texcoord_list[0]),
-		VertexMesh(position_list[2], texcoord_list[2]),
-		VertexMesh(position_list[3], texcoord_list[3]),
+		VertexMesh(position_list[0], texcoord_list[1], normal_front),
+		VertexMesh(position_list[1], texcoord_list[0], normal_front),
+		VertexMesh(position_list[2], texcoord_list[2], normal_front),
+		VertexMesh(position_list[3], texcoord_list[3], normal_front),
 		// BACK SIDE
-		VertexMesh(position_list[4], texcoord_list[1]),
-		VertexMesh(position_list[5], texcoord_list[0]),
-		VertexMesh(position_list[6], texcoord_list[2]),
-		VertexMesh(position_list[7], texcoord_list[3]),
+		VertexMesh(position_list[4], texcoord_list[1], normal_back),
+		VertexMesh(position_list[5], texcoord_list[0], normal_back),
+		VertexMesh(position_list[6], texcoord_list[2], normal_back),
+		VertexMesh(position_list[7], texcoord_list[3], normal_back),
 		// TOP SIDE
-		VertexMesh(position_list[1], texcoord_list[1]),
-		VertexMesh(position_list[6], texcoord_list[0]),
-		VertexMesh(position_list[5], texcoord_list[2]),
-		VertexMesh(position_list[2], texcoord_list[3]),
+		VertexMesh(position_list[1], texcoord_list[1], normal_top),
+		VertexMesh(position_list[6], texcoord_list[0], normal_top),
+		VertexMesh(position_list[5], texcoord_list[2], normal_top),
+		VertexMesh(position_list[2], texcoord_list[3], normal_top),
 		// BOTTOM SIDE
-		VertexMesh(position_list[7], texcoord_list[1]),
-		VertexMesh(position_list[0], texcoord_list[0]),
-		VertexMesh(position_list[3], texcoord_list[2]),
-		VertexMesh(position_list[4], texcoord_list[3]),
+		VertexMesh(position_list[7], texcoord_list[1], normal_bottom),
+		VertexMesh(position_list[0], texcoord_list[0], normal_bottom),
+		VertexMesh(position_list[3], texcoord_list[2], normal_bottom),
+		VertexMesh(position_list[4], texcoord_list[3], normal_bottom),
 		// RIGHT SIDE
-		VertexMesh(position_list[3], texcoord_list[1]),
-		VertexMesh(position_list[2], texcoord_list[0]),
-		VertexMesh(position_list[5], texcoord_list[2]),
-		VertexMesh(position_list[4], texcoord_list[3]),
+		VertexMesh(position_list[3], texcoord_list[1], normal_right),
+		VertexMesh(position_list[2], texcoord_list[0], normal_right),
+		VertexMesh(position_list[5], texcoord_list[2], normal_right),
+		VertexMesh(position_list[4], texcoord_list[3], normal_right),
 		// LEFT SIDE
-		VertexMesh(position_list[7], texcoord_list[1]),
-		VertexMesh(position_list[6], texcoord_list[0]),
-		VertexMesh(position_list[1], texcoord_list[2]),
-		VertexMesh(position_list[0], texcoord_list[3]),
+		VertexMesh(position_list[7], texcoord_list[1], normal_left),
+		VertexMesh(position_list[6], texcoord_list[0], normal_left),
+		VertexMesh(position_list[1], texcoord_list[2], normal_left),
+		VertexMesh(position_list[0], texcoord_list[3], normal_left),
 	};
 
 	ui32 size_list = ARRAYSIZE(vertices);
+
+	for (ui32 face = 0; face < size_list; face += 4) {
+		setTangentBinormal(&vertices[face], 4);
+	}
 
 	ui32 index_list[] = {
 		// FRONT SIDE
@@ -90,7 +131,7 @@ void PrimitiveFactory::createCube(ResourceManager* manager, GameObject* obj) {
 	};
 
 	ui32 size_index_list = ARRAYSIZE(index_list);
-
+	reverseWinding(index_list, size_index_list);
 	MaterialSlot slot;
 	slot.start_index = 0;
 	slot.num_indices = size_index_list;
@@ -122,14 +163,18 @@ void PrimitiveFactory::createPlane(ResourceManager* manager, GameObject* obj) {
 		Vector2D(1.0f, 1.0f)
 	};
 
+	Vector3D normal = Vector3D(0, 1, 0);
+
 	VertexMesh vertices[] = {
-		VertexMesh(position_list[0], texcoord_list[1]),
-		VertexMesh(position_list[1], texcoord_list[0]),
-		VertexMesh(position_list[2], texcoord_list[2]),
-		VertexMesh(position_list[3], texcoord_list[3]),
+		VertexMesh(position_list[0], texcoord_list[1], normal),
+		VertexMesh(position_list[1], texcoord_list[0], normal),
+		VertexMesh(position_list[2], texcoord_list[2], normal),
+		VertexMesh(position_list[3], texcoord_list[3], normal),
 	};
 
 	ui32 size_list = ARRAYSIZE(vertices);
+
+	setTangentBinormal(vertices, (unsigned char)size_list);
 
 	ui32 index_list[] = {
 		0,1,2,
@@ -137,7 +182,7 @@ void PrimitiveFactory::createPlane(ResourceManager* manager, GameObject* obj) {
 	};
 
 	ui32 size_index_list = ARRAYSIZE(index_list);
-
+	reverseWinding(index_list, size_index_list); 
 	MaterialSlot slot;
 	slot.start_index = 0;
 	slot.num_indices = size_index_list;
@@ -165,6 +210,8 @@ void PrimitiveFactory::createSphere(ResourceManager* manager, GameObject* obj) {
 	VertexMesh top;
 	top.m_position = Vector3D(0, radius, 0);
 	top.m_texcoord = Vector2D(0.5f, 0.0f);
+	top.m_normal = Vector3D(0,1,0);
+	setTangentBinormal(top, 0.0f);
 	verts.push_back(top);
 
 	f32 phiStep = (f32)M_PI / m_stackCount;
@@ -192,6 +239,8 @@ void PrimitiveFactory::createSphere(ResourceManager* manager, GameObject* obj) {
 				(f32)j / (f32)m_sliceCount,
 				(f32)i / (f32)m_stackCount
 			);
+			v.m_normal = p.normalize();
+			setTangentBinormal(v, theta);
 			verts.push_back(v);
 		}
 	}
@@ -199,6 +248,8 @@ void PrimitiveFactory::createSphere(ResourceManager* manager, GameObject* obj) {
 	VertexMesh bottom;
 	bottom.m_position = Vector3D(0, -radius, 0);
 	bottom.m_texcoord = Vector2D(0.5f, 1.0f); 
+	bottom.m_normal = Vector3D(0, -1, 0);
+	setTangentBinormal(bottom, 0.0f);
 	verts.push_back(bottom);
 
 	for (ui32 i = 1; i <= m_sliceCount; i++) {
@@ -230,6 +281,8 @@ void PrimitiveFactory::createSphere(ResourceManager* manager, GameObject* obj) {
 		indices.push_back(baseIndex + i);
 		indices.push_back(baseIndex + i + 1);
 	}
+	
+	reverseWinding(indices.data(), indices.size());
 
 	MaterialSlot slot;
 	slot.start_index = 0;
@@ -262,6 +315,8 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 	VertexMesh top;
 	top.m_position = Vector3D(0, halfHeight + radius, 0);
 	top.m_texcoord = Vector2D(0.5f, 0.0f);
+	top.m_normal = Vector3D(0, 1, 0);
+	setTangentBinormal(top, 0.0f);
 	verts.push_back(top);
 
 	for (ui32 i = 1; i <= capStackCount; i++) {
@@ -279,6 +334,8 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 			VertexMesh v;
 			v.m_position = p;
 			v.m_texcoord = Vector2D((f32)j / sliceCount, (f32)i / (f32)(capStackCount * 2 + 2));
+			v.m_normal = (p - Vector3D(0, halfHeight, 0)).normalize();
+			setTangentBinormal(v, theta);
 			verts.push_back(v);
 		}
 	}
@@ -289,6 +346,8 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 		VertexMesh v;
 		v.m_position = p;
 		v.m_texcoord = Vector2D((f32)j / sliceCount, 0.5f);
+		v.m_normal = Vector3D(cosf(theta), 0, sinf(theta));
+		setTangentBinormal(v, theta);
 		verts.push_back(v);
 	}
 
@@ -307,6 +366,8 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 			VertexMesh v;
 			v.m_position = p;
 			v.m_texcoord = Vector2D((f32)j / sliceCount, 0.5f + (f32)i / (f32)(capStackCount * 2));
+			v.m_normal = (p - Vector3D(0, -halfHeight, 0)).normalize();
+			setTangentBinormal(v, theta);
 			verts.push_back(v);
 		}
 	}
@@ -314,6 +375,8 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 	VertexMesh bottom;
 	bottom.m_position = Vector3D(0, -halfHeight - radius, 0);
 	bottom.m_texcoord = Vector2D(0.5f, 1.0f);
+	bottom.m_normal = Vector3D(0, -1, 0);
+	setTangentBinormal(bottom, 0.0f);
 	verts.push_back(bottom);
 
 	ui32 ringVertexCount = sliceCount + 1;
@@ -346,6 +409,8 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 		indices.push_back(baseIndex + i + 1);
 	}
 
+	reverseWinding(indices.data(), indices.size());
+
 	MaterialSlot slot;
 	slot.start_index = 0;
 	slot.num_indices = (ui32)indices.size();
@@ -361,3 +426,4 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 	obj->setMeshData(mesh);
 	obj->setName("Capsule");
 }
+

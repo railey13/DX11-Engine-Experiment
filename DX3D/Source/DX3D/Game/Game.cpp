@@ -19,9 +19,9 @@ Game::Game() {
 	m_world = std::make_unique<World>(this);
 	m_uiHandler = std::make_unique<UIHandler>(this, static_cast<HWND>(m_display->getHwnd()));
 	m_editorCamera = std::make_unique<EditorCamera>();
-	
 	m_editorCamera->m_world = m_world.get();
 	m_editorCamera->onCreate();
+	m_editorCamera->getTransform()->setPosition(Vector3D(0, 2, 0));
 
 	m_input->setLockArea(m_display->getClientSize());
 }

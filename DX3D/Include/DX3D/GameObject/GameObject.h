@@ -52,23 +52,20 @@ private:
 	Component* getComponentInternal(size_t id);
 	void removeComponent(size_t id);
 public:
-	void setTexture(TexturePtr tex);
 	void setName(const std::string& name);
 
 	void setActive(bool active);
+
 	bool isActive() { return m_active; }
-
-	World* getWorld() { return m_world; }
-
 	TransformComponent* getTransform() { return m_transform; }
 	std::string getName() { return m_name; }
 
 	InputSystem* getInputSystem();
+	World* getWorld() { return m_world; }
 private:
 	void setMeshData(const MeshPtr& mesh, const MaterialPtr& material = nullptr);
-public:
-	TexturePtr m_tex = nullptr;
 protected:
+	std::map<size_t, std::unique_ptr<Component>> m_components;
 	TransformComponent* m_transform = nullptr;
 
 	size_t m_id = 0;
@@ -77,8 +74,7 @@ protected:
 	std::string m_name;
 
 	bool m_active = true;
-protected:
-	std::map<size_t, std::unique_ptr<Component>> m_components;
+private:
 	friend class Component;
 	friend class World;
 	friend class PrimitiveFactory;

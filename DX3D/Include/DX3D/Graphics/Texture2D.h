@@ -15,6 +15,7 @@ public:
 	Texture2D(const wchar_t* full_path, RenderSystem* system);
 	Texture2D(const Rect&size, Texture2DType type, RenderSystem* system);
 	Rect getSize() { return m_size; }
+	ID3D11ShaderResourceView* getSRV() { return m_shader_res_view.Get(); }
 private:
 	Microsoft::WRL::ComPtr<ID3D11Resource> m_texture = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_shader_res_view = nullptr;

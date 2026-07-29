@@ -21,6 +21,19 @@ Material::Material(const wchar_t* path, ResourceManager* manager) : Resource(pat
 Material::Material(const MaterialPtr& material, ResourceManager* manager) : Resource(L"", manager) {
 	m_vertex_shader = material->m_vertex_shader;
 	m_pixel_shader = material->m_pixel_shader;
+	m_vec_textures = material->m_vec_textures;
+	m_cull_mode = material->m_cull_mode;
+}
+
+void Material::setTexture(ui32 index, const TexturePtr& texture) {
+	if (index >= m_vec_textures.size()) {
+		m_vec_textures.resize(index + 1);
+	}
+	m_vec_textures[index] = texture->m_texture;
+}
+
+void Material::setMainTexture(const TexturePtr& texture) {
+	setTexture(0, texture);
 }
 
 void Material::addTexture(const TexturePtr& texture) {
@@ -44,7 +57,7 @@ void Material::setData(void* data, ui32 size) {
 
 }
 
-void Material::setCullMode(CULL_MODE mode) {
+void Material::setCullMode(CullMode mode) {
 	m_cull_mode = mode;
 }
 

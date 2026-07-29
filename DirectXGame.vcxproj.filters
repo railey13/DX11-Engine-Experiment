@@ -168,6 +168,7 @@
     <ClCompile Include="DX3D\Source\DX3D\Resource\PrimitiveFactory.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\User Interface\HierarchyUI.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\User Interface\InspectorUI.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\LightComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX3D\Vendor\IMGUI\imconfig.h">
@@ -236,6 +237,7 @@
     <ClInclude Include="DX3D\Include\DX3D\Resource\PrimitiveFactory.h" />
     <ClInclude Include="DX3D\Include\DX3D\User Interface\HierarchyUI.h" />
     <ClInclude Include="DX3D\Include\DX3D\User Interface\InspectorUI.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\LightComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\VertexShader.hlsl">
@@ -251,5 +253,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DX3D\Include\DX3D\GameObject\CameraComponent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\Nikos\Downloads\CPP-3D-Game-Tutorial-Series-AssetsAndLibs\CPP-3D-Game-Tutorial-Series-AssetsAndLibs\Assets\Textures\wood.jpg" />
   </ItemGroup>
 </Project>

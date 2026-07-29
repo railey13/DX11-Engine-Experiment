@@ -1,5 +1,6 @@
 #pragma once
 #include <DX3D/All.h>
+
 class Player : public GameObject {
 public:
 	Player();
@@ -11,7 +12,7 @@ private:
 	GameObject* m_gameObject = nullptr;
 	f32 m_elapsedSeconds = 0.0f;
 
-	CameraComponent* m_camera;
+	CameraComponent* m_camera = nullptr;
 
 	f32 m_forward = 0.0f;
 	f32 m_strafe = 0.0f;

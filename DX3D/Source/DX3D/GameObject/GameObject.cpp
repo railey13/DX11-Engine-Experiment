@@ -38,10 +38,6 @@ void GameObject::removeComponent(size_t id) {
 	m_components.erase(id);
 }
 
-void GameObject::setTexture(TexturePtr tex) {
-	m_tex = tex;
-}
-
 void GameObject::setName(const std::string& name) {
 	m_name = m_world->generateUniqueName(name);
 }

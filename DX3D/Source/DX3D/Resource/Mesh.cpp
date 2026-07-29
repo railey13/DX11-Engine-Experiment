@@ -68,27 +68,73 @@ Mesh::Mesh(const wchar_t* full_path, ResourceManager* manager) : Resource(full_p
 					continue;
 				}
 
+				Vector3D vertices_face[3];
+				Vector2D texcoords_face[3];
 
 				for (unsigned char v = 0; v < num_face_verts; v++) {
 					tinyobj::index_t index = shapes[s].mesh.indices[index_offset + v];
 
 					tinyobj::real_t vx = attribs.vertices[index.vertex_index * 3 + 0];
 					tinyobj::real_t vy = attribs.vertices[index.vertex_index * 3 + 1];
-					tinyobj::real_t vz = attribs.vertices[index.vertex_index * 3 + 2];
+					tinyobj::real_t vz = -attribs.vertices[index.vertex_index * 3 + 2];
 
 					tinyobj::real_t tx = 0.0f;
 					tinyobj::real_t ty = 0.0f;
 
 					if (index.texcoord_index >= 0) {
 						tx = attribs.texcoords[index.texcoord_index * 2 + 0];
-						ty = attribs.texcoords[index.texcoord_index * 2 + 1];
+						ty = 1.0f - attribs.texcoords[index.texcoord_index * 2 + 1];
 					}
 
-					VertexMesh vertex(Vector3D(vx, vy, vz), Vector2D(tx, ty));
+					vertices_face[v] = Vector3D(vx, vy, vz);
+					texcoords_face[v] = Vector2D(tx, ty);
+				}
 
+				Vector3D tangent;
+				Vector3D binormal;
+
+				computeTangents(
+					vertices_face[0], vertices_face[1], vertices_face[2],
+					texcoords_face[0], texcoords_face[1], texcoords_face[2],
+					tangent, binormal
+					);
+
+				for (unsigned char v = 0; v < num_face_verts; v++) {
+					tinyobj::index_t index = shapes[s].mesh.indices[index_offset + v];
+
+					tinyobj::real_t vx = attribs.vertices[index.vertex_index * 3 + 0];
+					tinyobj::real_t vy = attribs.vertices[index.vertex_index * 3 + 1];
+					tinyobj::real_t vz = -attribs.vertices[index.vertex_index * 3 + 2];
+
+					tinyobj::real_t tx = 0.0f;
+					tinyobj::real_t ty = 0.0f;
+
+					if (index.texcoord_index >= 0) {
+						tx = attribs.texcoords[index.texcoord_index * 2 + 0];
+						ty = 1.0f - attribs.texcoords[index.texcoord_index * 2 + 1];
+					}
+
+					tinyobj::real_t nx = 0.0f;
+					tinyobj::real_t ny = 0.0f;
+					tinyobj::real_t nz = 0.0f;
+
+					if (index.normal_index >= 0) {
+						nx = attribs.normals[index.normal_index * 3 + 0];
+						ny = attribs.normals[index.normal_index * 3 + 1];
+						nz = -attribs.normals[index.normal_index * 3 + 2];
+					}
+
+					Vector3D v_tangent;
+					Vector3D v_binormal;
+
+					v_binormal = Vector3D(nx, ny, nz).vectorProduct(tangent);
+					v_tangent = v_binormal.vectorProduct(Vector3D(nx, ny, nz));
+					
+					VertexMesh vertex(Vector3D(vx, vy, vz), Vector2D(tx, ty), Vector3D(nx, ny, nz), v_tangent, v_binormal);
 					list_vertices.push_back(vertex);
 
 					list_indices.push_back((ui32)index_global_offset + v);
+					//list_indices.push_back((ui32)index_global_offset + (num_face_verts - 1 - v));
 				}
 
 				index_offset += num_face_verts;
@@ -98,9 +144,6 @@ Mesh::Mesh(const wchar_t* full_path, ResourceManager* manager) : Resource(full_p
 
 		m_material_slots[m].num_indices = index_global_offset - m_material_slots[m].start_index;
 	}
-
-	//RenderSystem* render = GraphicsEngine::get()->getRenderSystem();
-	//ShaderManager* shader = GraphicsEngine::get()->getShaderManager();
 
 	if (list_vertices.empty() || list_indices.empty()) DX3DError("Mesh has no vertex/index data after parsing.");
 
@@ -147,5 +190,15 @@ MaterialSlot Mesh::getMaterialSlot(ui32 slot) {
 }
 
 void Mesh::computeTangents(const Vector3D& v0, const Vector3D& v1, const Vector3D& v2, const Vector2D& t0, const Vector2D& t1, const Vector2D& t2, Vector3D& tangent, Vector3D& binormal) {
+	Vector3D deltaPos1 = v1 - v0;
+	Vector3D deltaPos2 = v2 - v0;
 
+	Vector2D deltaUV1 = t1 - t0;
+	Vector2D deltaUV2 = t2 - t0;
+
+	float r = 1.0f / (deltaUV1.m_x * deltaUV2.m_y - deltaUV1.m_y * deltaUV2.m_x);
+	tangent = (deltaPos1 * deltaUV2.m_y - deltaPos2 * deltaUV1.m_y);
+	tangent = tangent.normalize();
+	binormal = (deltaPos2 * deltaUV1.m_x - deltaPos1 * deltaUV2.m_x);
+	binormal = binormal.normalize();
 }

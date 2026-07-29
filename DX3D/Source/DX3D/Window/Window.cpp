@@ -83,7 +83,7 @@ Window::Window() {
     SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
     // show the window
-    ::ShowWindow(hwnd, SW_SHOW);
+    ::ShowWindow(hwnd, SW_MAXIMIZE);
     ::UpdateWindow(hwnd);
 }
 

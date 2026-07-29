@@ -20,9 +20,11 @@ public:
 	Texture2DPtr createTexture(const wchar_t* full_path);
 	Texture2DPtr createTexture(const Rect& size, Texture2D::Texture2DType type);
 
+	void setCullMode(const CullMode& mode);
 	ID3D11Device* getD11Device() { return m_d3d_device.Get(); }
 private:
 	void compilePrivateShaders();
+	void initRasterizerStates();
 private:
 	DeviceContextPtr m_imm_device_context; 
 private:
@@ -39,6 +41,10 @@ private:
 	Microsoft::WRL::ComPtr<ID3DBlob> m_psblob = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vs = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_ps = nullptr;
+
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_cull_front_state = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_cull_back_state = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_cull_none_state = nullptr;
 
 	unsigned char m_mesh_layout_byte_code[1024];
 	size_t m_mesh_layout_size = 0;

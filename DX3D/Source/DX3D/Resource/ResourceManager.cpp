@@ -44,6 +44,12 @@ ResourcePtr ResourceManager::createResourceFromFileConcrete(const wchar_t* file_
 
 	if (resPtr) {
 		m_map_resources.emplace(file_path, resPtr);
+
+		auto mat = std::dynamic_pointer_cast<Material>(resPtr);
+		if (mat) {
+			return std::make_shared<Material>(mat, this);  // new copy so it's not shared
+		}
+
 		return resPtr;
 	}
 
@@ -56,5 +62,5 @@ MaterialPtr ResourceManager::getDefaultMaterial() {
 		m_default_material = createResourceFromFile<Material>(L"Assets/Shaders/Material.hlsl");
 		m_default_material->addTexture(tex);
 	}
-	return m_default_material;
+	return std::make_shared<Material>(m_default_material, this);
 }
