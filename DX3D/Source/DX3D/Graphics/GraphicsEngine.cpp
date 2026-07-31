@@ -26,6 +26,7 @@ struct LightData
     Vector4D direction;
     Vector4D position;
     f32 radius;
+    f32 intensity;
     LightType type;
 };
 
@@ -72,6 +73,7 @@ void GraphicsEngine::update() {
    //    c->getViewMatrix(cc.m_view);
    //    c->getProjectionMatrix(cc.m_proj);
    //}
+
     i32 i = 0;
     for (auto l : m_lights) {
         auto t = l->getGameObject()->getTransform();
@@ -83,6 +85,7 @@ void GraphicsEngine::update() {
         cc.lights[i].position = l->getGameObject()->getTransform()->getPosition();
         cc.lights[i].type = l->getLightType();
         cc.lights[i].radius = l->getRadius();
+        cc.lights[i].intensity = l->getIntensity();
 
         i++;
     }

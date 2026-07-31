@@ -24,6 +24,10 @@ void LightComponent::setRadius(f32 radius) {
 	m_radius = radius;
 }
 
+void LightComponent::setIntensity(f32 intensity) {
+	m_intensity = intensity;
+}
+
 void LightComponent::onCreateInternal() {
 	m_gameobject->getWorld()->getGame()->getGraphicsEngine()->addComponent(this);
 }

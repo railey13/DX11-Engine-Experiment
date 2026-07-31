@@ -21,9 +21,9 @@ struct LightData
     float4 direction;
     float4 position;
     float radius;
+    float intensity;
     int type;
     int pad0;
-    int pad1;
 };
 
 cbuffer constant : register(b0)
@@ -66,13 +66,13 @@ float3 DirLight(LightData light, float3 normal, float3 dirToCam, float3 color)
     // Diffuse
     float kd = 0.7;
     float amount_diffuse_light = max(dot(light_direction.xyz, normal), 0.0);
-    float3 id = light.color.rgb;
+    float3 id = light.color.rgb * light.intensity;
     id *= (color.rgb);
     float3 diffuse_light = kd * id * amount_diffuse_light;
     
     // Specular    
     float ks = 1.0;
-    float3 is = float3(1.0, 1.0, 1.0);
+    float3 is = float3(1.0, 1.0, 1.0) * light.intensity;
     float3 reflected_light = reflect(light_direction.xyz, normal);
     float shininess = 30.0;
     float amount_specular_light = pow(max(0.0, dot(reflected_light, dirToCam)), shininess);
@@ -92,13 +92,13 @@ float3 PointLight(LightData light, float3 normal, float3 worldPos,float3 dirToCa
     // Diffuse
     float kd = 0.7;
     float amount_diffuse_light = max(dot(light_direction.xyz, normal), 0.0);
-    float3 id = light.color.rgb;
+    float3 id = light.color.rgb * light.intensity;
     id *= (color.rgb);
     float3 diffuse_light = (kd * id * amount_diffuse_light) / attenuation;
     
     // Specular    
     float ks = 1.0;
-    float3 is = float3(1.0, 1.0, 1.0);
+    float3 is = float3(1.0, 1.0, 1.0) * light.intensity;
     float3 reflected_light = reflect(light_direction.xyz, normal);
     float shininess = 30.0;
     float amount_specular_light = pow(max(0.0, dot(reflected_light, dirToCam)), shininess);

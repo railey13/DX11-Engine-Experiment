@@ -40,6 +40,19 @@ void MainGame::onCreate() {
 	auto flagPoleMat = getResourceManager()->createResourceFromFile<Material>(L"Assets/Shaders/Material.hlsl");
 	flagPoleMat->setMainTexture(flagPole);
 
+	// light
+	{
+		m_gameObject = getWorld()->createGameObject<GameObject>();
+		PrimitiveFactory::createSphere(getResourceManager(), m_gameObject);
+		auto lightComponent = m_gameObject->createComponent<LightComponent>();
+		lightComponent->setColor(Vector4D(1, 1, 1, 1));
+		lightComponent->setLightType(LightType::DirectionLight);
+		lightComponent->setRadius(1.0f);
+		//m_gameObject->getTransform()->setRotation(Vector3D(-0.707f, 0.707f, 0));
+		m_gameObject->getTransform()->setPosition(Vector3D(0, 0, 0));
+		m_gameObject->setName("Directional Light");
+	}
+
 	// floor
 	{
 		auto obj = getWorld()->createGameObject<GameObject>();
@@ -52,19 +65,6 @@ void MainGame::onCreate() {
 
 	// light
 	{
-		m_gameObject = getWorld()->createGameObject<GameObject>();
-		PrimitiveFactory::createSphere(getResourceManager(), m_gameObject);
-		auto lightComponent = m_gameObject->createComponent<LightComponent>();
-		lightComponent->setColor(Vector4D(1, 1, 1, 1));
-		lightComponent->setLightType(LightType::PointLight);
-		lightComponent->setRadius(1.0f);
-		//m_gameObject->getTransform()->setRotation(Vector3D(-0.707f, 0.707f, 0));
-		m_gameObject->getTransform()->setPosition(Vector3D(0, 0, 0));
-		m_gameObject->setName("Light");
-	}
-
-	// light
-	{
 		auto obj = getWorld()->createGameObject<GameObject>();
 		PrimitiveFactory::createSphere(getResourceManager(), obj);
 		auto lightComponent = obj->createComponent<LightComponent>();
@@ -72,7 +72,6 @@ void MainGame::onCreate() {
 		lightComponent->setLightType(LightType::PointLight);
 		lightComponent->setRadius(1.0f);
 		obj->getTransform()->setPosition(Vector3D(2, 0, 0));
-		obj->setName("Light 2");
 	}
 
 	// sponza
@@ -88,6 +87,11 @@ void MainGame::onCreate() {
 		mesh->addMaterial(flagPoleMat);
 		obj->getTransform()->setPosition(Vector3D(0, 0, 0));
 		obj->setName("Sponza");
+	}
+	// Player
+	{
+		auto obj = getWorld()->createGameObject<GameObject>();
+		PrimitiveFactory::createCapsule(getResourceManager(), obj);
 	}
 }
 

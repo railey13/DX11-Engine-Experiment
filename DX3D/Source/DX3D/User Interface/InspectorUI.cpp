@@ -61,12 +61,16 @@ void InspectorUI::draw() {
 					LightComponent* light = obj->getComponent<LightComponent>();
 					if (ImGui::CollapsingHeader(obj->getName().c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 						f32 radius = light->getRadius();
-						f32 strength = light->getColor().m_w;
-						if (ImGui::SliderFloat("Strength", &strength, 0, 10)) {
-							light->setColor(Vector4D(strength, strength, strength, light->getColor().m_z));
+						f32 intensity = light->getIntensity();
+						Vector4D color = light->getColor();
+						if (ImGui::SliderFloat("Intensity", &intensity, 0, 10)) {
+							light->setIntensity(intensity);
 						}
 						if (ImGui::SliderFloat("Radius", &radius, 0, 10)) {
 							light->setRadius(radius);
+						}
+						if (ImGui::DragFloat3("Color", &color.m_x, m_transform_speed)) {
+							light->setColor(color);
 						}
 					}
 				}
