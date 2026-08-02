@@ -97,6 +97,15 @@ short InputSystem::getInternalKeyCode(const Key& key) {
 	else if (key == Key::Enter) {
 		keyWin = VK_RETURN;
 	}
+	else if (key == Key::Delete) {
+		keyWin = VK_DELETE;
+	}
+	else if (key == Key::R_Ctrl) {
+		keyWin = VK_RCONTROL;
+	}
+	else if (key == Key::L_Ctrl) {
+		keyWin = VK_LCONTROL;
+	}
 	else if (key == Key::LeftMouseButton) {
 		keyWin = VK_LBUTTON;
 	}

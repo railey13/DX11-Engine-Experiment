@@ -9,6 +9,8 @@ public:
 	// Inherited via UI
 	void draw() override;
 private:
+	void RightClickWindowPopup();
+private:
 	bool m_isSelected = false;
 };
 

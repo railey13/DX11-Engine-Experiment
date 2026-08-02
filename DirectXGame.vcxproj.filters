@@ -238,6 +238,10 @@
     <ClInclude Include="DX3D\Include\DX3D\User Interface\HierarchyUI.h" />
     <ClInclude Include="DX3D\Include\DX3D\User Interface\InspectorUI.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\LightComponent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\SpawnObjectCommand.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\DeleteObjectCommand.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\CommandInvoker.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\Command.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\VertexShader.hlsl">

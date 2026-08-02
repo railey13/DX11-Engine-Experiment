@@ -31,3 +31,11 @@ void LightComponent::setIntensity(f32 intensity) {
 void LightComponent::onCreateInternal() {
 	m_gameobject->getWorld()->getGame()->getGraphicsEngine()->addComponent(this);
 }
+
+void LightComponent::onActivate() {
+	m_active = true;
+}
+
+void LightComponent::onDeactivate() {
+	m_active = false;
+}

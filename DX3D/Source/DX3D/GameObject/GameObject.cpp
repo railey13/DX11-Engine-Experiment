@@ -10,6 +10,7 @@ GameObject::GameObject() : m_name("GameObject") {
 }
 
 GameObject::~GameObject() {
+	std::cout << "DELETED" << std::endl;
 	m_components.clear();
 }
 
@@ -38,12 +39,22 @@ void GameObject::removeComponent(size_t id) {
 	m_components.erase(id);
 }
 
+void GameObject::toggleComponents(bool flag) {
+	for (auto&& [typeID, component] : m_components) {
+		if (flag)
+			component->onActivate();
+		else if (!flag)
+			component->onDeactivate();
+	}
+}
+
 void GameObject::setName(const std::string& name) {
 	m_name = m_world->generateUniqueName(name);
 }
 
 void GameObject::setActive(bool active) {
 	m_active = active;
+	toggleComponents(active);
 }
 
 InputSystem* GameObject::getInputSystem() {

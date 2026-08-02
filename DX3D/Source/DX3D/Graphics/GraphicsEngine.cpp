@@ -76,6 +76,8 @@ void GraphicsEngine::update() {
 
     i32 i = 0;
     for (auto l : m_lights) {
+        if (!l->isActive()) continue;
+
         auto t = l->getGameObject()->getTransform();
         Matrix4x4 world;
         t->getWorldMatrix(world);
@@ -92,6 +94,8 @@ void GraphicsEngine::update() {
     cc.num_active_lights = i;
 
    for (auto m : m_meshes) {
+       if (!m->isActive()) continue;
+
        auto transform = m->getGameObject()->getTransform();
        transform->getWorldMatrix(cc.m_world);
 

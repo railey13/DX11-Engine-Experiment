@@ -41,6 +41,13 @@ class Material;
 class UIHandler;
 class UI;
 
+class CommandInvoker;
+class Command;
+class CloseWindowCommand;
+template<typename T>
+class SpawnObjectCommand;
+class DeleteObjectCommand;
+
 
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
 typedef std::shared_ptr<DeviceContext> DeviceContextPtr;
@@ -72,7 +79,6 @@ enum CullMode {
 	Front,
 	Back
 };
-
 
 enum class Key {
 	A = 0,
@@ -115,9 +121,23 @@ enum class Key {
 	Shift,
 	Space,
 	Enter,
+	Delete,
+	R_Ctrl,
+	L_Ctrl,
 	LeftMouseButton,
 	RightMouseButton,
 	MiddleMouseButton
+};
+
+enum class Action {
+	SpawnCube = 0,
+	SpawnSphere,
+	SpawnPlane,
+	SpawnCapsule,
+	DeleteObject,
+	Undo,
+	Redo,
+	CloseWindow,
 };
 
 #define DX3DError(message)\

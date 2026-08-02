@@ -16,6 +16,7 @@ public:
 	World* getWorld() { return m_world.get(); }
 	ResourceManager* getResourceManager() { return m_resourceManager.get(); }
 	InputSystem* getInputSystem() { return m_input.get(); }
+	CommandInvoker* getCommandInvoker() { return m_commandInvoker.get(); }
 protected:
 	virtual void onCreate() {}
 	virtual void onUpdate(f32 deltaTime) {}
@@ -23,6 +24,8 @@ protected:
 private:
 	void onDisplaySize(const Rect& size);
 	void onInternalUpdate();
+
+	void bindCommands();
 public:
 	void quit();
 private:
@@ -36,6 +39,7 @@ private:
 	std::chrono::system_clock::time_point m_previous_time;
 
 	std::unique_ptr<EditorCamera> m_editorCamera;
+	std::unique_ptr<CommandInvoker> m_commandInvoker;
 protected:
 
 	bool m_isRunning = true;

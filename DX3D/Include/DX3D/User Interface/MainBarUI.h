@@ -9,8 +9,7 @@ public:
 	// Inherited via UI
 	void draw() override;
 private:
-	ResourceManager* resource = nullptr;
+	ResourceManager* m_resource = nullptr;
 private:
-	friend class SpawnObjectCommand;
 };
 

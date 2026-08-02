@@ -10,6 +10,10 @@
 #include <DX3D/Input/InputSystem.h>
 #include <DX3D/Game/EditorCamera.h>
 #include <DX3D/User Interface/UIHandler.h>
+#include <DX3D/Commands/CommandInvoker.h>
+#include <DX3D/Commands/SpawnObjectCommand.h>
+#include <DX3D/Commands/DeleteObjectCommand.h>
+#include <DX3D/Resource/PrimitiveFactory.h>
 
 Game::Game() {
 	m_graphicsEngine = std::make_unique<GraphicsEngine>(this);
@@ -22,6 +26,8 @@ Game::Game() {
 	m_editorCamera->m_world = m_world.get();
 	m_editorCamera->onCreate();
 	m_editorCamera->getTransform()->setPosition(Vector3D(0, 2, 0));
+	m_commandInvoker = std::make_unique<CommandInvoker>();
+	bindCommands();
 
 	m_input->setLockArea(m_display->getClientSize());
 }
@@ -49,6 +55,19 @@ void Game::onInternalUpdate() {
 
 	m_input->update();
 
+	if (m_input->isKeyDown(Key::L_Ctrl)) {
+		if (m_input->isKeyUp(Key::Z)) {
+			m_commandInvoker->undo();
+		}
+		else if (m_input->isKeyUp(Key::Y)) {
+			m_commandInvoker->redo();
+		}
+	}
+	if (m_input->isKeyUp(Key::Delete)) {
+		if(m_world->getSelectedGameObject())
+			m_commandInvoker->executeBoundCommand(Action::DeleteObject);
+	}
+
 	onUpdate(deltaTime);
 	m_world->update(deltaTime);
 
@@ -56,6 +75,36 @@ void Game::onInternalUpdate() {
 	m_graphicsEngine->setActiveCamera(m_editorCamera->getComponent<CameraComponent>());
 
 	m_graphicsEngine->update();
+}
+
+void Game::bindCommands() {
+	m_commandInvoker->bindCommand(Action::DeleteObject, [this]() {
+		return std::make_unique<DeleteObjectCommand>(m_world.get(), m_world->getSelectedGameObject()->getInstanceID());
+		});
+
+	m_commandInvoker->bindCommand(Action::SpawnCube, [this]() {
+		return std::make_unique<SpawnObjectCommand<GameObject>>(m_world.get(), [this](GameObject* obj) {
+			PrimitiveFactory::createCube(m_resourceManager.get(), obj);
+			});
+		});
+
+	m_commandInvoker->bindCommand(Action::SpawnSphere, [this]() {
+		return std::make_unique<SpawnObjectCommand<GameObject>>(m_world.get(), [this](GameObject* obj) {
+			PrimitiveFactory::createSphere(m_resourceManager.get(), obj);
+			});
+		});
+
+	m_commandInvoker->bindCommand(Action::SpawnCapsule, [this]() {
+		return std::make_unique<SpawnObjectCommand<GameObject>>(m_world.get(), [this](GameObject* obj) {
+			PrimitiveFactory::createCapsule(m_resourceManager.get(), obj);
+			});
+		});
+
+	m_commandInvoker->bindCommand(Action::SpawnPlane, [this]() {
+		return std::make_unique<SpawnObjectCommand<GameObject>>(m_world.get(), [this](GameObject* obj) {
+			PrimitiveFactory::createPlane(m_resourceManager.get(), obj);
+			});
+		});
 }
 
 void Game::quit() {

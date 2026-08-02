@@ -33,3 +33,13 @@ const std::vector<MaterialPtr>& MeshComponent::getMaterials() {
 void MeshComponent::onCreateInternal() {
 	m_gameobject->getWorld()->getGame()->getGraphicsEngine()->addComponent(this);
 }
+
+void MeshComponent::onActivate() {
+	m_active = true;
+}
+
+void MeshComponent::onDeactivate() {
+	m_active = false;
+}
+
+

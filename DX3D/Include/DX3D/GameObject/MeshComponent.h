@@ -15,10 +15,14 @@ public:
 	void addMaterial(const MaterialPtr& material);
 	void removeMaterial(ui32 index);
 	const std::vector<MaterialPtr>& getMaterials();
+
+	void onActivate() override;
+	void onDeactivate() override;
 protected:
 	void onCreateInternal();
 private:
 	MeshPtr m_mesh;
 	std::vector<MaterialPtr> m_materials;
+
 };
 

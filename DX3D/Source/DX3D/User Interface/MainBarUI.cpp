@@ -13,12 +13,14 @@
 #include <DX3D/Resource/Texture.h>
 
 #include <DX3D/Resource/PrimitiveFactory.h>
+#include <DX3D/Commands/CommandInvoker.h>
+#include <DX3D/Commands/SpawnObjectCommand.h>
 
 #include <DX3D/User Interface/HierarchyUI.h>
 #include <DX3D/User Interface/InspectorUI.h>
 
 MainBarUI::MainBarUI(UIHandler* handler) : UI(handler) {
-	resource = m_handler->getGame()->getResourceManager();
+	m_resource = m_handler->getGame()->getResourceManager();
 	m_isActive = true;
 }
 
@@ -30,20 +32,16 @@ void MainBarUI::draw() {
 	if (ImGui::BeginMainMenuBar()) {
 		if (ImGui::BeginMenu("3D Objects")) {
 			if (ImGui::MenuItem("Cube")) {
-				auto obj = m_world->createGameObject<GameObject>();
-				PrimitiveFactory::createCube(resource, obj);
+				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCube);
 			}
 			if (ImGui::MenuItem("Sphere")) {
-				auto obj = m_world->createGameObject<GameObject>();
-				PrimitiveFactory::createSphere(resource, obj);
+				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnSphere);
 			}
 			if (ImGui::MenuItem("Plane")) {
-				auto obj = m_world->createGameObject<GameObject>();
-				PrimitiveFactory::createPlane(resource, obj);
+				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnPlane);
 			}
 			if (ImGui::MenuItem("Capsule")) {
-				auto obj = m_world->createGameObject<GameObject>();
-				PrimitiveFactory::createCapsule(resource, obj);
+				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCapsule);
 			}
 			ImGui::EndMenu();
 		}

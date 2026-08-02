@@ -188,6 +188,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX3D\Include\DX3D\All.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\Command.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\CommandInvoker.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\DeleteObjectCommand.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\SpawnObjectCommand.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\Component.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\GameObject.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\MeshComponent.h" />

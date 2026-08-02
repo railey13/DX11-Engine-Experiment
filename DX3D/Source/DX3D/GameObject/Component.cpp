@@ -16,3 +16,11 @@ void Component::release() {
 void Component::onCreateInternal() {
 
 }
+
+void Component::onActivate() {
+
+}
+
+void Component::onDeactivate() {
+
+}

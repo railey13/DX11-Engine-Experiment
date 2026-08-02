@@ -24,6 +24,8 @@ public:
 	f32 getIntensity() const { return m_intensity; }
 protected:
 	virtual void onCreateInternal();
+	void onActivate() override;
+	void onDeactivate() override;
 private:
 	Vector4D m_color = Vector4D(1,1,1,1);
 	LightType m_light_type = LightType::DirectionLight;
