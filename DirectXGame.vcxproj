@@ -30,7 +30,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>Libs\DirectXTex\include;$(IncludePath)</IncludePath>
-    <LibraryPath>Libs\DirectXTex\bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>DX3D/Vendor/DirectXTex/include;DX3D/Vendor/tinyobjloader/include;DX3D/Include;DX3D/Vendor/;$(IncludePath)</IncludePath>
+    <LibraryPath>DX3D/Vendor/DirectXTex/bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libs\DirectXTex\include;$(IncludePath)</IncludePath>
-    <LibraryPath>Libs\DirectXTex\bin;$(LibraryPath)</LibraryPath>
+    <IncludePath>DX3D/Vendor/DirectXTex/include;DX3D/Vendor/tinyobjloader/include;DX3D/Include;DX3D/Vendor/;$(IncludePath)</IncludePath>
+    <LibraryPath>DX3D/Vendor/DirectXTex/bin;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -141,96 +141,115 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\AboutScreen.cpp" />
-    <ClCompile Include="Engine\AGameObject.cpp" />
-    <ClCompile Include="Engine\AppWindow.cpp" />
-    <ClCompile Include="Engine\AUIScreen.cpp" />
-    <ClCompile Include="Engine\Camera.cpp" />
-    <ClCompile Include="Engine\ConstantBuffer.cpp" />
-    <ClCompile Include="Engine\Cube.cpp" />
-    <ClCompile Include="Engine\DeviceContext.cpp" />
-    <ClCompile Include="Engine\EngineTime.cpp" />
-    <ClCompile Include="Engine\GraphicsEngine.cpp" />
-    <ClCompile Include="Engine\HierarchyScreen.cpp" />
-    <ClCompile Include="Engine\IndexBuffer.cpp" />
-    <ClCompile Include="Engine\InputSystem.cpp" />
-    <ClCompile Include="Engine\InspectorScreen.cpp" />
-    <ClCompile Include="Engine\main.cpp" />
-    <ClCompile Include="Engine\MainMenuScreen.cpp" />
-    <ClCompile Include="Engine\PixelShader.cpp" />
-    <ClCompile Include="Engine\Plane.cpp" />
-    <ClCompile Include="Engine\RenderSystem.cpp" />
-    <ClCompile Include="Engine\Resource.cpp" />
-    <ClCompile Include="Engine\ResourceManager.cpp" />
-    <ClCompile Include="Engine\Sphere.cpp" />
-    <ClCompile Include="Engine\SwapChain.cpp" />
-    <ClCompile Include="Engine\Texture.cpp" />
-    <ClCompile Include="Engine\TextureManager.cpp" />
-    <ClCompile Include="Engine\UIManager.cpp" />
-    <ClCompile Include="Engine\VertexBuffer.cpp" />
-    <ClCompile Include="Engine\VertexShader.cpp" />
-    <ClCompile Include="Engine\Window.cpp" />
-    <ClCompile Include="IMGUI\backends\imgui_impl_dx11.cpp" />
-    <ClCompile Include="IMGUI\backends\imgui_impl_win32.cpp" />
-    <ClCompile Include="IMGUI\imgui.cpp" />
-    <ClCompile Include="IMGUI\imgui_demo.cpp" />
-    <ClCompile Include="IMGUI\imgui_draw.cpp" />
-    <ClCompile Include="IMGUI\imgui_tables.cpp" />
-    <ClCompile Include="IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\CameraComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\Component.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\GameObject.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\MeshComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\TransformComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\Display.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\Game.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\Win32\Win32.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\ConstantBuffer.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\DeviceContext.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\GraphicsEngine.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\IndexBuffer.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\PixelShader.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\RenderSystem.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\SwapChain.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\VertexBuffer.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\VertexShader.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Input\InputSystem.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\Mesh.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\PrimitiveFactory.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\Resource.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\ResourceManager.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Graphics\Texture2D.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\HierarchyUI.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\InspectorUI.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\MainBarUI.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\UI.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\UIHandler.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Window\Window.cpp" />
+    <ClCompile Include="DX3D\Vendor\IMGUI\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="DX3D\Vendor\IMGUI\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui.cpp" />
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui_demo.cpp" />
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui_tables.cpp" />
+    <ClCompile Include="DX3D\Vendor\IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\EditorCamera.cpp" />
+    <ClCompile Include="Game\main.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\Texture.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Resource\Material.cpp" />
+    <ClCompile Include="Game\MainGame.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Game\World.cpp" />
+    <ClCompile Include="Game\Player.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\LightComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\AboutScreen.h" />
-    <ClInclude Include="Engine\AGameObject.h" />
-    <ClInclude Include="Engine\AppWindow.h" />
-    <ClInclude Include="Engine\AUIScreen.h" />
-    <ClInclude Include="Engine\Camera.h" />
-    <ClInclude Include="Engine\CloseWindowCommand.h" />
-    <ClInclude Include="Engine\Command.h" />
-    <ClInclude Include="Engine\CommandInvoker.h" />
-    <ClInclude Include="Engine\ConstantBuffer.h" />
-    <ClInclude Include="Engine\Cube.h" />
-    <ClInclude Include="Engine\DeleteObjectCommand.h" />
-    <ClInclude Include="Engine\DeviceContext.h" />
-    <ClInclude Include="Engine\EngineTime.h" />
-    <ClInclude Include="Engine\GraphicsEngine.h" />
-    <ClInclude Include="Engine\HierarchyScreen.h" />
-    <ClInclude Include="Engine\IndexBuffer.h" />
-    <ClInclude Include="Engine\InputListener.h" />
-    <ClInclude Include="Engine\InputSystem.h" />
-    <ClInclude Include="Engine\InspectorScreen.h" />
-    <ClInclude Include="Engine\MainMenuScreen.h" />
-    <ClInclude Include="Engine\Matrix4x4.h" />
-    <ClInclude Include="Engine\PixelShader.h" />
-    <ClInclude Include="Engine\Plane.h" />
-    <ClInclude Include="Engine\Point.h" />
-    <ClInclude Include="Engine\Prerequisites.h" />
-    <ClInclude Include="Engine\RenderSystem.h" />
-    <ClInclude Include="Engine\Resource.h" />
-    <ClInclude Include="Engine\ResourceManager.h" />
-    <ClInclude Include="Engine\SpawnObjectCommand.h" />
-    <ClInclude Include="Engine\Sphere.h" />
-    <ClInclude Include="Engine\SwapChain.h" />
-    <ClInclude Include="Engine\Texture.h" />
-    <ClInclude Include="Engine\TextureManager.h" />
-    <ClInclude Include="Engine\UIManager.h" />
-    <ClInclude Include="Engine\Vector2D.h" />
-    <ClInclude Include="Engine\Vector3D.h" />
-    <ClInclude Include="Engine\Vector4D.h" />
-    <ClInclude Include="Engine\VertexBuffer.h" />
-    <ClInclude Include="Engine\VertexShader.h" />
-    <ClInclude Include="Engine\Window.h" />
-    <ClInclude Include="IMGUI\backends\imgui_impl_dx11.h" />
-    <ClInclude Include="IMGUI\backends\imgui_impl_win32.h" />
-    <ClInclude Include="IMGUI\imconfig.h" />
-    <ClInclude Include="IMGUI\imgui.h" />
-    <ClInclude Include="IMGUI\imgui_internal.h" />
-    <ClInclude Include="IMGUI\imstb_rectpack.h" />
-    <ClInclude Include="IMGUI\imstb_textedit.h" />
-    <ClInclude Include="IMGUI\imstb_truetype.h" />
-    <ClInclude Include="Settings.h" />
+    <ClInclude Include="DX3D\Include\DX3D\All.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\Command.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\CommandInvoker.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\DeleteObjectCommand.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\SpawnObjectCommand.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\TransformCommand.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\Component.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\GameObject.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\MeshComponent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\TransformComponent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Game\Display.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\ConstantBuffer.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\DeviceContext.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\GraphicsEngine.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\IndexBuffer.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\PixelShader.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\RenderSystem.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\SwapChain.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\VertexBuffer.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\VertexShader.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Input\InputSystem.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Matrix4x4.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Rect.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Vector2D.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Vector3D.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Vector4D.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\VertexMesh.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Prerequisites.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\Mesh.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\PrimitiveFactory.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\Resource.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\ResourceManager.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Graphics\Texture2D.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Settings.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\HierarchyUI.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\InspectorUI.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\MainBarUI.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\UI.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\UIHandler.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Window\Window.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\backends\imgui_impl_win32.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\imconfig.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\imgui.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\imgui_internal.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\imstb_rectpack.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\imstb_textedit.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\imstb_truetype.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Game\Game.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\Texture.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Resource\Material.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Game\EditorCamera.h" />
+    <ClInclude Include="Game\MainGame.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Game\World.h" />
+    <ClInclude Include="Game\Player.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\LightComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\PixelShader.hlsl">
+    <FxCompile Include="Assets\Shaders\Material.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -238,7 +257,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\VertexShader.hlsl">
+    <FxCompile Include="Assets\Shaders\VertexMeshLayoutShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Assets\Shaders\VertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -246,6 +269,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DX3D\Include\DX3D\GameObject\CameraComponent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\Nikos\Downloads\CPP-3D-Game-Tutorial-Series-AssetsAndLibs\CPP-3D-Game-Tutorial-Series-AssetsAndLibs\Assets\Textures\wood.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
