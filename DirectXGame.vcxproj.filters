@@ -242,6 +242,7 @@
     <ClInclude Include="DX3D\Include\DX3D\Commands\DeleteObjectCommand.h" />
     <ClInclude Include="DX3D\Include\DX3D\Commands\CommandInvoker.h" />
     <ClInclude Include="DX3D\Include\DX3D\Commands\Command.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\TransformCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\VertexShader.hlsl">

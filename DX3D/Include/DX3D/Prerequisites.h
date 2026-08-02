@@ -47,7 +47,7 @@ class CloseWindowCommand;
 template<typename T>
 class SpawnObjectCommand;
 class DeleteObjectCommand;
-
+class TransformCommand;
 
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
 typedef std::shared_ptr<DeviceContext> DeviceContextPtr;
@@ -68,6 +68,13 @@ typedef unsigned int ui32;
 typedef int	i32;
 typedef float f32;
 typedef double d64;
+
+#include <DX3D/Math/Vector3D.h>
+struct PendingTransformData {
+	GameObject* object = nullptr;
+	Vector3D oldPos, oldRot, oldScale;
+	Vector3D newPos, newRot, newScale;
+};
 
 enum class CameraType {
 	Orthographic = 0,
@@ -135,6 +142,7 @@ enum class Action {
 	SpawnPlane,
 	SpawnCapsule,
 	DeleteObject,
+	TransformObject,
 	Undo,
 	Redo,
 	CloseWindow,

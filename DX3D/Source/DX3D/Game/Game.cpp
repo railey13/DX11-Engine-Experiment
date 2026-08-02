@@ -13,6 +13,7 @@
 #include <DX3D/Commands/CommandInvoker.h>
 #include <DX3D/Commands/SpawnObjectCommand.h>
 #include <DX3D/Commands/DeleteObjectCommand.h>
+#include <DX3D/Commands/TransformCommand.h>
 #include <DX3D/Resource/PrimitiveFactory.h>
 
 Game::Game() {
@@ -104,6 +105,13 @@ void Game::bindCommands() {
 		return std::make_unique<SpawnObjectCommand<GameObject>>(m_world.get(), [this](GameObject* obj) {
 			PrimitiveFactory::createPlane(m_resourceManager.get(), obj);
 			});
+		});
+
+	m_commandInvoker->bindCommand(Action::TransformObject, [this]() {
+		auto& p = m_world->m_pendingTransform;
+		return std::make_unique<TransformCommand>(p.object,
+			p.oldPos, p.oldRot, p.oldScale,
+			p.newPos, p.newRot, p.newScale);
 		});
 }
 

@@ -9,6 +9,7 @@
 #include <DX3D/Resource/ResourceManager.h>
 #include <DX3D/Resource/Material.h>
 #include <DX3D/Resource/Texture.h>
+#include <DX3D/Commands/CommandInvoker.h>
 
 InspectorUI::InspectorUI(UIHandler* handler) : UI(handler) {
 	m_isActive = true;
@@ -40,22 +41,7 @@ void InspectorUI::draw() {
 					}
 				}
 				// GameObject Transform
-				if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
-					TransformComponent* transform = obj->getTransform();
-					Vector3D pos = transform->getPosition();
-					Vector3D rot = transform->getRotation();
-					Vector3D scale = transform->getScale();
-
-					if (ImGui::DragFloat3("Position", &pos.m_x, m_transform_speed)) {
-						obj->getTransform()->setPosition(pos);
-					}
-					if (ImGui::DragFloat3("Rotation", &rot.m_x, m_transform_speed)) {
-						obj->getTransform()->setRotation(rot);
-					}
-					if (ImGui::DragFloat3("Scale", &scale.m_x, m_transform_speed)) {
-						obj->getTransform()->setScale(scale);
-					}
-				}	
+				Transform(obj);
 				// GameObject Light
 				if (obj->getComponent<LightComponent>() != nullptr) {
 					LightComponent* light = obj->getComponent<LightComponent>();
@@ -92,6 +78,54 @@ void InspectorUI::draw() {
 	}
 }
 
+void InspectorUI::Transform(GameObject* obj) {
+	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
+		TransformComponent* transform = obj->getTransform();
+		Vector3D pos = transform->getPosition();
+		Vector3D rot = transform->getRotation();
+		Vector3D scale = transform->getScale();
+
+		bool changedThisFrame = false;
+
+		if (ImGui::DragFloat3("Position", &pos.m_x, m_transform_speed)) {
+			saveTransform(transform);
+			obj->getTransform()->setPosition(pos);
+			changedThisFrame = true;
+		}
+		if (ImGui::DragFloat3("Rotation", &rot.m_x, m_transform_speed)) {
+			saveTransform(transform);
+			obj->getTransform()->setRotation(rot);
+		}
+		if (ImGui::DragFloat3("Scale", &scale.m_x, m_transform_speed)) {
+			saveTransform(transform);
+			obj->getTransform()->setScale(scale);
+		}
+
+		if (m_isDraggingTransform && ImGui::IsMouseReleased(ImGuiMouseButton_Left) && !changedThisFrame) {
+			m_isDraggingTransform = false;
+
+			Vector3D endPos = transform->getPosition();
+			Vector3D endRot = transform->getRotation();
+			Vector3D endScale = transform->getScale();
+
+			if (endPos != m_dragStartPos || endRot != m_dragStartRot || endScale != m_dragStartScale) {
+				auto& p = m_world->m_pendingTransform;
+				p.object = obj;
+
+				p.oldPos = m_dragStartPos;   
+				p.oldRot = m_dragStartRot;   
+				p.oldScale = m_dragStartScale;
+
+				p.newPos = endPos;           
+				p.newRot = endRot;           
+				p.newScale = endScale;
+
+				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::TransformObject);
+			}
+		}
+	}
+}
+
 void InspectorUI::setButton(const char* label, const wchar_t* path, GameObject* obj, float width) {
 	auto tex = m_handler->getGame()->getResourceManager()->createResourceFromFile<Texture>(path);
 
@@ -100,4 +134,13 @@ void InspectorUI::setButton(const char* label, const wchar_t* path, GameObject* 
 	}
 	ImGui::SameLine();	
 	ImGui::Image(tex->getSRV(), ImVec2(32,32));
+}
+
+void InspectorUI::saveTransform(TransformComponent* transform) {
+	if (!m_isDraggingTransform) {
+		m_dragStartPos = transform->getPosition();
+		m_dragStartRot = transform->getRotation();
+		m_dragStartScale = transform->getScale();
+		m_isDraggingTransform = true;
+	}
 }
