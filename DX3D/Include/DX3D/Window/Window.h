@@ -3,6 +3,7 @@
 #include <DX3D/Settings.h>
 #include <DX3D/Prerequisites.h>
 
+#define NOMINMAX
 #include <Windows.h>
 
 class Window {
