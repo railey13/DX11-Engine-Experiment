@@ -169,6 +169,9 @@
     <ClCompile Include="DX3D\Source\DX3D\User Interface\HierarchyUI.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\User Interface\InspectorUI.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\LightComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Physics\PhysicsEngine.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\RigidBodyComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\ColliderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX3D\Vendor\IMGUI\imconfig.h">
@@ -243,6 +246,12 @@
     <ClInclude Include="DX3D\Include\DX3D\Commands\CommandInvoker.h" />
     <ClInclude Include="DX3D\Include\DX3D\Commands\Command.h" />
     <ClInclude Include="DX3D\Include\DX3D\Commands\TransformCommand.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Physics\PhysicsEngine.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\RigidBodyComponent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\ObjectComponentFactory.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\ColliderComponent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Quaternion.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Commands\ParentCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\VertexShader.hlsl">
@@ -258,8 +267,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DX3D\Include\DX3D\GameObject\CameraComponent.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="C:\Users\Nikos\Downloads\CPP-3D-Game-Tutorial-Series-AssetsAndLibs\CPP-3D-Game-Tutorial-Series-AssetsAndLibs\Assets\Textures\wood.jpg" />
   </ItemGroup>
 </Project>

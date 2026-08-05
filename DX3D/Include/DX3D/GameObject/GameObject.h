@@ -16,6 +16,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 class GameObjectManager;
 
@@ -50,11 +51,13 @@ public:
 private:
 	void createComponentInternal(Component* component, size_t id);
 	Component* getComponentInternal(size_t id);
+public:
 	void removeComponent(size_t id);
 	void toggleComponents(bool flag);
 public:
 	void setName(const std::string& name);
 	void setActive(bool active);
+	void setParent(GameObject* parent);
 
 	bool isActive() { return m_active; }
 	TransformComponent* getTransform() { return m_transform; }
@@ -62,10 +65,13 @@ public:
 	size_t getID() { return m_id; }
 	size_t getInstanceID() { return m_instance_id; }
 	World* getWorld() { return m_world; }
-
+	GameObject* getParent() const { return m_parent; }
+	const std::vector<GameObject*>& getChildren() const { return m_children; }
 	InputSystem* getInputSystem();
 private:
 	void setMeshData(const MeshPtr& mesh, const MaterialPtr& material = nullptr);
+	void addChild(GameObject* child);
+	void removeChild(GameObject* child);
 protected:
 	std::map<size_t, std::unique_ptr<Component>> m_components;
 	std::string m_name;
@@ -74,6 +80,9 @@ protected:
 	World* m_world = nullptr;
 
 	bool m_active = true;
+
+	GameObject* m_parent = nullptr;
+	std::vector<GameObject*> m_children;
 private:
 	size_t m_id = 0;
 	size_t m_instance_id = 0;

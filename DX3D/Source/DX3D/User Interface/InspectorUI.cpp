@@ -6,6 +6,7 @@
 #include <DX3D/GameObject/TransformComponent.h>
 #include <DX3D/GameObject/LightComponent.h>
 #include <DX3D/GameObject/MeshComponent.h>
+#include <DX3D/GameObject/RigidBodyComponent.h>
 #include <DX3D/Resource/ResourceManager.h>
 #include <DX3D/Resource/Material.h>
 #include <DX3D/Resource/Texture.h>
@@ -20,13 +21,16 @@ InspectorUI::~InspectorUI() {
 }
 
 void InspectorUI::draw() {
-	
-	GameObject* obj = m_world->getSelectedGameObject();
+	if (m_handler->getGame()->m_state == EngineState::Play) m_disabled = true;
+	else if (m_handler->getGame()->m_state == EngineState::Edit) m_disabled = false;
 
+	GameObject* obj = m_world->getSelectedGameObject();
 	if (m_isActive) {
 		if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 			if (obj) {
 				// GameObject Name
+				RigidBodyComponent* rb = obj->getComponent<RigidBodyComponent>();
+
 				{
 					strncpy_s(m_nameBuffer, obj->getName().c_str(), sizeof(m_nameBuffer) - 1);
 					m_nameBuffer[sizeof(m_nameBuffer) - 1] = '\0';
@@ -41,7 +45,7 @@ void InspectorUI::draw() {
 					}
 				}
 				// GameObject Transform
-				Transform(obj);
+				Transform(obj, rb);
 				// GameObject Light
 				if (obj->getComponent<LightComponent>() != nullptr) {
 					LightComponent* light = obj->getComponent<LightComponent>();
@@ -71,6 +75,25 @@ void InspectorUI::draw() {
 						setButton("Default", L"Assets/Textures/white.png", obj, buttonWidth);
 					}
 				}
+				// RigidBody	
+				if (rb != nullptr) {
+					if (ImGui::CollapsingHeader("RigidBody", ImGuiTreeNodeFlags_DefaultOpen)) {
+						i32 currentItem = static_cast<i32>(rb->getBodyType());
+
+						const char* bodyTypes[] = { "Static", "Kinematic", "Dynamic" };
+						f32 mass = rb->getMass();
+
+						ImGui::BeginDisabled(m_disabled);
+						if (ImGui::Combo("Body Type", &currentItem, bodyTypes, 3)) {
+							rb->setBodyType(static_cast<RBType>(currentItem));
+						}
+						if (ImGui::InputFloat("Mass", &mass)) {
+							rb->setMass(mass);
+						}
+						ImGui::EndDisabled();
+					}
+
+				}
 			}		
 		}
 
@@ -78,11 +101,11 @@ void InspectorUI::draw() {
 	}
 }
 
-void InspectorUI::Transform(GameObject* obj) {
+void InspectorUI::Transform(GameObject* obj, RigidBodyComponent* rb) {
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
 		TransformComponent* transform = obj->getTransform();
 		Vector3D pos = transform->getPosition();
-		Vector3D rot = transform->getRotation();
+		Vector3D rot = transform->getRotationEuler();
 		Vector3D scale = transform->getScale();
 
 		bool changedThisFrame = false;
@@ -94,18 +117,20 @@ void InspectorUI::Transform(GameObject* obj) {
 		}
 		if (ImGui::DragFloat3("Rotation", &rot.m_x, m_transform_speed)) {
 			saveTransform(transform);
-			obj->getTransform()->setRotation(rot);
+			obj->getTransform()->setRotationEuler(rot);
 		}
 		if (ImGui::DragFloat3("Scale", &scale.m_x, m_transform_speed)) {
 			saveTransform(transform);
 			obj->getTransform()->setScale(scale);
 		}
 
+		if (rb) rb->updateTransform(pos, transform->getRotation());
+
 		if (m_isDraggingTransform && ImGui::IsMouseReleased(ImGuiMouseButton_Left) && !changedThisFrame) {
 			m_isDraggingTransform = false;
 
 			Vector3D endPos = transform->getPosition();
-			Vector3D endRot = transform->getRotation();
+			Vector3D endRot = transform->getRotationEuler();
 			Vector3D endScale = transform->getScale();
 
 			if (endPos != m_dragStartPos || endRot != m_dragStartRot || endScale != m_dragStartScale) {
@@ -139,7 +164,7 @@ void InspectorUI::setButton(const char* label, const wchar_t* path, GameObject* 
 void InspectorUI::saveTransform(TransformComponent* transform) {
 	if (!m_isDraggingTransform) {
 		m_dragStartPos = transform->getPosition();
-		m_dragStartRot = transform->getRotation();
+		m_dragStartRot = transform->getRotationEuler();
 		m_dragStartScale = transform->getScale();
 		m_isDraggingTransform = true;
 	}

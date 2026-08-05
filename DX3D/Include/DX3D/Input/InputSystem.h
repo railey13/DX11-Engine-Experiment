@@ -18,6 +18,8 @@ public:
 	void lockCursor(bool lock);
 	void toggleLockCursor();
 	void setLockArea(const Rect& area);
+	void toggleCursorVisible();
+	bool isCursorLocked() const { return m_cursor_locked; }
 private:
 	short getInternalKeyCode(const Key& key);
 private:
@@ -25,6 +27,7 @@ private:
 	short m_old_keys_state[256] = {};
 	short m_final_keys_state[256] = {};
 
+	bool m_is_cursor_visible = true;
 	bool m_cursor_locked = false;
 	Rect m_lock_area;
 	

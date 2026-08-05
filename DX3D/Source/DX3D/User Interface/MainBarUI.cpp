@@ -19,6 +19,8 @@
 #include <DX3D/User Interface/HierarchyUI.h>
 #include <DX3D/User Interface/InspectorUI.h>
 
+#include <DX3D/Input/InputSystem.h>
+
 MainBarUI::MainBarUI(UIHandler* handler) : UI(handler) {
 	m_resource = m_handler->getGame()->getResourceManager();
 	m_isActive = true;
@@ -30,18 +32,30 @@ MainBarUI::~MainBarUI() {
 
 void MainBarUI::draw() {
 	if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::BeginMenu("3D Objects")) {
-			if (ImGui::MenuItem("Cube")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCube);
+		if (ImGui::BeginMenu("GameObjects")) {
+			if (ImGui::BeginMenu("3D Objects")) {
+				if (ImGui::MenuItem("Cube")) {
+					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCube);
+				}
+				if (ImGui::MenuItem("Sphere")) {
+					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnSphere);
+				}
+				if (ImGui::MenuItem("Plane")) {
+					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnPlane);
+				}
+				if (ImGui::MenuItem("Capsule")) {
+					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCapsule);
+				}
+				ImGui::EndMenu();
 			}
-			if (ImGui::MenuItem("Sphere")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnSphere);
-			}
-			if (ImGui::MenuItem("Plane")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnPlane);
-			}
-			if (ImGui::MenuItem("Capsule")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCapsule);
+			if (ImGui::BeginMenu("Lights")) {
+				if (ImGui::MenuItem("Directional Light")) {
+					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnDirLight);
+				}
+				if (ImGui::MenuItem("Point Light")) {
+					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnPointLight);
+				}
+				ImGui::EndMenu();
 			}
 			ImGui::EndMenu();
 		}
@@ -58,6 +72,20 @@ void MainBarUI::draw() {
 			}
 			ImGui::EndMenu();
 		}
+
+		if (m_edit) {
+			if (ImGui::MenuItem("Play")) {
+				m_handler->getGame()->m_state = EngineState::Play;
+				m_edit = false;
+			}
+		}
+		else {
+			if (ImGui::MenuItem("Edit")) {
+				m_handler->getGame()->m_state = EngineState::Edit;
+				m_edit = true;
+			}
+		}
+
 		ImGui::EndMainMenuBar();
 	}
 }

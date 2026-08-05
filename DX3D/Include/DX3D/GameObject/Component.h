@@ -9,6 +9,7 @@ public:
 	void release();
 
 	GameObject* getGameObject() { return m_gameobject; }
+	size_t getID() const { return m_typeId; }
 	bool isActive() const { return m_active; }
 protected:
 	virtual void onCreateInternal();

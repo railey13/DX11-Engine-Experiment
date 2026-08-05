@@ -42,6 +42,7 @@ private:
 	std::string generateUniqueName(const std::string& baseName);
 public:
 	PendingTransformData m_pendingTransform;
+	PendingParentData m_pendingParent;
 private:
 	std::map<size_t, std::map<GameObject*, std::unique_ptr<GameObject>>> m_game_objects;
 	std::vector<GameObject*> m_game_objects_order;

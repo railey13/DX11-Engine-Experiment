@@ -49,11 +49,20 @@ void EditorCamera::update(f32 deltaTime) {
 	auto pos = getTransform()->getPosition();
 	pos += world.getZDirection() * m_forward * 3.0f * deltaTime;
 	pos += world.getXDirection() * m_strafe * 3.0f * deltaTime;
+	getTransform()->setPosition(pos);
 
 	auto deltaPos = getInputSystem()->getDeltaMousePosition();
-	auto rot = getTransform()->getRotation();
-	rot += Vector3D(deltaPos.m_y * m_camera->getSensitivity(), deltaPos.m_x * m_camera->getSensitivity(), 0);
 
-	getTransform()->setPosition(pos);
-	getTransform()->setRotation(rot);
+	m_yaw += deltaPos.m_x * m_camera->getSensitivity();
+	m_pitch += deltaPos.m_y * m_camera->getSensitivity();
+
+	const float maxPitch = 1.49f, minPitch = -1.49f;
+	m_pitch = std::max(minPitch, std::min(maxPitch, m_pitch));
+
+	Quaternion yawQuat = Quaternion::fromAxisAngle(Vector3D(0, 1, 0), m_yaw);
+	Quaternion pitchQuat = Quaternion::fromAxisAngle(Vector3D(1, 0, 0), m_pitch);
+
+	Quaternion finalRot = yawQuat * pitchQuat;
+
+	getTransform()->setRotation(finalRot);
 }

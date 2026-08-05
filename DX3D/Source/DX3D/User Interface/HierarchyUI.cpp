@@ -18,30 +18,26 @@ void HierarchyUI::draw() {
 	if (m_isActive) {
 		if (ImGui::Begin("Hierarchy Tree", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 			auto objs = m_world->getGameObjects();
-			for (int i = 0; i < objs.size(); i++) {
-				GameObject* obj = objs[i];
-				if (!obj) continue;
 
-				ImGui::PushID(i);
-
-				bool isSelected = (m_world->getSelectedGameObject() == obj);
-				if (ImGui::Selectable(obj->getName().c_str(), isSelected)) {
-					m_world->setSeletectedGameObject(obj);
+			for (auto obj : objs) {
+				if (!obj->getParent()) {
+					DrawGameObjectList(obj);
 				}
-
-				if (ImGui::BeginPopupContextItem("ItemContexMenu")) {
-					m_world->setSeletectedGameObject(obj);
-
-					if (ImGui::MenuItem("Delete")) {
-						m_world->getGame()->getCommandInvoker()->executeBoundCommand(Action::DeleteObject);
-					}
-					ImGui::EndPopup();
-				}
-
-				ImGui::PopID();
 			}
 
 			ImGui::InvisibleButton("##HierarchyEmptySpace", ImGui::GetContentRegionAvail());
+
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payLoad = ImGui::AcceptDragDropPayload("GAMEOBJECT")) {
+					GameObject* drag = *(GameObject**)payLoad->Data;
+
+					if (drag && drag->getParent() != nullptr) {
+						m_world->m_pendingParent = { drag, nullptr };
+						m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::Parent);
+					}
+				}
+				ImGui::EndDragDropTarget();
+			}
 
 			RightClickWindowPopup();
 
@@ -56,7 +52,7 @@ void HierarchyUI::draw() {
 
 void HierarchyUI::RightClickWindowPopup() {
 	if (ImGui::BeginPopupContextItem("WindowsContexMenu", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems)) {
-		if (ImGui::BeginMenu("Create 3D Objects")) {
+		if (ImGui::BeginMenu("3D Objects")) {
 			if (ImGui::MenuItem("Cube")) {
 				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCube);
 			}
@@ -71,6 +67,82 @@ void HierarchyUI::RightClickWindowPopup() {
 			}
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Lights")) {
+			if (ImGui::MenuItem("Directional Light")) {
+				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnDirLight);
+			}
+			if (ImGui::MenuItem("Point Light")) {
+				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnPointLight);
+			}
+			ImGui::EndMenu();
+		}
 		ImGui::EndPopup();
 	}
+}
+
+void HierarchyUI::DrawGameObjectList(GameObject* obj) {
+	ImGui::PushID(obj);
+
+	const auto& children = obj->getChildren();
+	bool isSelected = (m_world->getSelectedGameObject() == obj);
+	
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+
+	if (isSelected) flags = flags | ImGuiTreeNodeFlags_Selected;
+	if (children.empty()) flags = flags | ImGuiTreeNodeFlags_Leaf;
+
+	bool openChildList = ImGui::TreeNodeEx((void*)(intptr_t)obj, flags, "%s", obj->getName().c_str());
+	
+	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
+		m_world->setSeletectedGameObject(obj);
+	}
+
+	if (ImGui::BeginPopupContextItem("ItemContexMenu")) {
+		m_world->setSeletectedGameObject(obj);
+
+		if (ImGui::MenuItem("Delete")) {
+			m_world->getGame()->getCommandInvoker()->executeBoundCommand(Action::DeleteObject);
+		}
+		ImGui::EndPopup();
+	}
+
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
+		ImGui::SetDragDropPayload("GAMEOBJECT", &obj, sizeof(GameObject*));
+		ImGui::Text("Move %s", obj->getName().c_str());
+		ImGui::EndDragDropSource();
+	}
+
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payLoad = ImGui::AcceptDragDropPayload("GAMEOBJECT")) {
+			GameObject* drag = *(GameObject**)payLoad->Data;
+
+			if (drag && drag != obj && !isDescendant(obj, drag)) {
+				m_world->m_pendingParent = { drag, obj };
+				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::Parent);
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
+
+	if (openChildList) {
+		for (auto c : children) {
+			if (c) {
+				DrawGameObjectList(c);
+			}
+		}
+		ImGui::TreePop();
+	}
+
+	ImGui::PopID();
+}
+
+bool HierarchyUI::isDescendant(GameObject* drag, GameObject* obj) {
+	GameObject* current = drag;
+
+	while (current) {
+		if (current == obj) return true;
+		current = current->getParent();
+	}
+
+	return false;
 }

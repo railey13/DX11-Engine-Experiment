@@ -69,11 +69,26 @@ void InputSystem::lockCursor(bool lock) {
 
 void InputSystem::toggleLockCursor() {
 	m_cursor_locked = !m_cursor_locked;
+
+	if (m_cursor_locked) {
+		int centerX = (int)m_lock_area_center.m_x;
+		int centerY = (int)m_lock_area_center.m_y;
+		SetCursorPos(centerX, centerY);
+		m_old_mouse_pos = Vector2D((float)centerX, (float)centerY);
+	}
 }
 
 void InputSystem::setLockArea(const Rect& area) {
 	m_lock_area = area;
-	m_lock_area_center = Vector2D(area.left + (float)area.width / 2.0f, area.top + (float)area.height / 2.0f);
+	m_lock_area_center = Vector2D(
+		(float)(area.left + (area.width / 2)),
+		(float)(area.top + (area.height / 2))
+	);
+}
+
+void InputSystem::toggleCursorVisible() {
+	m_is_cursor_visible = !m_is_cursor_visible;
+	::ShowCursor(m_is_cursor_visible);
 }
 
 short InputSystem::getInternalKeyCode(const Key& key) {

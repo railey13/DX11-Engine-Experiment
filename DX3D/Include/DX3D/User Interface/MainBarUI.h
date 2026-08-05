@@ -10,6 +10,7 @@ public:
 	void draw() override;
 private:
 	ResourceManager* m_resource = nullptr;
+	bool m_edit = true;
 private:
 };
 

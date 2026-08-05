@@ -6,6 +6,8 @@
 #include <DX3D/GameObject/GameObject.h>
 #include <DX3D/GameObject/TransformComponent.h>
 #include <DX3D/GameObject/MeshComponent.h>
+#include <DX3D/GameObject/RigidBodyComponent.h>
+#include <DX3D/GameObject/ColliderComponent.h>
 
 #include <vector>
 
@@ -146,6 +148,11 @@ void PrimitiveFactory::createCube(ResourceManager* manager, GameObject* obj) {
 
 	obj->setMeshData(mesh);
 	obj->setName("Cube");
+	auto rb = obj->createComponent<RigidBodyComponent>();
+	auto col = obj->createComponent<ColliderComponent>();
+
+	rb->setBodyType(RBType::Dynamic);
+	col->setAsBox(mesh->getHalfExtents());
 }
 
 void PrimitiveFactory::createPlane(ResourceManager* manager, GameObject* obj) {
@@ -197,6 +204,11 @@ void PrimitiveFactory::createPlane(ResourceManager* manager, GameObject* obj) {
 
 	obj->setMeshData(mesh);
 	obj->setName("Plane");
+	auto rb = obj->createComponent<RigidBodyComponent>();
+	auto col = obj->createComponent<ColliderComponent>();
+
+	rb->setBodyType(RBType::Dynamic);
+	col->setAsBox(mesh->getHalfExtents());
 }
 
 void PrimitiveFactory::createSphere(ResourceManager* manager, GameObject* obj) {
@@ -298,6 +310,12 @@ void PrimitiveFactory::createSphere(ResourceManager* manager, GameObject* obj) {
 
 	obj->setMeshData(mesh);
 	obj->setName("Sphere");
+
+	auto rb = obj->createComponent<RigidBodyComponent>();
+	auto col = obj->createComponent<ColliderComponent>();
+
+	rb->setBodyType(RBType::Dynamic);
+	col->setAsSphere(radius);
 }
 
 void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) {
@@ -425,5 +443,11 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 
 	obj->setMeshData(mesh);
 	obj->setName("Capsule");
+
+	auto rb = obj->createComponent<RigidBodyComponent>();
+	auto col = obj->createComponent<ColliderComponent>();
+
+	rb->setBodyType(RBType::Dynamic);
+	col->setAsCapsule(radius, cylinderHeight);
 }
 

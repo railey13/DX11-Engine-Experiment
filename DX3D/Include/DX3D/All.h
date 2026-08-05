@@ -6,6 +6,8 @@
 #include <DX3D/GameObject/MeshComponent.h>
 #include <DX3D/GameObject/CameraComponent.h>
 #include <DX3D/GameObject/LightComponent.h>
+#include <DX3D/GameObject/RigidBodyComponent.h>
+#include <DX3D/GameObject/ColliderComponent.h>
 
 #include <DX3D/Game/World.h>
 #include <DX3D/Game/Game.h>

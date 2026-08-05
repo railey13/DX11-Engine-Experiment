@@ -26,6 +26,7 @@ public:
 
 	MaterialSlot getMaterialSlot(ui32 slot);
 	size_t getNumMaterialSlots() { return m_material_slots.size(); }
+	const Vector3D& getHalfExtents() const { return m_halfExtents; }
 private:
 	static void computeTangents(
 		const Vector3D& v0, const Vector3D& v1, const Vector3D& v2,
@@ -35,6 +36,10 @@ private:
 	VertexBufferPtr m_vertex_buffer;
 	IndexBufferPtr m_index_buffer;
 	std::vector<MaterialSlot> m_material_slots;
+
+	Vector3D m_minBounds;
+	Vector3D m_maxBounds;
+	Vector3D m_halfExtents;
 private:
 	friend class DeviceContext;
 	friend class GraphicsEngine;

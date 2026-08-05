@@ -2,6 +2,7 @@
 #include <memory>
 #include <DX3D/Math/Vector3D.h>
 #include <DX3D/Math/Vector4D.h>
+#include <DX3D/Math/Quaternion.h>
 
 class Matrix4x4 {
 public:
@@ -22,7 +23,7 @@ public:
 	}
 
 	void setTranslation(const Vector3D& translation) {
-	/*	setIdentity();*/
+		setIdentity();
 
 		m_mat[3][0] = translation.m_x;
 		m_mat[3][1] = translation.m_y;
@@ -31,7 +32,7 @@ public:
 	}
 
 	void setScale(const Vector3D& scale) {
-		/*setIdentity();*/
+		setIdentity();
 
 		m_mat[0][0] = scale.m_x;
 		m_mat[1][1] = scale.m_y;
@@ -172,6 +173,29 @@ public:
 		m_mat[2][2] = 1.0f / (far_plane - near_plane);
 		m_mat[3][2] = -(near_plane / (far_plane - near_plane));
 	}
+
+	//
+	void setRotationFromQuaternion(const Quaternion& q) {
+		setIdentity();
+
+		f32 x = q.m_x, y = q.m_y, z = q.m_z, w = q.m_w;
+		f32 xx = x * x, yy = y * y, zz = z * z;
+		f32 xy = x * y, xz = x * z, yz = y * z;
+		f32 wx = w * x, wy = w * y, wz = w * z;
+
+		m_mat[0][0] = 1.0f - 2.0f * (yy + zz);
+		m_mat[0][1] = 2.0f * (xy + wz);
+		m_mat[0][2] = 2.0f * (xz - wy);
+
+		m_mat[1][0] = 2.0f * (xy - wz);
+		m_mat[1][1] = 1.0f - 2.0f * (xx + zz);
+		m_mat[1][2] = 2.0f * (yz + wx);
+
+		m_mat[2][0] = 2.0f * (xz + wy);
+		m_mat[2][1] = 2.0f * (yz - wx);
+		m_mat[2][2] = 1.0f - 2.0f * (xx + yy);
+	}
+	//
 
 	~Matrix4x4() {	
 

@@ -147,6 +147,23 @@ Mesh::Mesh(const wchar_t* full_path, ResourceManager* manager) : Resource(full_p
 
 	if (list_vertices.empty() || list_indices.empty()) DX3DError("Mesh has no vertex/index data after parsing.");
 
+	//
+	m_minBounds = Vector3D(FLT_MAX, FLT_MAX, FLT_MAX);
+	m_maxBounds = Vector3D(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+
+	for (const auto& vertex : list_vertices) {
+		const Vector3D& pos = vertex.m_position; 
+		m_minBounds.m_x = std::min(m_minBounds.m_x, pos.m_x);
+		m_minBounds.m_y = std::min(m_minBounds.m_y, pos.m_y);
+		m_minBounds.m_z = std::min(m_minBounds.m_z, pos.m_z);
+
+		m_maxBounds.m_x = std::max(m_maxBounds.m_x, pos.m_x);
+		m_maxBounds.m_y = std::max(m_maxBounds.m_y, pos.m_y);
+		m_maxBounds.m_z = std::max(m_maxBounds.m_z, pos.m_z);
+	}
+	m_halfExtents = (m_maxBounds - m_minBounds) * 0.5f;
+	//
+
 	auto render = m_manager->getGame()->getGraphicsEngine()->getRenderSystem();
 
 	m_vertex_buffer = render->createVertexBuffer(
@@ -162,7 +179,22 @@ Mesh::Mesh(VertexMesh* vertex_list_data, ui32 vertex_list_size, ui32* index_list
 	unsigned int index_list_size, MaterialSlot* material_slot_list, 
 	unsigned int material_slot_list_size, 
 	ResourceManager* manager) : Resource(L"", manager) {
+	//
+	m_minBounds = Vector3D(FLT_MAX, FLT_MAX, FLT_MAX);
+	m_maxBounds = Vector3D(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
+	for (ui32 i = 0; i < vertex_list_size; ++i) {
+		const Vector3D& pos = vertex_list_data[i].m_position;
+		m_minBounds.m_x = std::min(m_minBounds.m_x, pos.m_x);
+		m_minBounds.m_y = std::min(m_minBounds.m_y, pos.m_y);
+		m_minBounds.m_z = std::min(m_minBounds.m_z, pos.m_z);
+
+		m_maxBounds.m_x = std::max(m_maxBounds.m_x, pos.m_x);
+		m_maxBounds.m_y = std::max(m_maxBounds.m_y, pos.m_y);
+		m_maxBounds.m_z = std::max(m_maxBounds.m_z, pos.m_z);
+	}
+	m_halfExtents = (m_maxBounds - m_minBounds) * 0.5f;
+	//
 	auto render = m_manager->getGame()->getGraphicsEngine()->getRenderSystem();
 
 	m_vertex_buffer = render->createVertexBuffer(vertex_list_data,

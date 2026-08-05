@@ -13,6 +13,7 @@ public:
 	void run(); 
 public:
 	GraphicsEngine* getGraphicsEngine() { return m_graphicsEngine.get(); }
+	PhysicsEngine* getPhysicsEngne() { return m_physicsEngine.get(); }
 	World* getWorld() { return m_world.get(); }
 	ResourceManager* getResourceManager() { return m_resourceManager.get(); }
 	InputSystem* getInputSystem() { return m_input.get(); }
@@ -30,6 +31,7 @@ public:
 	void quit();
 private:
 	std::unique_ptr<GraphicsEngine> m_graphicsEngine;
+	std::unique_ptr<PhysicsEngine> m_physicsEngine;
 	std::unique_ptr<Display> m_display;
 	std::unique_ptr<World> m_world;
 	std::unique_ptr<InputSystem> m_input;
@@ -40,8 +42,9 @@ private:
 
 	std::unique_ptr<EditorCamera> m_editorCamera;
 	std::unique_ptr<CommandInvoker> m_commandInvoker;
+public:
+	EngineState m_state = EngineState::Edit;
 protected:
-
 	bool m_isRunning = true;
 private:
 	friend class GraphicsEngine;

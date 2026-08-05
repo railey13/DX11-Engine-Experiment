@@ -23,14 +23,14 @@ public:
 	void execute() override {
 		auto t = m_gameObject->getTransform();
 		t->setPosition(m_new_pos);
-		t->setRotation(m_new_rot);
+		t->setRotationEuler(m_new_rot);
 		t->setScale(m_new_scale);
 	}
 
 	void undo() override {
 		auto t = m_gameObject->getTransform();
 		t->setPosition(m_old_pos);
-		t->setRotation(m_old_rot);
+		t->setRotationEuler(m_old_rot);
 		t->setScale(m_old_scale);
 	}
 	

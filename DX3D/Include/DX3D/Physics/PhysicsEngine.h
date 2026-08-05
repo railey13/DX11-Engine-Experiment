@@ -1,18 +1,27 @@
 #pragma once
 #include <DX3D/Prerequisites.h>
+#include <reactphysics3d/reactphysics3d.h>
 #include <set>
 
 class PhysicsEngine {
 public:
 	PhysicsEngine(Game* game);
-	virtual ~PhysicsEngine();
+	~PhysicsEngine();
 
-	void update();
+	void update(f32 deltaTime);
 public:
 	void addComponent(Component* component);
 	void removeComponent(Component* component);
+
+	rp3d::PhysicsCommon& getPhysicsCommon() { return m_physicsCommon; }
+	rp3d::PhysicsWorld* getPhysicsWorld() { return m_physicsWorld; }
 private:
+	f32 fixedTime = 1 / 60.0f;
+	f32 m_physicsAccumulator = 0.0f;
 	Game* m_game = nullptr;
-	std::set<Component*> m_components;
+	rp3d::PhysicsCommon m_physicsCommon;
+	rp3d::PhysicsWorld* m_physicsWorld = nullptr;
+
+	std::set<RigidBodyComponent*> m_rigidBodies;
 };
 

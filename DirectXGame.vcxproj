@@ -108,6 +108,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>DX3D/Vendor/ReactPhysics3D/lib/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -140,9 +141,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>DX3D/Vendor/ReactPhysics3D/lib/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\ColliderComponent.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\CameraComponent.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\Component.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\GameObject.cpp" />
@@ -187,8 +190,12 @@
     <ClCompile Include="DX3D\Source\DX3D\Game\World.cpp" />
     <ClCompile Include="Game\Player.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\LightComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Physics\PhysicsEngine.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\GameObject\RigidBodyComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DX3D\Include\DX3D\Commands\ParentCommand.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\ColliderComponent.h" />
     <ClInclude Include="DX3D\Include\DX3D\All.h" />
     <ClInclude Include="DX3D\Include\DX3D\Commands\Command.h" />
     <ClInclude Include="DX3D\Include\DX3D\Commands\CommandInvoker.h" />
@@ -198,6 +205,7 @@
     <ClInclude Include="DX3D\Include\DX3D\GameObject\Component.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\GameObject.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\MeshComponent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\ObjectComponentFactory.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\TransformComponent.h" />
     <ClInclude Include="DX3D\Include\DX3D\Game\Display.h" />
     <ClInclude Include="DX3D\Include\DX3D\Graphics\ConstantBuffer.h" />
@@ -211,6 +219,7 @@
     <ClInclude Include="DX3D\Include\DX3D\Graphics\VertexShader.h" />
     <ClInclude Include="DX3D\Include\DX3D\Input\InputSystem.h" />
     <ClInclude Include="DX3D\Include\DX3D\Math\Matrix4x4.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Math\Quaternion.h" />
     <ClInclude Include="DX3D\Include\DX3D\Math\Rect.h" />
     <ClInclude Include="DX3D\Include\DX3D\Math\Vector2D.h" />
     <ClInclude Include="DX3D\Include\DX3D\Math\Vector3D.h" />
@@ -245,6 +254,8 @@
     <ClInclude Include="DX3D\Include\DX3D\Game\World.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\LightComponent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Physics\PhysicsEngine.h" />
+    <ClInclude Include="DX3D\Include\DX3D\GameObject\RigidBodyComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\Material.hlsl">
@@ -274,9 +285,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DX3D\Include\DX3D\GameObject\CameraComponent.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="C:\Users\Nikos\Downloads\CPP-3D-Game-Tutorial-Series-AssetsAndLibs\CPP-3D-Game-Tutorial-Series-AssetsAndLibs\Assets\Textures\wood.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

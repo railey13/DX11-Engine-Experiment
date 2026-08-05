@@ -10,11 +10,12 @@ public:
 	// Inherited via UI
 	void draw() override;
 private:
-	void Transform(GameObject* obj);
+	void Transform(GameObject* obj, RigidBodyComponent* rb);
 	void setButton(const char* label, const wchar_t* path, GameObject* obj, float width);
 
 	void saveTransform(TransformComponent* transform);
 private:
+	bool m_disabled = false;
 	bool m_isDraggingTransform = false;
 	char m_nameBuffer[128] = "";
 	f32 m_transform_speed = 0.05f;

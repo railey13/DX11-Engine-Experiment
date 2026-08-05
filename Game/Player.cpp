@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <DX3D/Resource/PrimitiveFactory.h>
 
 Player::Player() {
 	m_name = "Player";
@@ -9,13 +10,27 @@ Player::~Player() {
 }
 
 void Player::onCreate() {
-	createComponent<CameraComponent>();
-	m_camera = getComponent<CameraComponent>();
-	m_camera->setSensitivity(0.001f);
-	getTransform()->setPosition(Vector3D(0,0,-1));
+	m_camera = m_world->createGameObject<GameObject>();
+	m_camera->setName("Camera");
+	auto c = m_camera->createComponent<CameraComponent>();
+	c->setSensitivity(0.005f);
+	c->setFarPlane(1000.f);
+	m_camera->setParent(this);
+	m_camera->getTransform()->setPosition(Vector3D(0,0.2f,0.1f));
 }
 
 void Player::update(f32 deltaTime) {
+	if (getInputSystem()->isKeyUp(Key::Escape)) {
+		getWorld()->getGame()->getInputSystem()->toggleLockCursor();
+		getWorld()->getGame()->getInputSystem()->toggleCursorVisible();
+	}
+
+	if (!getWorld()->getGame()->getInputSystem()->isCursorLocked()) return;
+
+
+	auto c = getComponent<RigidBodyComponent>();
+
+	if (!c) return;
 
 	m_forward = 0.0f;
 	m_strafe = 0.0f;
@@ -33,17 +48,40 @@ void Player::update(f32 deltaTime) {
 		m_strafe = 1;
 	}
 
+	auto rb = c->getRawRigidBody();
+
 	Matrix4x4 world;
 	getTransform()->getWorldMatrix(world);
 
-	auto pos = getTransform()->getPosition();
-	pos += world.getZDirection() * m_forward * 3.0f * deltaTime;
-	pos += world.getXDirection() * m_strafe * 3.0f * deltaTime;
+	Vector3D moveDir = (world.getZDirection() * m_forward) + (world.getXDirection() * m_strafe);
+
+	rp3d::Vector3 currentVel = rb->getLinearVelocity();
+	rb->getLinearVelocity();
+
+	rp3d::Vector3 l(moveDir.m_x * speed, currentVel.y, moveDir.m_z * speed);
+
+	rb->setLinearVelocity(l);
+
+	if (getInputSystem()->isKeyDown(Key::Space)) {
+		currentVel = rb->getLinearVelocity();
+
+		rp3d::Vector3 j((rp3d::Vector3(currentVel.x, jumpForce, currentVel.z)));
+		rb->setLinearVelocity(j);
+	}
 
 	auto deltaPos = getInputSystem()->getDeltaMousePosition();
-	auto rot = getTransform()->getRotation();
-	rot += Vector3D(deltaPos.m_y * m_camera->getSensitivity(), deltaPos.m_x * m_camera->getSensitivity(), 0);
 
-	getTransform()->setPosition(pos);
-	getTransform()->setRotation(rot);
+	auto camera = m_camera->getComponent<CameraComponent>();
+
+	m_yaw += deltaPos.m_x * camera->getSensitivity();
+	m_pitch += deltaPos.m_y * camera->getSensitivity();
+
+	const float maxPitch = 1.49f, minPitch = -1.49f;
+	m_pitch = std::max(minPitch, std::min(maxPitch, m_pitch));
+
+	Quaternion yawQuat = Quaternion::fromAxisAngle(Vector3D(0, 1, 0), m_yaw);
+	Quaternion pitchQuat = Quaternion::fromAxisAngle(Vector3D(1, 0, 0), m_pitch);
+
+	c->updateTransform(getTransform()->getPosition(), yawQuat);
+	m_camera->getTransform()->setRotation(pitchQuat);
 }

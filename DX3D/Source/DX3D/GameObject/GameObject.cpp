@@ -10,7 +10,18 @@ GameObject::GameObject() : m_name("GameObject") {
 }
 
 GameObject::~GameObject() {
-	std::cout << "DELETED" << std::endl;
+	std::cout << "DELETED: " << m_name.c_str() << std::endl;
+	if (m_parent) {
+		m_parent->removeChild(this);
+		m_parent = nullptr;
+	}
+	
+	while (!m_children.empty()) {
+		auto c = m_children.back();
+
+		c->setParent(nullptr);
+	}
+
 	m_components.clear();
 }
 
@@ -57,6 +68,22 @@ void GameObject::setActive(bool active) {
 	toggleComponents(active);
 }
 
+void GameObject::setParent(GameObject* parent) {
+	if (m_parent == parent || parent == this) return;
+
+	if (m_parent) {
+		m_parent->removeChild(this);
+	}
+
+	m_parent = parent;
+
+	if (m_parent) {
+		m_parent->addChild(this);
+	}
+
+	m_transform->updateWorldMatrix();
+}
+
 InputSystem* GameObject::getInputSystem() {
 	return m_world->getGame()->getInputSystem();
 }
@@ -72,4 +99,12 @@ void GameObject::setMeshData(const MeshPtr& mesh, const MaterialPtr& material) {
 		mat = m_world->getGame()->getResourceManager()->getDefaultMaterial();
 	}
 	meshComponent->addMaterial(mat);
+}
+
+void GameObject::addChild(GameObject* child) {
+	m_children.push_back(child);
+}
+
+void GameObject::removeChild(GameObject* child) {
+	m_children.erase(std::remove(m_children.begin(), m_children.end(), child), m_children.end());
 }

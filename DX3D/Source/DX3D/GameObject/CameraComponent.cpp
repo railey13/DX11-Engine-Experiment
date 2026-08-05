@@ -19,6 +19,7 @@ void CameraComponent::getProjectionMatrix(Matrix4x4& proj) {
 
 void CameraComponent::getViewMatrix(Matrix4x4& view) {
 	m_gameobject->getTransform()->getWorldMatrix(view);
+
 	view.inverse();
 }
 

@@ -12,9 +12,15 @@ private:
 	GameObject* m_gameObject = nullptr;
 	f32 m_elapsedSeconds = 0.0f;
 
-	CameraComponent* m_camera = nullptr;
+	GameObject* m_camera = nullptr;
 
 	f32 m_forward = 0.0f;
 	f32 m_strafe = 0.0f;
+	f32 m_pitch = 0.0f;
+	f32 m_yaw = 0.0f;
+
+	f32 jumpForce = 2.0f;
+	f32 verticalVelocity = 0.0f;
+	f32 speed = 5.0f;
 };
 

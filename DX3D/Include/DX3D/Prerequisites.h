@@ -35,6 +35,8 @@ class TransformComponent;
 class MeshComponent;
 class CameraComponent;
 class LightComponent;
+class RigidBodyComponent;
+class ColliderComponent;
 
 class Material;
 
@@ -48,6 +50,8 @@ template<typename T>
 class SpawnObjectCommand;
 class DeleteObjectCommand;
 class TransformCommand;
+
+class PhysicsEngine;
 
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
 typedef std::shared_ptr<DeviceContext> DeviceContextPtr;
@@ -76,15 +80,38 @@ struct PendingTransformData {
 	Vector3D newPos, newRot, newScale;
 };
 
+struct PendingParentData {
+	GameObject* child = nullptr;
+	GameObject* newParent = nullptr;
+};
+
+enum class EngineState {
+	Edit = 0,
+	Play,
+	Pause
+};
+
 enum class CameraType {
 	Orthographic = 0,
 	Perspective
 };
 
-enum CullMode {
+enum class CullMode {
 	None = 0,
 	Front,
 	Back
+};
+
+enum class ColliderType {
+	Box = 0,
+	Sphere,
+	Capsule
+};
+
+enum class RBType {
+	Static = 0,
+	Kinematic,
+	Dynamic
 };
 
 enum class Key {
@@ -141,8 +168,11 @@ enum class Action {
 	SpawnSphere,
 	SpawnPlane,
 	SpawnCapsule,
+	SpawnDirLight,
+	SpawnPointLight,
 	DeleteObject,
 	TransformObject,
+	Parent,
 	Undo,
 	Redo,
 	CloseWindow,

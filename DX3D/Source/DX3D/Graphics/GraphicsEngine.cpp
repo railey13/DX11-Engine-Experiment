@@ -67,12 +67,14 @@ void GraphicsEngine::update() {
         m_activeCamera->getViewMatrix(cc.m_view);
         m_activeCamera->getProjectionMatrix(cc.m_proj);
     }
+    else {
+        for (auto c : m_cameras) {
+            c->setScreenArea(winSize);
+            c->getViewMatrix(cc.m_view);
+            c->getProjectionMatrix(cc.m_proj);
+        }
+    }
 
-   //for (auto c : m_cameras) {
-   //    c->setScreenArea(winSize);
-   //    c->getViewMatrix(cc.m_view);
-   //    c->getProjectionMatrix(cc.m_proj);
-   //}
 
     i32 i = 0;
     for (auto l : m_lights) {

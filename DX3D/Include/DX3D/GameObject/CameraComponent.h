@@ -29,7 +29,7 @@ protected:
 	virtual void onCreateInternal();
 private:
 	void computeProjectionMatrix();
-private:
+protected:
 	Matrix4x4 m_projection;
 
 	f32 m_farPlane = 100.0f;

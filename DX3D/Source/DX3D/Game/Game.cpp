@@ -14,7 +14,10 @@
 #include <DX3D/Commands/SpawnObjectCommand.h>
 #include <DX3D/Commands/DeleteObjectCommand.h>
 #include <DX3D/Commands/TransformCommand.h>
+#include <DX3D/Commands/ParentCommand.h>
 #include <DX3D/Resource/PrimitiveFactory.h>
+#include <DX3D/GameObject/ObjectComponentFactory.h>
+#include <DX3D/Physics/PhysicsEngine.h>
 
 Game::Game() {
 	m_graphicsEngine = std::make_unique<GraphicsEngine>(this);
@@ -28,8 +31,10 @@ Game::Game() {
 	m_editorCamera->onCreate();
 	m_editorCamera->getTransform()->setPosition(Vector3D(0, 2, 0));
 	m_commandInvoker = std::make_unique<CommandInvoker>();
-	bindCommands();
+	m_physicsEngine = std::make_unique<PhysicsEngine>(this);
 
+	bindCommands();
+	
 	m_input->setLockArea(m_display->getClientSize());
 }
 
@@ -69,11 +74,21 @@ void Game::onInternalUpdate() {
 			m_commandInvoker->executeBoundCommand(Action::DeleteObject);
 	}
 
-	onUpdate(deltaTime);
-	m_world->update(deltaTime);
+	if(m_state == EngineState::Edit){
+		m_editorCamera->update(deltaTime);
+		m_graphicsEngine->setActiveCamera(m_editorCamera->getComponent<CameraComponent>());
+		//m_world->update(deltaTime);
+	}
+	else if (m_state == EngineState::Play) {
+		onUpdate(deltaTime);
+		m_graphicsEngine->setActiveCamera(nullptr);
+		m_world->update(deltaTime);
 
-	m_editorCamera->update(deltaTime); 
-	m_graphicsEngine->setActiveCamera(m_editorCamera->getComponent<CameraComponent>());
+		m_physicsEngine->update(deltaTime);
+	}
+	else if (m_state == EngineState::Pause) {
+
+	}
 
 	m_graphicsEngine->update();
 }
@@ -101,9 +116,15 @@ void Game::bindCommands() {
 			});
 		});
 
-	m_commandInvoker->bindCommand(Action::SpawnPlane, [this]() {
+	m_commandInvoker->bindCommand(Action::SpawnDirLight, [this]() {
 		return std::make_unique<SpawnObjectCommand<GameObject>>(m_world.get(), [this](GameObject* obj) {
-			PrimitiveFactory::createPlane(m_resourceManager.get(), obj);
+			ObjectComponentFactory::CreateDirLight(obj);
+			});
+		});
+
+	m_commandInvoker->bindCommand(Action::SpawnPointLight, [this]() {
+		return std::make_unique<SpawnObjectCommand<GameObject>>(m_world.get(), [this](GameObject* obj) {
+			ObjectComponentFactory::CreatePointLight(obj);
 			});
 		});
 
@@ -112,6 +133,11 @@ void Game::bindCommands() {
 		return std::make_unique<TransformCommand>(p.object,
 			p.oldPos, p.oldRot, p.oldScale,
 			p.newPos, p.newRot, p.newScale);
+		});
+
+	m_commandInvoker->bindCommand(Action::Parent, [this]() {
+		auto& p = m_world->m_pendingParent;
+		return std::make_unique<ParentCommand>(p.child, p.newParent);
 		});
 }
 

@@ -1,6 +1,8 @@
 #include "MainGame.h"
 #include "Player.h"
 #include <DX3D/Resource/PrimitiveFactory.h>
+#include <DX3D/GameObject/ObjectComponentFactory.h>
+#include <reactphysics3d/reactphysics3d.h>
 
 MainGame::MainGame() {
 
@@ -12,6 +14,7 @@ MainGame::~MainGame() {
 
 void MainGame::onCreate() {
 	Game::onCreate();
+
 
 	auto sponza = getResourceManager()->createResourceFromFile<Mesh>(L"Game/Assets/Meshes/sponza_basic.obj");
 	auto terrain = getResourceManager()->createResourceFromFile<Mesh>(L"Game/Assets/Meshes/terrain.obj");
@@ -40,17 +43,10 @@ void MainGame::onCreate() {
 	auto flagPoleMat = getResourceManager()->createResourceFromFile<Material>(L"Assets/Shaders/Material.hlsl");
 	flagPoleMat->setMainTexture(flagPole);
 
-	// light
+	// dir light
 	{
-		m_gameObject = getWorld()->createGameObject<GameObject>();
-		PrimitiveFactory::createSphere(getResourceManager(), m_gameObject);
-		auto lightComponent = m_gameObject->createComponent<LightComponent>();
-		lightComponent->setColor(Vector4D(1, 1, 1, 1));
-		lightComponent->setLightType(LightType::DirectionLight);
-		lightComponent->setRadius(1.0f);
-		//m_gameObject->getTransform()->setRotation(Vector3D(-0.707f, 0.707f, 0));
-		m_gameObject->getTransform()->setPosition(Vector3D(0, 0, 0));
-		m_gameObject->setName("Directional Light");
+		auto obj = getWorld()->createGameObject<GameObject>();
+		ObjectComponentFactory::CreateDirLight(obj);
 	}
 
 	// floor
@@ -61,17 +57,10 @@ void MainGame::onCreate() {
 		mesh->addMaterial(floorMat);
 		obj->getTransform()->setPosition(Vector3D(0, 0, 0));
 		obj->setName("Floor");
-	}
-
-	// light
-	{
-		auto obj = getWorld()->createGameObject<GameObject>();
-		PrimitiveFactory::createSphere(getResourceManager(), obj);
-		auto lightComponent = obj->createComponent<LightComponent>();
-		lightComponent->setColor(Vector4D(1, 1, 1, 1));
-		lightComponent->setLightType(LightType::PointLight);
-		lightComponent->setRadius(1.0f);
-		obj->getTransform()->setPosition(Vector3D(2, 0, 0));
+		auto rb = obj->createComponent<RigidBodyComponent>();
+		rb->setBodyType(RBType::Static);
+		auto col = obj->createComponent<ColliderComponent>();
+		col->setAsBox(mesh->getMesh()->getHalfExtents());
 	}
 
 	// sponza
@@ -90,7 +79,8 @@ void MainGame::onCreate() {
 	}
 	// Player
 	{
-		auto obj = getWorld()->createGameObject<GameObject>();
+		auto obj = getWorld()->createGameObject<Player>();
+		obj->getTransform()->setPosition(Vector3D(0, 0.5f, 0));
 		PrimitiveFactory::createCapsule(getResourceManager(), obj);
 	}
 }
