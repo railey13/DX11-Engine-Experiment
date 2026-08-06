@@ -11,6 +11,8 @@ public:
 	GameObject* getGameObject() { return m_gameobject; }
 	size_t getID() const { return m_typeId; }
 	bool isActive() const { return m_active; }
+
+	virtual void setActive(bool active);
 protected:
 	virtual void onCreateInternal();
 	virtual void onActivate();

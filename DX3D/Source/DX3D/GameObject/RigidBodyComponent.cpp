@@ -113,3 +113,19 @@ void RigidBodyComponent::updateTransform(const Vector3D& position, const Quatern
 
 	m_rigidBody->setTransform(rp3d::Transform(p, q));
 }
+
+void RigidBodyComponent::setFreezeY(bool flag) {
+	if (flag) {
+		m_rigidBody->setAngularLockAxisFactor(rp3d::Vector3(0, 1, 0));
+	}
+	else {
+		m_rigidBody->setAngularLockAxisFactor(rp3d::Vector3(1, 1, 1));
+	}
+	
+	m_freezeY = flag;
+}
+
+void RigidBodyComponent::setActive(bool flag) {
+	m_active = flag;
+	m_rigidBody->setIsActive(flag);
+}

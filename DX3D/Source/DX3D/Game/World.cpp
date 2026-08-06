@@ -25,7 +25,8 @@ void World::update(f32 deltaTime) {
 
 	for (auto&& [typeID, gameObjects] : m_game_objects) {
 		for (auto&& [ptr, gameObject] : gameObjects) {
-			ptr->update(deltaTime);
+			if(ptr->isActive())
+				ptr->update(deltaTime);
 		}
 	}
 }

@@ -78,6 +78,13 @@ void TransformComponent::updateWorldMatrix() {
 	}
 }
 
+Vector3D TransformComponent::getWorldScale() {
+	Vector3D x = m_worldMatrix.getXDirection();
+	Vector3D y = m_worldMatrix.getYDirection();
+	Vector3D z = m_worldMatrix.getZDirection();
+	return Vector3D(x.magnitude(), y.magnitude(), z.magnitude());
+}
+
 Vector3D TransformComponent::getForwardDirection() {
 	Matrix4x4 world;
 	getWorldMatrix(world);

@@ -42,13 +42,19 @@ void EditorCamera::update(f32 deltaTime) {
 	if (getInputSystem()->isKeyDown(Key::D)) {
 		m_strafe = 1;
 	}
+	if (getInputSystem()->isKeyDown(Key::Shift)) {
+		sprint = 2;
+	}
+	else {
+		sprint = 1;
+	}
 
 	Matrix4x4 world;
 	getTransform()->getWorldMatrix(world);
 
 	auto pos = getTransform()->getPosition();
-	pos += world.getZDirection() * m_forward * 3.0f * deltaTime;
-	pos += world.getXDirection() * m_strafe * 3.0f * deltaTime;
+	pos += world.getZDirection() * m_forward * 3.0f * sprint * deltaTime;
+	pos += world.getXDirection() * m_strafe * 3.0f * sprint * deltaTime;
 	getTransform()->setPosition(pos);
 
 	auto deltaPos = getInputSystem()->getDeltaMousePosition();

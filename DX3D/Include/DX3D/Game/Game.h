@@ -28,7 +28,14 @@ private:
 
 	void bindCommands();
 public:
+	void edit();
+	void play();
+	void pause();
+	void resume();
+	void togglePause();
+	void frameStep();
 	void quit();
+	bool isPlay();
 private:
 	std::unique_ptr<GraphicsEngine> m_graphicsEngine;
 	std::unique_ptr<PhysicsEngine> m_physicsEngine;
@@ -43,9 +50,12 @@ private:
 	std::unique_ptr<EditorCamera> m_editorCamera;
 	std::unique_ptr<CommandInvoker> m_commandInvoker;
 public:
+	bool m_useEditorCamera = true;
+private:
 	EngineState m_state = EngineState::Edit;
 protected:
 	bool m_isRunning = true;
+	bool m_requestFrameStep = false;
 private:
 	friend class GraphicsEngine;
 	friend class Display;

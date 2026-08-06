@@ -17,6 +17,7 @@ private:
 	f32 m_strafe = 0.0f;
 	f32 m_pitch = 0.0f;
 	f32 m_yaw = 0.0f;
+	f32 sprint = 2.0f;
 private:
 	friend class Game;
 };

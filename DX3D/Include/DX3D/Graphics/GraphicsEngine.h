@@ -21,7 +21,7 @@ public:
 	RenderSystem* getRenderSystem();
 	void addComponent(Component* component);
 	void removeComponent(Component* component);
-	void setActiveCamera(CameraComponent* camera) { m_activeCamera = camera; }
+	void setEditorCamera(CameraComponent* camera) { m_editorCamera = camera; }
 private:
 	std::unique_ptr<RenderSystem> m_render_system = nullptr;
 	Game* m_game = nullptr;
@@ -30,6 +30,6 @@ private:
 	std::set<CameraComponent*> m_cameras;
 	std::set<LightComponent*> m_lights;
 
-	CameraComponent* m_activeCamera = nullptr;
+	CameraComponent* m_editorCamera = nullptr;
 };
 

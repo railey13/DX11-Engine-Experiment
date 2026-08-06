@@ -50,12 +50,15 @@ void GameObject::removeComponent(size_t id) {
 	m_components.erase(id);
 }
 
-void GameObject::toggleComponents(bool flag) {
+void GameObject::toggleComponentsActive(bool flag) {
 	for (auto&& [typeID, component] : m_components) {
-		if (flag)
-			component->onActivate();
-		else if (!flag)
-			component->onDeactivate();
+		component->setActive(flag);
+	}
+}
+
+void GameObject::toggleChildrenActive(bool flag) {
+	for (auto obj : m_children) {
+		obj->setActive(flag);
 	}
 }
 
@@ -65,7 +68,8 @@ void GameObject::setName(const std::string& name) {
 
 void GameObject::setActive(bool active) {
 	m_active = active;
-	toggleComponents(active);
+	toggleComponentsActive(active);
+	toggleChildrenActive(active);
 }
 
 void GameObject::setParent(GameObject* parent) {

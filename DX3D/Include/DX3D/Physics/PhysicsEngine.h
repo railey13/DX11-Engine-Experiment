@@ -9,12 +9,15 @@ public:
 	~PhysicsEngine();
 
 	void update(f32 deltaTime);
+	void step();
 public:
 	void addComponent(Component* component);
 	void removeComponent(Component* component);
-
+		
 	rp3d::PhysicsCommon& getPhysicsCommon() { return m_physicsCommon; }
 	rp3d::PhysicsWorld* getPhysicsWorld() { return m_physicsWorld; }
+
+	f32 getFixedTimeStep() const { return fixedTime; }
 private:
 	f32 fixedTime = 1 / 60.0f;
 	f32 m_physicsAccumulator = 0.0f;

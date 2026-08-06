@@ -53,7 +53,8 @@ private:
 	Component* getComponentInternal(size_t id);
 public:
 	void removeComponent(size_t id);
-	void toggleComponents(bool flag);
+	void toggleComponentsActive(bool flag);
+	void toggleChildrenActive(bool flag);
 public:
 	void setName(const std::string& name);
 	void setActive(bool active);

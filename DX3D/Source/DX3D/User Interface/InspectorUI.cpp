@@ -21,16 +21,13 @@ InspectorUI::~InspectorUI() {
 }
 
 void InspectorUI::draw() {
-	if (m_handler->getGame()->m_state == EngineState::Play) m_disabled = true;
-	else if (m_handler->getGame()->m_state == EngineState::Edit) m_disabled = false;
-
+	m_disabled = m_handler->getGame()->isPlay();
 	GameObject* obj = m_world->getSelectedGameObject();
 	if (m_isActive) {
 		if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 			if (obj) {
 				// GameObject Name
-				RigidBodyComponent* rb = obj->getComponent<RigidBodyComponent>();
-
+				activeButton(obj, "name");
 				{
 					strncpy_s(m_nameBuffer, obj->getName().c_str(), sizeof(m_nameBuffer) - 1);
 					m_nameBuffer[sizeof(m_nameBuffer) - 1] = '\0';
@@ -45,10 +42,12 @@ void InspectorUI::draw() {
 					}
 				}
 				// GameObject Transform
+				RigidBodyComponent* rb = obj->getComponent<RigidBodyComponent>();
 				Transform(obj, rb);
 				// GameObject Light
-				if (obj->getComponent<LightComponent>() != nullptr) {
-					LightComponent* light = obj->getComponent<LightComponent>();
+				LightComponent* light = obj->getComponent<LightComponent>();
+				if (light != nullptr) {
+					activeButton(light, "light");
 					if (ImGui::CollapsingHeader(obj->getName().c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 						f32 radius = light->getRadius();
 						f32 intensity = light->getIntensity();
@@ -65,23 +64,28 @@ void InspectorUI::draw() {
 					}
 				}
 				// GameObject Texture
-				if (obj->getComponent<MeshComponent>() != nullptr) {
+				MeshComponent* mesh = obj->getComponent<MeshComponent>();
+				if (mesh != nullptr) {
+					activeButton(mesh, "mesh");
 					if (ImGui::CollapsingHeader("Texture", ImGuiTreeNodeFlags_DefaultOpen)) {
 						float buttonWidth = ImGui::CalcTextSize("Cartethyia").x + ImGui::GetStyle().FramePadding.x * 2.0f;
 
-						setButton("Cartethyia", L"Game/Assets/Textures/CartethyiaPuppet.gif", obj, buttonWidth);
-						setButton("Aemeath", L"Game/Assets/Textures/AemeathGame.gif", obj, buttonWidth);
-						setButton("Mornye", L"Game/Assets/Textures/MornyeThinking.gif", obj, buttonWidth);
-						setButton("Default", L"Assets/Textures/white.png", obj, buttonWidth);
+						setButton("Cartethyia", L"Game/Assets/Textures/CartethyiaPuppet.gif", mesh, buttonWidth);
+						setButton("Aemeath", L"Game/Assets/Textures/AemeathGame.gif", mesh, buttonWidth);
+						setButton("Mornye", L"Game/Assets/Textures/MornyeThinking.gif", mesh, buttonWidth);
+						setButton("Default", L"Assets/Textures/white.png", mesh, buttonWidth);
 					}
 				}
 				// RigidBody	
 				if (rb != nullptr) {
+					activeButton(rb, "rigidbody");
 					if (ImGui::CollapsingHeader("RigidBody", ImGuiTreeNodeFlags_DefaultOpen)) {
 						i32 currentItem = static_cast<i32>(rb->getBodyType());
 
 						const char* bodyTypes[] = { "Static", "Kinematic", "Dynamic" };
 						f32 mass = rb->getMass();
+
+						bool freeze = rb->isYFreeze();
 
 						ImGui::BeginDisabled(m_disabled);
 						if (ImGui::Combo("Body Type", &currentItem, bodyTypes, 3)) {
@@ -89,6 +93,9 @@ void InspectorUI::draw() {
 						}
 						if (ImGui::InputFloat("Mass", &mass)) {
 							rb->setMass(mass);
+						}
+						if (ImGui::Checkbox("Freeze Y", &freeze)) {
+							rb->setFreezeY(freeze);
 						}
 						ImGui::EndDisabled();
 					}
@@ -151,14 +158,32 @@ void InspectorUI::Transform(GameObject* obj, RigidBodyComponent* rb) {
 	}
 }
 
-void InspectorUI::setButton(const char* label, const wchar_t* path, GameObject* obj, float width) {
+void InspectorUI::setButton(const char* label, const wchar_t* path, MeshComponent* mesh, float width) {
 	auto tex = m_handler->getGame()->getResourceManager()->createResourceFromFile<Texture>(path);
 
 	if (ImGui::Button(label, ImVec2(width, 0))) {
-		obj->getComponent<MeshComponent>()->getMaterials()[0]->setMainTexture(tex);	
+		mesh->getMaterials()[0]->setMainTexture(tex);
 	}
 	ImGui::SameLine();	
 	ImGui::Image(tex->getSRV(), ImVec2(32,32));
+}
+
+void InspectorUI::activeButton(GameObject* obj, const char* name) {
+	bool active = obj->isActive();
+	std::string label = std::string("Active##") + name;
+	if (ImGui::Checkbox(label.c_str(), &active)) {
+		obj->setActive(active);
+	}
+	ImGui::SameLine();
+}
+
+void InspectorUI::activeButton(Component* c, const char* name) {
+	bool active = c->isActive();
+	std::string label = std::string("Active##") + name;
+	if (ImGui::Checkbox(label.c_str(), &active)) {
+		c->setActive(active);
+	}
+	ImGui::SameLine();
 }
 
 void InspectorUI::saveTransform(TransformComponent* transform) {

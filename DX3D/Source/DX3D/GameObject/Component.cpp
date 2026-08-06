@@ -13,6 +13,10 @@ void Component::release() {
 	m_gameobject->removeComponent(m_typeId);
 }
 
+void Component::setActive(bool active) {
+	m_active = active;
+}
+
 void Component::onCreateInternal() {
 
 }

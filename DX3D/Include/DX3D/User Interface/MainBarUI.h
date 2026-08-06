@@ -11,6 +11,6 @@ public:
 private:
 	ResourceManager* m_resource = nullptr;
 	bool m_edit = true;
-private:
+	bool m_pause = false;
 };
 

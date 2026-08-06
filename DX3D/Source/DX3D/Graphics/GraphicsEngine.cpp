@@ -61,14 +61,18 @@ void GraphicsEngine::update() {
 
     constant cc = {};
 
-    if (m_activeCamera) {
-        cc.cameraPosition = m_activeCamera->getGameObject()->getTransform()->getPosition();
-        m_activeCamera->setScreenArea(winSize);
-        m_activeCamera->getViewMatrix(cc.m_view);
-        m_activeCamera->getProjectionMatrix(cc.m_proj);
+    if (m_game->m_useEditorCamera) {
+        cc.cameraPosition = m_editorCamera->getGameObject()->getTransform()->getWorldPosition();
+
+        m_editorCamera->setScreenArea(winSize);
+        m_editorCamera->getViewMatrix(cc.m_view);
+        m_editorCamera->getProjectionMatrix(cc.m_proj);
     }
     else {
         for (auto c : m_cameras) {
+            if (!c->isActive()) continue;
+            cc.cameraPosition = c->getGameObject()->getTransform()->getWorldPosition();
+
             c->setScreenArea(winSize);
             c->getViewMatrix(cc.m_view);
             c->getProjectionMatrix(cc.m_proj);

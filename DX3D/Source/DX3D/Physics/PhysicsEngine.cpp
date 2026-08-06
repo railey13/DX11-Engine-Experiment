@@ -1,5 +1,6 @@
 #include <DX3D/Physics/PhysicsEngine.h>
 #include <DX3D/GameObject/RigidBodyComponent.h>
+#include <DX3D/GameObject/GameObject.h>
 
 PhysicsEngine::PhysicsEngine(Game* game) : m_game(game){
 	m_physicsWorld = m_physicsCommon.createPhysicsWorld();
@@ -17,17 +18,20 @@ void PhysicsEngine::update(f32 deltaTime) {
 	m_physicsAccumulator += std::min(deltaTime, maxFrameTime);
 
 	while (m_physicsAccumulator >= fixedTime) {
-		m_physicsWorld->update(deltaTime);
-
-		for (auto rb : m_rigidBodies) {
-			if (rb->isActive()) {
-				rb->syncPhysicsToTransform();
-			}
-		}
-
+		step();
 		m_physicsAccumulator -= fixedTime;
 	}
 
+}
+
+void PhysicsEngine::step() {
+	m_physicsWorld->update(fixedTime);
+
+	for (auto rb : m_rigidBodies) {
+		if (rb->isActive()) {
+			rb->syncPhysicsToTransform();
+		}
+	}
 }
 
 void PhysicsEngine::addComponent(Component* component) {

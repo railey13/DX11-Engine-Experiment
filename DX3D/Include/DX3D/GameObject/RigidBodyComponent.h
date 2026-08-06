@@ -30,9 +30,16 @@ public:
 	f32 getMass() const { return m_rigidBody->getMass(); }
 	RBType getBodyType() const { return m_type; }
 	rp3d::RigidBody* getRawRigidBody() { return m_rigidBody; }
+
+	void setFreezeY(bool flag);
+	bool isYFreeze() const { return m_freezeY; }
+
+	void setActive(bool flag) override;
 private:
 	rp3d::RigidBody* m_rigidBody = nullptr;
 	PhysicsEngine* m_physEngine = nullptr;
 	RBType m_type = RBType::Static;
+
+	bool m_freezeY = false;
 };
 

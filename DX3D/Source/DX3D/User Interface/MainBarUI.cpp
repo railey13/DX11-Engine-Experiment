@@ -75,14 +75,41 @@ void MainBarUI::draw() {
 
 		if (m_edit) {
 			if (ImGui::MenuItem("Play")) {
-				m_handler->getGame()->m_state = EngineState::Play;
+				m_handler->getGame()->play();
 				m_edit = false;
 			}
+
 		}
 		else {
 			if (ImGui::MenuItem("Edit")) {
-				m_handler->getGame()->m_state = EngineState::Edit;
+				m_handler->getGame()->edit();
 				m_edit = true;
+				m_pause = false;
+			}
+			if (!m_pause) {
+				if (ImGui::MenuItem("Pause")) {
+					m_handler->getGame()->pause();
+					m_pause = true;
+				}
+			}
+			else {
+				if (ImGui::MenuItem("Resume")) {
+					m_handler->getGame()->resume();
+					m_pause = false;
+				}
+				if (ImGui::MenuItem("Next Frame")) {
+					m_handler->getGame()->frameStep();
+				}
+			}
+			if (!m_handler->getGame()->m_useEditorCamera){
+				if (ImGui::MenuItem("Use Editor Camera")) {
+					m_handler->getGame()->m_useEditorCamera = true;
+				}
+			}
+			else {
+				if (ImGui::MenuItem("Use Game Camera")) {
+					m_handler->getGame()->m_useEditorCamera = false;
+				}
 			}
 		}
 

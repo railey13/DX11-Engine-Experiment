@@ -13,6 +13,7 @@ void Player::onCreate() {
 	m_camera = m_world->createGameObject<GameObject>();
 	m_camera->setName("Camera");
 	auto c = m_camera->createComponent<CameraComponent>();
+
 	c->setSensitivity(0.005f);
 	c->setFarPlane(1000.f);
 	m_camera->setParent(this);
@@ -20,17 +21,21 @@ void Player::onCreate() {
 }
 
 void Player::update(f32 deltaTime) {
-	if (getInputSystem()->isKeyUp(Key::Escape)) {
-		getWorld()->getGame()->getInputSystem()->toggleLockCursor();
-		getWorld()->getGame()->getInputSystem()->toggleCursorVisible();
+	auto game = getWorld()->getGame();
+
+	if (game->m_useEditorCamera && game->isPlay()) {
+		return;
 	}
 
-	if (!getWorld()->getGame()->getInputSystem()->isCursorLocked()) return;
+	if (getInputSystem()->isKeyUp(Key::Escape)) {
+		game->getInputSystem()->toggleLockCursor();
+		game->getInputSystem()->toggleCursorVisible();
+	}
 
-
-	auto c = getComponent<RigidBodyComponent>();
-
-	if (!c) return;
+	if (!getInputSystem()->isCursorLocked()) {
+		//m_rb->getRawRigidBody()->setLinearVelocity(rp3d::Vector3(0,0,0));
+		return;
+	}
 
 	m_forward = 0.0f;
 	m_strafe = 0.0f;
@@ -48,7 +53,7 @@ void Player::update(f32 deltaTime) {
 		m_strafe = 1;
 	}
 
-	auto rb = c->getRawRigidBody();
+	auto rb = getComponent<RigidBodyComponent>()->getRawRigidBody();
 
 	Matrix4x4 world;
 	getTransform()->getWorldMatrix(world);
@@ -82,6 +87,6 @@ void Player::update(f32 deltaTime) {
 	Quaternion yawQuat = Quaternion::fromAxisAngle(Vector3D(0, 1, 0), m_yaw);
 	Quaternion pitchQuat = Quaternion::fromAxisAngle(Vector3D(1, 0, 0), m_pitch);
 
-	c->updateTransform(getTransform()->getPosition(), yawQuat);
+	getComponent<RigidBodyComponent>()->updateTransform(getTransform()->getPosition(), yawQuat);
 	m_camera->getTransform()->setRotation(pitchQuat);
 }

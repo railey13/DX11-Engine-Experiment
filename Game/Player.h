@@ -21,6 +21,6 @@ private:
 
 	f32 jumpForce = 2.0f;
 	f32 verticalVelocity = 0.0f;
-	f32 speed = 5.0f;
+	f32 speed = 3.0f;
 };
 

@@ -11,8 +11,9 @@ public:
 	void draw() override;
 private:
 	void Transform(GameObject* obj, RigidBodyComponent* rb);
-	void setButton(const char* label, const wchar_t* path, GameObject* obj, float width);
-
+	void setButton(const char* label, const wchar_t* path, MeshComponent* obj, float width);
+	void activeButton(GameObject* obj, const char* name);
+	void activeButton(Component* c, const char* name);
 	void saveTransform(TransformComponent* transform);
 private:
 	bool m_disabled = false;

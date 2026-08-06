@@ -36,6 +36,7 @@ Game::Game() {
 	bindCommands();
 	
 	m_input->setLockArea(m_display->getClientSize());
+	m_graphicsEngine->setEditorCamera(m_editorCamera->getComponent<CameraComponent>());
 }
 
 Game::~Game() {
@@ -76,18 +77,30 @@ void Game::onInternalUpdate() {
 
 	if(m_state == EngineState::Edit){
 		m_editorCamera->update(deltaTime);
-		m_graphicsEngine->setActiveCamera(m_editorCamera->getComponent<CameraComponent>());
-		//m_world->update(deltaTime);
+		m_world->update(deltaTime);
 	}
 	else if (m_state == EngineState::Play) {
 		onUpdate(deltaTime);
-		m_graphicsEngine->setActiveCamera(nullptr);
 		m_world->update(deltaTime);
+
+		if (m_useEditorCamera) {
+			m_editorCamera->update(deltaTime);
+		}
 
 		m_physicsEngine->update(deltaTime);
 	}
 	else if (m_state == EngineState::Pause) {
+		if (m_useEditorCamera) {
+			m_editorCamera->update(deltaTime);
+		}
 
+		if (m_requestFrameStep) {
+			f32 timeStep = m_physicsEngine->getFixedTimeStep();
+			onUpdate(timeStep);
+			m_world->update(timeStep);
+			m_physicsEngine->update(timeStep);
+			m_requestFrameStep = false;
+		}
 	}
 
 	m_graphicsEngine->update();
@@ -141,6 +154,48 @@ void Game::bindCommands() {
 		});
 }
 
+void Game::edit() {
+	if (m_state != EngineState::Edit) {
+		m_state = EngineState::Edit;
+		m_useEditorCamera = true;
+	}
+}
+
+void Game::play() {
+	if (m_state == EngineState::Edit) {
+		m_state = EngineState::Play;
+	}
+}
+
+void Game::pause() {
+	if (m_state == EngineState::Play) {
+		m_state = EngineState::Pause;
+	}
+}
+
+void Game::resume() {
+	if (m_state == EngineState::Pause) {
+		m_state = EngineState::Play;
+	}
+}
+
+void Game::togglePause() {
+	if (m_state == EngineState::Play) pause();
+	else if (m_state == EngineState::Pause) resume();
+}
+
+void Game::frameStep() {
+	if (m_state != EngineState::Pause) return;
+		m_requestFrameStep = true;
+}
+
 void Game::quit() {
 	m_isRunning = false;
+}
+
+bool Game::isPlay() {
+	if (m_state != EngineState::Edit)
+		return true;
+	else
+		return false;
 }

@@ -24,7 +24,8 @@ public:
 
 	void getLocalMatrix(Matrix4x4& mat) const {return  mat.setMatrix(m_localMatrix); }
 	void getWorldMatrix(Matrix4x4& mat) const { return mat.setMatrix(m_worldMatrix); }
-
+	Vector3D getWorldPosition() const { return m_worldMatrix.getTranslation(); }
+	Vector3D getWorldScale();
 	Vector3D getForwardDirection();
 protected:
 	void updateWorldMatrix();
