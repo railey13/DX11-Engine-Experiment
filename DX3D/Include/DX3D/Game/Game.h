@@ -41,6 +41,7 @@ public:
 	bool isPlay() const { return m_state != EngineState::Edit; } 
 	bool isEdit()  const { return m_state == EngineState::Edit; }
 	bool isPause() const { return m_state == EngineState::Pause; }
+	void setEditorCameraUse(bool flag);
 private:
 	std::unique_ptr<GraphicsEngine> m_graphicsEngine;
 	std::unique_ptr<PhysicsEngine> m_physicsEngine;

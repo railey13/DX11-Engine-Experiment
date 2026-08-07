@@ -87,3 +87,21 @@ void Player::update(f32 deltaTime) {
 	getComponent<RigidBodyComponent>()->updateTransform(getTransform()->getPosition(), yawQuat);
 	m_camera->getTransform()->setRotation(pitchQuat);
 }
+
+void Player::onCollisionEnter(GameObject* obj){
+	if (obj == nullptr) return;
+
+	Debug::Warning("In Contact Enter: " + obj->getName());
+}
+
+void Player::onCollisionStay(GameObject* obj) {
+	if (obj == nullptr) return;
+
+	Debug::Error("In Contact Stay: " + obj->getName());
+}
+
+void Player::onCollisionExit(GameObject* obj) {
+	if (obj == nullptr) return;
+
+	Debug::Log("In Contact Exit: " +  obj->getName());
+}

@@ -91,4 +91,6 @@ void ColliderComponent::attachShape(rp3d::CollisionShape* shape) {
 	if (rb->getRawRigidBody()) {
 		m_collider = rb->getRawRigidBody()->addCollider(shape, rp3d::Transform::identity());
 	}
+
+	m_collider->setUserData(this);
 }

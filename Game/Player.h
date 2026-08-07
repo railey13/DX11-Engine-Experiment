@@ -8,10 +8,11 @@ public:
 protected:
 	virtual void onCreate();
 	virtual void update(f32 deltaTime);
-private:
-	GameObject* m_gameObject = nullptr;
-	f32 m_elapsedSeconds = 0.0f;
 
+	void onCollisionEnter(GameObject* obj) override;
+	void onCollisionStay(GameObject* obj) override;
+	void onCollisionExit(GameObject* obj) override;
+private:
 	GameObject* m_camera = nullptr;
 
 	f32 m_forward = 0.0f;

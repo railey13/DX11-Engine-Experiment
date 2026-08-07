@@ -27,6 +27,7 @@ void InspectorUI::draw() {
 	GameObject* obj = m_world->getSelectedGameObject();
 
 	if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
+		ImGui::BeginDisabled(m_disabled);
 		if (obj) {
 			// GameObject Name
 			activeButton(obj, "name");
@@ -89,7 +90,6 @@ void InspectorUI::draw() {
 
 					bool freeze = rb->isYFreeze();
 
-					ImGui::BeginDisabled(m_disabled);
 					if (ImGui::Combo("Body Type", &currentItem, bodyTypes, 3)) {
 						rb->setBodyType(static_cast<RBType>(currentItem));
 					}
@@ -99,13 +99,12 @@ void InspectorUI::draw() {
 					if (ImGui::Checkbox("Freeze Y", &freeze)) {
 						rb->setFreezeY(freeze);
 					}
-					ImGui::EndDisabled();
 				}
 
 			}
 		}
+		ImGui::EndDisabled();
 	}
-
 	ImGui::End();
 }
 

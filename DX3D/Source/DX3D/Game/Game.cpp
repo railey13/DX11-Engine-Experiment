@@ -169,7 +169,11 @@ void Game::engineShortCuts() {
 		else if (m_input->isKeyUp(Key::Y)) {
 			m_commandInvoker->redo();
 		}
+		else if (m_input->isKeyUp(Key::P)) {
+			m_uiHandler->toggleAllActive();
+		}
 	}
+
 	if (m_input->isKeyUp(Key::Delete)) {
 		if (m_world->getSelectedGameObject())
 			m_commandInvoker->executeBoundCommand(Action::DeleteObject);
@@ -179,7 +183,7 @@ void Game::engineShortCuts() {
 void Game::edit() {
 	if (m_state != EngineState::Edit) {
 		m_state = EngineState::Edit;
-		m_useEditorCamera = true;
+		setEditorCameraUse(true);
 	}
 }
 
@@ -213,4 +217,9 @@ void Game::frameStep() {
 
 void Game::quit() {
 	m_isRunning = false;
+}
+
+void Game::setEditorCameraUse(bool flag) {
+	m_useEditorCamera = flag;
+	m_uiHandler->setAllActive(flag);
 }

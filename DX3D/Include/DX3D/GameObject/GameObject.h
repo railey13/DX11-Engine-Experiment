@@ -74,6 +74,10 @@ private:
 	void addChild(GameObject* child);
 	void removeChild(GameObject* child);
 protected:
+	virtual void onCollisionEnter(GameObject* obj) {}
+	virtual void onCollisionStay(GameObject* obj) {}
+	virtual void onCollisionExit(GameObject* obj) {}
+protected:
 	std::map<size_t, std::unique_ptr<Component>> m_components;
 	std::string m_name;
 
@@ -91,5 +95,6 @@ private:
 	friend class Component;
 	friend class World;
 	friend class PrimitiveFactory;
+	friend class PhysicsEngine;
 };
 

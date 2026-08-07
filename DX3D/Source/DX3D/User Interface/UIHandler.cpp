@@ -66,3 +66,15 @@ void UIHandler::draw() {
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
+
+void UIHandler::setAllActive(bool flag) {
+	for (auto& [type, ui] : m_ui_table) {
+		ui->setActive(flag);
+	}
+}
+
+void UIHandler::toggleAllActive() {
+	for (auto& [type, ui] : m_ui_table) {
+		ui->setActive(!ui->isActive());
+	}
+}

@@ -41,6 +41,8 @@ public:
 	void draw();
 	GraphicsEngine* getGraphicsEngine() { return graphEngine; }
 	Game* getGame() { return m_game; }
+	void setAllActive(bool flag);
+	void toggleAllActive();
 private:
 	std::unordered_map<size_t, std::unique_ptr<UI>> m_ui_table;
 	Game* m_game = nullptr;

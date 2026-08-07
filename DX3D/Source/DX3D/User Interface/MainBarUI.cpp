@@ -86,10 +86,10 @@ void MainBarUI::draw() {
 			}
 
 			if (!game->m_useEditorCamera){
-				if (ImGui::MenuItem("Use Editor Camera")) game->m_useEditorCamera = true;
+				if (ImGui::MenuItem("Use Editor Camera")) game->setEditorCameraUse(true);
 			}
 			else {
-				if (ImGui::MenuItem("Use Game Camera")) game->m_useEditorCamera = false;
+				if (ImGui::MenuItem("Use Game Camera")) game->setEditorCameraUse(false);
 			}
 		}
 
