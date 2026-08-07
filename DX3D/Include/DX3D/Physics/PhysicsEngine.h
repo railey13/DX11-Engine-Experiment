@@ -3,13 +3,16 @@
 #include <reactphysics3d/reactphysics3d.h>
 #include <set>
 
-class PhysicsEngine {
+class PhysicsEngine : public rp3d::EventListener {
 public:
 	PhysicsEngine(Game* game);
-	~PhysicsEngine();
+	virtual ~PhysicsEngine();
 
 	void update(f32 deltaTime);
 	void step();
+private:
+	void onContact(const rp3d::CollisionCallback::CallbackData& callBackData) override;
+	void onTrigger(const rp3d::OverlapCallback::CallbackData& callBackData) override;
 public:
 	void addComponent(Component* component);
 	void removeComponent(Component* component);

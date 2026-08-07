@@ -3,6 +3,7 @@
 #include <DX3D/User Interface/MainBarUI.h>
 #include <DX3D/User Interface/HierarchyUI.h>
 #include <DX3D/User Interface/InspectorUI.h>
+#include <DX3D/User Interface/DebugUI.h>
 
 #include <DX3D/Graphics/GraphicsEngine.h>
 #include <DX3D/Graphics/RenderSystem.h>
@@ -17,7 +18,7 @@ UIHandler::UIHandler(Game* game, HWND hwnd) : m_game(game){
 	registerUI<MainBarUI>();
 	registerUI<HierarchyUI>();
 	registerUI<InspectorUI>();
-	//registerUI<AboutUI>();
+	registerUI<DebugUI>();
 }
 
 UIHandler::~UIHandler() {

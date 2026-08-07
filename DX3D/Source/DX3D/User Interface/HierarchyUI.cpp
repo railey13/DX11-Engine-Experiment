@@ -6,6 +6,7 @@
 #include <DX3D/Commands/CommandInvoker.h>
 
 #include <DX3D/GameObject/GameObject.h>
+
 HierarchyUI::HierarchyUI(UIHandler* handler) : UI(handler){
 	m_isActive = true;
 }
@@ -15,65 +16,57 @@ HierarchyUI::~HierarchyUI() {
 }
 
 void HierarchyUI::draw() {
-	if (m_isActive) {
-		if (ImGui::Begin("Hierarchy Tree", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
-			auto objs = m_world->getGameObjects();
 
-			for (auto obj : objs) {
-				if (!obj->getParent()) {
-					DrawGameObjectList(obj);
-				}
-			}
+	if (!m_isActive) return;
 
-			ImGui::InvisibleButton("##HierarchyEmptySpace", ImGui::GetContentRegionAvail());
+	if (ImGui::Begin("Hierarchy Tree", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
+		auto objs = m_world->getGameObjects();
 
-			if (ImGui::BeginDragDropTarget()) {
-				if (const ImGuiPayload* payLoad = ImGui::AcceptDragDropPayload("GAMEOBJECT")) {
-					GameObject* drag = *(GameObject**)payLoad->Data;
-
-					if (drag && drag->getParent() != nullptr) {
-						m_world->m_pendingParent = { drag, nullptr };
-						m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::Parent);
-					}
-				}
-				ImGui::EndDragDropTarget();
-			}
-
-			RightClickWindowPopup();
-
-			if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)
-				&& !ImGui::IsAnyItemHovered()) {
-				m_world->setSeletectedGameObject(nullptr);
+		for (auto obj : objs) {
+			if (!obj->getParent()) {
+				DrawGameObjectList(obj);
 			}
 		}
-		ImGui::End();
+
+		ImGui::InvisibleButton("##HierarchyEmptySpace", ImGui::GetContentRegionAvail());
+
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payLoad = ImGui::AcceptDragDropPayload("GAMEOBJECT")) {
+				GameObject* drag = *(GameObject**)payLoad->Data;
+
+				if (drag && drag->getParent() != nullptr) {
+					m_world->m_pendingParent = { drag, nullptr };
+					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::Parent);
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+		RightClickWindowPopup();
+
+		if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)
+			&& !ImGui::IsAnyItemHovered()) {
+			m_world->setSeletectedGameObject(nullptr);
+		}
 	}
+	ImGui::End();
 }
 
 void HierarchyUI::RightClickWindowPopup() {
 	if (ImGui::BeginPopupContextItem("WindowsContexMenu", ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems)) {
+		auto invoker = m_handler->getGame()->getCommandInvoker();
 		if (ImGui::BeginMenu("3D Objects")) {
-			if (ImGui::MenuItem("Cube")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCube);
-			}
-			if (ImGui::MenuItem("Sphere")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnSphere);
-			}
-			if (ImGui::MenuItem("Plane")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnPlane);
-			}
-			if (ImGui::MenuItem("Capsule")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCapsule);
-			}
+			if (ImGui::MenuItem("Cube")) invoker->executeBoundCommand(Action::SpawnCube);
+			if (ImGui::MenuItem("Sphere")) invoker->executeBoundCommand(Action::SpawnSphere);
+			if (ImGui::MenuItem("Plane")) invoker->executeBoundCommand(Action::SpawnPlane);
+			if (ImGui::MenuItem("Capsule")) invoker->executeBoundCommand(Action::SpawnCapsule);
+
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Lights")) {
-			if (ImGui::MenuItem("Directional Light")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnDirLight);
-			}
-			if (ImGui::MenuItem("Point Light")) {
-				m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnPointLight);
-			}
+			if (ImGui::MenuItem("Directional Light")) invoker->executeBoundCommand(Action::SpawnDirLight);
+			if (ImGui::MenuItem("Point Light")) invoker->executeBoundCommand(Action::SpawnPointLight);
+
 			ImGui::EndMenu();
 		}
 		ImGui::EndPopup();
@@ -136,7 +129,7 @@ void HierarchyUI::DrawGameObjectList(GameObject* obj) {
 	ImGui::PopID();
 }
 
-bool HierarchyUI::isDescendant(GameObject* drag, GameObject* obj) {
+bool HierarchyUI::isDescendant(GameObject* obj, GameObject* drag) {
 	GameObject* current = drag;
 
 	while (current) {

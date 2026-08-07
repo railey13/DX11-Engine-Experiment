@@ -10,7 +10,6 @@ GameObject::GameObject() : m_name("GameObject") {
 }
 
 GameObject::~GameObject() {
-	std::cout << "DELETED: " << m_name.c_str() << std::endl;
 	if (m_parent) {
 		m_parent->removeChild(this);
 		m_parent = nullptr;
@@ -38,7 +37,7 @@ void GameObject::createComponentInternal(Component* component, size_t id) {
 }
 
 Component* GameObject::getComponentInternal(size_t id) {
-
+	
 	auto it = m_components.find(id);
 
 	if (it == m_components.end()) return nullptr;

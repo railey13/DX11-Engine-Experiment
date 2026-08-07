@@ -9,6 +9,8 @@ public:
 	// Inherited via UI
 	void draw() override;
 private:
+	void spawnNumPrimitives(Action action, CommandInvoker* invoker);
+private:
 	ResourceManager* m_resource = nullptr;
 	bool m_edit = true;
 	bool m_pause = false;

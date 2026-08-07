@@ -33,28 +33,24 @@ MainBarUI::~MainBarUI() {
 void MainBarUI::draw() {
 	if (ImGui::BeginMainMenuBar()) {
 		if (ImGui::BeginMenu("GameObjects")) {
+			auto invoker = m_handler->getGame()->getCommandInvoker();
 			if (ImGui::BeginMenu("3D Objects")) {
-				if (ImGui::MenuItem("Cube")) {
-					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCube);
-				}
-				if (ImGui::MenuItem("Sphere")) {
-					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnSphere);
-				}
-				if (ImGui::MenuItem("Plane")) {
-					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnPlane);
-				}
-				if (ImGui::MenuItem("Capsule")) {
-					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnCapsule);
-				}
+				if (ImGui::MenuItem("Cube")) invoker->executeBoundCommand(Action::SpawnCube);
+				if (ImGui::MenuItem("Sphere")) invoker->executeBoundCommand(Action::SpawnSphere);
+				if (ImGui::MenuItem("Plane")) invoker->executeBoundCommand(Action::SpawnPlane);
+				if (ImGui::MenuItem("Capsule")) invoker->executeBoundCommand(Action::SpawnCapsule);
+				
+				if (ImGui::MenuItem("Spawn 10 PCubes")) spawnNumPrimitives(Action::SpawnCube, invoker);
+				if (ImGui::MenuItem("Spawn 10 PSpheres")) spawnNumPrimitives(Action::SpawnSphere, invoker);
+				if (ImGui::MenuItem("Spawn 10 PPlane")) spawnNumPrimitives(Action::SpawnPlane, invoker);
+				if (ImGui::MenuItem("Spawn 10 PCapsule")) spawnNumPrimitives(Action::SpawnCapsule, invoker);
+
 				ImGui::EndMenu();
 			}
 			if (ImGui::BeginMenu("Lights")) {
-				if (ImGui::MenuItem("Directional Light")) {
-					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnDirLight);
-				}
-				if (ImGui::MenuItem("Point Light")) {
-					m_handler->getGame()->getCommandInvoker()->executeBoundCommand(Action::SpawnPointLight);
-				}
+				if (ImGui::MenuItem("Directional Light")) invoker->executeBoundCommand(Action::SpawnDirLight);
+				if (ImGui::MenuItem("Point Light")) invoker->executeBoundCommand(Action::SpawnPointLight);
+
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenu();
@@ -73,46 +69,35 @@ void MainBarUI::draw() {
 			ImGui::EndMenu();
 		}
 
-		if (m_edit) {
-			if (ImGui::MenuItem("Play")) {
-				m_handler->getGame()->play();
-				m_edit = false;
-			}
+		auto game = m_handler->getGame();
 
+		if (game->isEdit()) {
+			if (ImGui::MenuItem("Play")) game->play();
 		}
 		else {
-			if (ImGui::MenuItem("Edit")) {
-				m_handler->getGame()->edit();
-				m_edit = true;
-				m_pause = false;
-			}
-			if (!m_pause) {
-				if (ImGui::MenuItem("Pause")) {
-					m_handler->getGame()->pause();
-					m_pause = true;
-				}
+			if (ImGui::MenuItem("Edit")) game->edit();
+
+			if (!game->isPause()) {
+				if (ImGui::MenuItem("Pause")) game->pause();
 			}
 			else {
-				if (ImGui::MenuItem("Resume")) {
-					m_handler->getGame()->resume();
-					m_pause = false;
-				}
-				if (ImGui::MenuItem("Next Frame")) {
-					m_handler->getGame()->frameStep();
-				}
+				if (ImGui::MenuItem("Resume")) game->resume();
+				if (ImGui::MenuItem("Next Frame")) game->frameStep();
 			}
-			if (!m_handler->getGame()->m_useEditorCamera){
-				if (ImGui::MenuItem("Use Editor Camera")) {
-					m_handler->getGame()->m_useEditorCamera = true;
-				}
+
+			if (!game->m_useEditorCamera){
+				if (ImGui::MenuItem("Use Editor Camera")) game->m_useEditorCamera = true;
 			}
 			else {
-				if (ImGui::MenuItem("Use Game Camera")) {
-					m_handler->getGame()->m_useEditorCamera = false;
-				}
+				if (ImGui::MenuItem("Use Game Camera")) game->m_useEditorCamera = false;
 			}
 		}
 
 		ImGui::EndMainMenuBar();
 	}
+}
+
+void MainBarUI::spawnNumPrimitives(Action action, CommandInvoker* invoker) {
+	for (i32 i = 0; i < 10; i++) 
+		invoker->executeBoundCommand(action);
 }

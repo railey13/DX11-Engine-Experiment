@@ -23,9 +23,7 @@ void Player::onCreate() {
 void Player::update(f32 deltaTime) {
 	auto game = getWorld()->getGame();
 
-	if (game->m_useEditorCamera && game->isPlay()) {
-		return;
-	}
+	if (game->m_useEditorCamera) return;
 
 	if (getInputSystem()->isKeyUp(Key::Escape)) {
 		game->getInputSystem()->toggleLockCursor();
@@ -61,7 +59,6 @@ void Player::update(f32 deltaTime) {
 	Vector3D moveDir = (world.getZDirection() * m_forward) + (world.getXDirection() * m_strafe);
 
 	rp3d::Vector3 currentVel = rb->getLinearVelocity();
-	rb->getLinearVelocity();
 
 	rp3d::Vector3 l(moveDir.m_x * speed, currentVel.y, moveDir.m_z * speed);
 

@@ -60,50 +60,50 @@ void Game::onInternalUpdate() {
 
 	auto deltaTime = (f32)elapsedSeconds.count();
 
+	engineShortCuts();
+
 	m_input->update();
 
-	if (m_input->isKeyDown(Key::L_Ctrl)) {
-		if (m_input->isKeyUp(Key::Z)) {
-			m_commandInvoker->undo();
-		}
-		else if (m_input->isKeyUp(Key::Y)) {
-			m_commandInvoker->redo();
-		}
-	}
-	if (m_input->isKeyUp(Key::Delete)) {
-		if(m_world->getSelectedGameObject())
-			m_commandInvoker->executeBoundCommand(Action::DeleteObject);
-	}
-
-	if(m_state == EngineState::Edit){
-		m_editorCamera->update(deltaTime);
-		m_world->update(deltaTime);
-	}
-	else if (m_state == EngineState::Play) {
-		onUpdate(deltaTime);
-		m_world->update(deltaTime);
-
-		if (m_useEditorCamera) {
-			m_editorCamera->update(deltaTime);
-		}
-
-		m_physicsEngine->update(deltaTime);
-	}
-	else if (m_state == EngineState::Pause) {
-		if (m_useEditorCamera) {
-			m_editorCamera->update(deltaTime);
-		}
-
-		if (m_requestFrameStep) {
-			f32 timeStep = m_physicsEngine->getFixedTimeStep();
-			onUpdate(timeStep);
-			m_world->update(timeStep);
-			m_physicsEngine->update(timeStep);
-			m_requestFrameStep = false;
-		}
+	switch (m_state) {
+		case EngineState::Edit: editUpdate(deltaTime);
+			break;
+		case EngineState::Play: playUpdate(deltaTime);
+			break;
+		case EngineState::Pause: pauseUpdate(deltaTime);
+			break;
 	}
 
 	m_graphicsEngine->update();
+}
+
+void Game::editUpdate(f32 deltaTime) {
+	m_editorCamera->update(deltaTime);
+	m_world->deleteGameObjects();
+}
+
+void Game::playUpdate(f32 deltaTime) {
+	onUpdate(deltaTime);
+	m_world->update(deltaTime);
+
+	if (m_useEditorCamera) {
+		m_editorCamera->update(deltaTime);
+	}
+
+	m_physicsEngine->update(deltaTime);
+}
+
+void Game::pauseUpdate(f32 deltaTime) {
+	if (m_useEditorCamera) {
+		m_editorCamera->update(deltaTime);
+	}
+
+	if (m_requestFrameStep) {
+		f32 timeStep = m_physicsEngine->getFixedTimeStep();
+		onUpdate(timeStep);
+		m_world->update(timeStep);
+		m_physicsEngine->update(timeStep);
+		m_requestFrameStep = false;
+	}
 }
 
 void Game::bindCommands() {
@@ -114,6 +114,12 @@ void Game::bindCommands() {
 	m_commandInvoker->bindCommand(Action::SpawnCube, [this]() {
 		return std::make_unique<SpawnObjectCommand<GameObject>>(m_world.get(), [this](GameObject* obj) {
 			PrimitiveFactory::createCube(m_resourceManager.get(), obj);
+			});
+		});
+
+	m_commandInvoker->bindCommand(Action::SpawnPlane, [this]() {
+		return std::make_unique<SpawnObjectCommand<GameObject>>(m_world.get(), [this](GameObject* obj) {
+			PrimitiveFactory::createPlane(m_resourceManager.get(), obj);
 			});
 		});
 
@@ -154,6 +160,22 @@ void Game::bindCommands() {
 		});
 }
 
+void Game::engineShortCuts() {
+
+	if (m_input->isKeyDown(Key::L_Ctrl)) {
+		if (m_input->isKeyUp(Key::Z)) {
+			m_commandInvoker->undo();
+		}
+		else if (m_input->isKeyUp(Key::Y)) {
+			m_commandInvoker->redo();
+		}
+	}
+	if (m_input->isKeyUp(Key::Delete)) {
+		if (m_world->getSelectedGameObject())
+			m_commandInvoker->executeBoundCommand(Action::DeleteObject);
+	}
+}
+
 void Game::edit() {
 	if (m_state != EngineState::Edit) {
 		m_state = EngineState::Edit;
@@ -191,11 +213,4 @@ void Game::frameStep() {
 
 void Game::quit() {
 	m_isRunning = false;
-}
-
-bool Game::isPlay() {
-	if (m_state != EngineState::Edit)
-		return true;
-	else
-		return false;
 }

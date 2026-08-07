@@ -42,6 +42,10 @@ class Material;
 
 class UIHandler;
 class UI;
+class HierarchyUI;
+class InspectorUI;
+class MainBarUI;
+class DebugUI;
 
 class CommandInvoker;
 class Command;
@@ -72,6 +76,17 @@ typedef unsigned int ui32;
 typedef int	i32;
 typedef float f32;
 typedef double d64;
+
+enum class LogLevel {
+	Info = 0,
+	Warning,
+	Error
+};
+
+struct LogInfo{
+	LogLevel level;
+	std::string msg;
+};
 
 #include <DX3D/Math/Vector3D.h>
 struct PendingTransformData {

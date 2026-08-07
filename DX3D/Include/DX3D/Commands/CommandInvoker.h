@@ -42,6 +42,7 @@ public:
 	}
 private:
 	void executeCommand(std::unique_ptr<Command> cmd) {
+		std::cout << "plane" << std::endl;
 		cmd->execute();
 		undoStack.push(std::move(cmd));
 

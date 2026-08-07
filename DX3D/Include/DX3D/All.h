@@ -18,3 +18,5 @@
 #include <DX3D/Resource/Mesh.h>
 #include <DX3D/Resource/Texture.h>
 #include <DX3D/Resource/Material.h>
+
+#include <DX3D/Debug/Debug.h>

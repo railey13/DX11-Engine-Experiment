@@ -3,7 +3,10 @@
 #include <DX3D/GameObject/GameObject.h>
 
 PhysicsEngine::PhysicsEngine(Game* game) : m_game(game){
-	m_physicsWorld = m_physicsCommon.createPhysicsWorld();
+	rp3d::PhysicsWorld::WorldSettings settings;
+	m_physicsWorld = m_physicsCommon.createPhysicsWorld(settings);
+
+	m_physicsWorld->setEventListener(this);
 }
 
 PhysicsEngine::~PhysicsEngine() {
@@ -32,6 +35,14 @@ void PhysicsEngine::step() {
 			rb->syncPhysicsToTransform();
 		}
 	}
+}
+
+void PhysicsEngine::onContact(const rp3d::CollisionCallback::CallbackData& callBackData) {
+
+}
+
+void PhysicsEngine::onTrigger(const rp3d::OverlapCallback::CallbackData& callBackData) {
+
 }
 
 void PhysicsEngine::addComponent(Component* component) {

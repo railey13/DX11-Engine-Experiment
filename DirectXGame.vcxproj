@@ -145,6 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DX3D\Source\DX3D\Debug\Debug.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\DebugUI.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\ColliderComponent.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\CameraComponent.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\Component.cpp" />
@@ -194,6 +196,8 @@
     <ClCompile Include="DX3D\Source\DX3D\GameObject\RigidBodyComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DX3D\Include\DX3D\Debug\Debug.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\DebugUI.h" />
     <ClInclude Include="DX3D\Include\DX3D\Commands\ParentCommand.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\ColliderComponent.h" />
     <ClInclude Include="DX3D\Include\DX3D\All.h" />

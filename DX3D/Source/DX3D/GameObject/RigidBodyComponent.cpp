@@ -34,6 +34,7 @@ void RigidBodyComponent::onCreateInternal() {
 
 	m_rigidBody = physics->getPhysicsWorld()->createRigidBody(physicsTransform);
 	m_rigidBody->setType(rp3d::BodyType::DYNAMIC);
+	m_rigidBody->setUserData(getGameObject());
 }
 
 void RigidBodyComponent::onActivate() {

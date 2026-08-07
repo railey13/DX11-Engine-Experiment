@@ -36,6 +36,7 @@ public:
 	GameObject* insertGameObject(GameObjectPtr object, size_t index);
 	size_t getGameObjectIndex(GameObject* object) const;
 private:
+	void deleteGameObjects();
 	void createGameObjectInternal(GameObject* object, size_t id);
 	void removeGameObject(GameObject* object);
 
@@ -53,6 +54,7 @@ private:
 	GameObject* m_selected_gameObject = nullptr;
 private:
 	friend class GameObject;
+	friend class Game;
 };
 
 

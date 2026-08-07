@@ -25,8 +25,11 @@ protected:
 private:
 	void onDisplaySize(const Rect& size);
 	void onInternalUpdate();
-
+	void editUpdate(f32 deltaTime);
+	void playUpdate(f32 deltaTime);
+	void pauseUpdate(f32 deltaTime);
 	void bindCommands();
+	void engineShortCuts();
 public:
 	void edit();
 	void play();
@@ -35,7 +38,9 @@ public:
 	void togglePause();
 	void frameStep();
 	void quit();
-	bool isPlay();
+	bool isPlay() const { return m_state != EngineState::Edit; } 
+	bool isEdit()  const { return m_state == EngineState::Edit; }
+	bool isPause() const { return m_state == EngineState::Pause; }
 private:
 	std::unique_ptr<GraphicsEngine> m_graphicsEngine;
 	std::unique_ptr<PhysicsEngine> m_physicsEngine;

@@ -13,15 +13,7 @@ World::~World() {
 }
 
 void World::update(f32 deltaTime) {
-	for (auto obj : m_game_objects_to_destroy) {
-		m_game_objects[obj->m_id].erase(obj);
-		m_game_objects_order.erase(  
-			std::remove(m_game_objects_order.begin(),
-			m_game_objects_order.end(), obj),
-			m_game_objects_order.end()
-		);
-	}
-	m_game_objects_to_destroy.clear();
+	deleteGameObjects();
 
 	for (auto&& [typeID, gameObjects] : m_game_objects) {
 		for (auto&& [ptr, gameObject] : gameObjects) {
@@ -102,6 +94,18 @@ size_t World::getGameObjectIndex(GameObject* object) const {
 	if (it == m_game_objects_order.end()) return m_game_objects_order.size();
 
 	return static_cast<size_t>(std::distance(m_game_objects_order.begin(), it));
+}
+
+void World::deleteGameObjects() {
+	for (auto obj : m_game_objects_to_destroy) {
+		m_game_objects[obj->m_id].erase(obj);
+		m_game_objects_order.erase(
+			std::remove(m_game_objects_order.begin(),
+				m_game_objects_order.end(), obj),
+			m_game_objects_order.end()
+		);
+	}
+	m_game_objects_to_destroy.clear();
 }
 
 void World::createGameObjectInternal(GameObject* object, size_t id) {

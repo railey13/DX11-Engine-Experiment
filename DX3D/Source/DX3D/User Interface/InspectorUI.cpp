@@ -21,91 +21,92 @@ InspectorUI::~InspectorUI() {
 }
 
 void InspectorUI::draw() {
+	if (!m_isActive) return;
+
 	m_disabled = m_handler->getGame()->isPlay();
 	GameObject* obj = m_world->getSelectedGameObject();
-	if (m_isActive) {
-		if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
-			if (obj) {
-				// GameObject Name
-				activeButton(obj, "name");
-				{
-					strncpy_s(m_nameBuffer, obj->getName().c_str(), sizeof(m_nameBuffer) - 1);
-					m_nameBuffer[sizeof(m_nameBuffer) - 1] = '\0';
 
-					if (ImGui::InputText("Name", m_nameBuffer, sizeof(m_nameBuffer))) {
-						if (m_nameBuffer[0] == '\0') {
-							obj->setName("GameObject");
-						}
-						else {
-							obj->setName(m_nameBuffer);
-						}
+	if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
+		if (obj) {
+			// GameObject Name
+			activeButton(obj, "name");
+			{
+				strncpy_s(m_nameBuffer, obj->getName().c_str(), sizeof(m_nameBuffer) - 1);
+				m_nameBuffer[sizeof(m_nameBuffer) - 1] = '\0';
+
+				if (ImGui::InputText("Name", m_nameBuffer, sizeof(m_nameBuffer))) {
+					if (m_nameBuffer[0] == '\0') {
+						obj->setName("GameObject");
+					}
+					else {
+						obj->setName(m_nameBuffer);
 					}
 				}
-				// GameObject Transform
-				RigidBodyComponent* rb = obj->getComponent<RigidBodyComponent>();
-				Transform(obj, rb);
-				// GameObject Light
-				LightComponent* light = obj->getComponent<LightComponent>();
-				if (light != nullptr) {
-					activeButton(light, "light");
-					if (ImGui::CollapsingHeader(obj->getName().c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
-						f32 radius = light->getRadius();
-						f32 intensity = light->getIntensity();
-						Vector4D color = light->getColor();
-						if (ImGui::SliderFloat("Intensity", &intensity, 0, 10)) {
-							light->setIntensity(intensity);
-						}
-						if (ImGui::SliderFloat("Radius", &radius, 0, 10)) {
-							light->setRadius(radius);
-						}
-						if (ImGui::DragFloat3("Color", &color.m_x, m_transform_speed)) {
-							light->setColor(color);
-						}
+			}
+			// GameObject Transform
+			RigidBodyComponent* rb = obj->getComponent<RigidBodyComponent>();
+			Transform(obj, rb);
+			// GameObject Light
+			LightComponent* light = obj->getComponent<LightComponent>();
+			if (light != nullptr) {
+				activeButton(light, "light");
+				if (ImGui::CollapsingHeader(obj->getName().c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+					f32 radius = light->getRadius();
+					f32 intensity = light->getIntensity();
+					Vector4D color = light->getColor();
+					if (ImGui::SliderFloat("Intensity", &intensity, 0, 10)) {
+						light->setIntensity(intensity);
+					}
+					if (ImGui::SliderFloat("Radius", &radius, 0, 10)) {
+						light->setRadius(radius);
+					}
+					if (ImGui::DragFloat3("Color", &color.m_x, m_transform_speed)) {
+						light->setColor(color);
 					}
 				}
-				// GameObject Texture
-				MeshComponent* mesh = obj->getComponent<MeshComponent>();
-				if (mesh != nullptr) {
-					activeButton(mesh, "mesh");
-					if (ImGui::CollapsingHeader("Texture", ImGuiTreeNodeFlags_DefaultOpen)) {
-						float buttonWidth = ImGui::CalcTextSize("Cartethyia").x + ImGui::GetStyle().FramePadding.x * 2.0f;
+			}
+			// GameObject Texture
+			MeshComponent* mesh = obj->getComponent<MeshComponent>();
+			if (mesh != nullptr) {
+				activeButton(mesh, "mesh");
+				if (ImGui::CollapsingHeader("Texture", ImGuiTreeNodeFlags_DefaultOpen)) {
+					float buttonWidth = ImGui::CalcTextSize("Cartethyia").x + ImGui::GetStyle().FramePadding.x * 2.0f;
 
-						setButton("Cartethyia", L"Game/Assets/Textures/CartethyiaPuppet.gif", mesh, buttonWidth);
-						setButton("Aemeath", L"Game/Assets/Textures/AemeathGame.gif", mesh, buttonWidth);
-						setButton("Mornye", L"Game/Assets/Textures/MornyeThinking.gif", mesh, buttonWidth);
-						setButton("Default", L"Assets/Textures/white.png", mesh, buttonWidth);
-					}
+					setButton("Cartethyia", L"Game/Assets/Textures/CartethyiaPuppet.gif", mesh, buttonWidth);
+					setButton("Aemeath", L"Game/Assets/Textures/AemeathGame.gif", mesh, buttonWidth);
+					setButton("Mornye", L"Game/Assets/Textures/MornyeThinking.gif", mesh, buttonWidth);
+					setButton("Default", L"Assets/Textures/white.png", mesh, buttonWidth);
 				}
-				// RigidBody	
-				if (rb != nullptr) {
-					activeButton(rb, "rigidbody");
-					if (ImGui::CollapsingHeader("RigidBody", ImGuiTreeNodeFlags_DefaultOpen)) {
-						i32 currentItem = static_cast<i32>(rb->getBodyType());
+			}
+			// RigidBody	
+			if (rb != nullptr) {
+				activeButton(rb, "rigidbody");
+				if (ImGui::CollapsingHeader("RigidBody", ImGuiTreeNodeFlags_DefaultOpen)) {
+					i32 currentItem = static_cast<i32>(rb->getBodyType());
 
-						const char* bodyTypes[] = { "Static", "Kinematic", "Dynamic" };
-						f32 mass = rb->getMass();
+					const char* bodyTypes[] = { "Static", "Kinematic", "Dynamic" };
+					f32 mass = rb->getMass();
 
-						bool freeze = rb->isYFreeze();
+					bool freeze = rb->isYFreeze();
 
-						ImGui::BeginDisabled(m_disabled);
-						if (ImGui::Combo("Body Type", &currentItem, bodyTypes, 3)) {
-							rb->setBodyType(static_cast<RBType>(currentItem));
-						}
-						if (ImGui::InputFloat("Mass", &mass)) {
-							rb->setMass(mass);
-						}
-						if (ImGui::Checkbox("Freeze Y", &freeze)) {
-							rb->setFreezeY(freeze);
-						}
-						ImGui::EndDisabled();
+					ImGui::BeginDisabled(m_disabled);
+					if (ImGui::Combo("Body Type", &currentItem, bodyTypes, 3)) {
+						rb->setBodyType(static_cast<RBType>(currentItem));
 					}
-
+					if (ImGui::InputFloat("Mass", &mass)) {
+						rb->setMass(mass);
+					}
+					if (ImGui::Checkbox("Freeze Y", &freeze)) {
+						rb->setFreezeY(freeze);
+					}
+					ImGui::EndDisabled();
 				}
-			}		
+
+			}
 		}
-
-		ImGui::End();
 	}
+
+	ImGui::End();
 }
 
 void InspectorUI::Transform(GameObject* obj, RigidBodyComponent* rb) {

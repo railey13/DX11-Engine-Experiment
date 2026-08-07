@@ -172,6 +172,8 @@
     <ClCompile Include="DX3D\Source\DX3D\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\RigidBodyComponent.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\ColliderComponent.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\User Interface\DebugUI.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\Debug\Debug.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX3D\Vendor\IMGUI\imconfig.h">
@@ -252,6 +254,8 @@
     <ClInclude Include="DX3D\Include\DX3D\GameObject\ColliderComponent.h" />
     <ClInclude Include="DX3D\Include\DX3D\Math\Quaternion.h" />
     <ClInclude Include="DX3D\Include\DX3D\Commands\ParentCommand.h" />
+    <ClInclude Include="DX3D\Include\DX3D\User Interface\DebugUI.h" />
+    <ClInclude Include="DX3D\Include\DX3D\Debug\Debug.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\VertexShader.hlsl">
