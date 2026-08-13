@@ -174,6 +174,9 @@
     <ClCompile Include="DX3D\Source\DX3D\GameObject\ColliderComponent.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\User Interface\DebugUI.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\Debug\Debug.cpp" />
+    <ClCompile Include="DX3D\Vendor\IMGUI\ImGuiFileDialog.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\SceneHandler\SceneHandler.cpp" />
+    <ClCompile Include="Game\SceneTester.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DX3D\Vendor\IMGUI\imconfig.h">
@@ -256,6 +259,16 @@
     <ClInclude Include="DX3D\Include\DX3D\Commands\ParentCommand.h" />
     <ClInclude Include="DX3D\Include\DX3D\User Interface\DebugUI.h" />
     <ClInclude Include="DX3D\Include\DX3D\Debug\Debug.h" />
+    <ClInclude Include="C:\Users\Nikos\Downloads\ImGuiFileDialog-0.6.8\ImGuiFileDialog-0.6.8\dirent\dirent.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\ImGuiFileDialogConfig.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\ImGuiFileDialog.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\dirent\dirent.h" />
+    <ClInclude Include="DX3D\Include\DX3D\SceneHandler\SceneHandler.h" />
+    <ClInclude Include="DX3D\Vendor\yaml\node.hpp" />
+    <ClInclude Include="DX3D\Vendor\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="DX3D\Vendor\nlohmann\json.hpp" />
+    <ClInclude Include="DX3D\Vendor\yaml\fkyaml_fwd.hpp" />
+    <ClInclude Include="Game\SceneTester.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\VertexShader.hlsl">

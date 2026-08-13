@@ -81,6 +81,7 @@ void MainGame::onCreate() {
 	{
 		auto obj = getWorld()->createGameObject<Player>();
 		obj->getTransform()->setPosition(Vector3D(0, 0.5f, 0));
+		obj->getTransform()->setScale(Vector3D(10, 10, 10));
 		PrimitiveFactory::createCapsule(getResourceManager(), obj);
 	}
 }

@@ -91,12 +91,14 @@ InputSystem* GameObject::getInputSystem() {
 	return m_world->getGame()->getInputSystem();
 }
 
-void GameObject::setMeshData(const MeshPtr& mesh, const MaterialPtr& material) {
+void GameObject::setMeshData(const MeshPtr& mesh, PrimitiveType type, const MaterialPtr& material) {
 	if (!mesh) return; 
 
 	auto meshComponent = createComponent<MeshComponent>();
 	meshComponent->setMesh(mesh);
-
+	meshComponent->setPrimitiveType(type);
+	meshComponent->m_meshSource = MeshSource::Primitive;
+	
 	auto mat = material;
 	if (!mat) {
 		mat = m_world->getGame()->getResourceManager()->getDefaultMaterial();

@@ -29,6 +29,9 @@ void HierarchyUI::draw() {
 		}
 
 		ImGui::InvisibleButton("##HierarchyEmptySpace", ImGui::GetContentRegionAvail());
+		if (ImGui::IsItemClicked(ImGuiMouseButton_Left)) {
+			m_world->setSeletectedGameObject(nullptr);
+		}
 
 		if (ImGui::BeginDragDropTarget()) {
 			if (const ImGuiPayload* payLoad = ImGui::AcceptDragDropPayload("GAMEOBJECT")) {
@@ -44,10 +47,10 @@ void HierarchyUI::draw() {
 
 		RightClickWindowPopup();
 
-		if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)
-			&& !ImGui::IsAnyItemHovered()) {
-			m_world->setSeletectedGameObject(nullptr);
-		}
+		//if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)
+		//	&& !ImGui::IsAnyItemHovered()) {
+		//	m_world->setSeletectedGameObject(nullptr);
+		//}
 	}
 	ImGui::End();
 }

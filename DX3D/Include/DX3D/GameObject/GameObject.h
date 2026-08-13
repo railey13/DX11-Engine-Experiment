@@ -18,8 +18,6 @@
 #include <map>
 #include <vector>
 
-class GameObjectManager;
-
 class GameObject {
 public:
 	GameObject();
@@ -70,7 +68,7 @@ public:
 	const std::vector<GameObject*>& getChildren() const { return m_children; }
 	InputSystem* getInputSystem();
 private:
-	void setMeshData(const MeshPtr& mesh, const MaterialPtr& material = nullptr);
+	void setMeshData(const MeshPtr& mesh,PrimitiveType type, const MaterialPtr& material = nullptr);
 	void addChild(GameObject* child);
 	void removeChild(GameObject* child);
 protected:
@@ -96,5 +94,6 @@ private:
 	friend class World;
 	friend class PrimitiveFactory;
 	friend class PhysicsEngine;
+	friend class SceneHandler;
 };
 

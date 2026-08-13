@@ -26,8 +26,6 @@ public:
 			undoStack.pop();
 			cmd->undo();
 			redoStack.push(std::move(cmd));
-
-			std::cout << "UNDO" << std::endl;
 		}
 	}
 
@@ -37,12 +35,21 @@ public:
 			redoStack.pop();
 			cmd->execute();
 			undoStack.push(std::move(cmd));
-			std::cout << "REDO" << std::endl;
 		}
 	}
+
+	void clearStack() {
+		while (!undoStack.empty()) {
+			undoStack.pop();
+		}
+
+		while (!redoStack.empty()) {
+			redoStack.pop();
+		}
+	}
+
 private:
 	void executeCommand(std::unique_ptr<Command> cmd) {
-		std::cout << "plane" << std::endl;
 		cmd->execute();
 		undoStack.push(std::move(cmd));
 

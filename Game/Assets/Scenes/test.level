@@ -1,0 +1,326 @@
+{
+    "Scene": "test",
+    "GameObjects": [
+        {
+            "Name": "Cube",
+            "IsActive": true,
+            "Components": {
+                "Transform": {
+                    "Position": [
+                        0.0,
+                        3.450000047683716,
+                        1.0
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "RotationEuler": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "Mesh": {
+                    "IsActive": true,
+                    "PrimitiveType": "Cube"
+                },
+                "RigidBody": {
+                    "IsActive": false,
+                    "Gravity": true,
+                    "Mass": 1.0,
+                    "BodyType": "Dynamic",
+                    "FreezeY": false
+                }
+            }
+        },
+        {
+            "Name": "Plane",
+            "IsActive": true,
+            "Components": {
+                "Transform": {
+                    "Position": [
+                        -0.44981086254119873,
+                        1.8481767177581787,
+                        0.06441399455070496
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Scale": [
+                        8.449999809265137,
+                        1.850000023841858,
+                        10.449999809265137
+                    ],
+                    "RotationEuler": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "Mesh": {
+                    "IsActive": true,
+                    "PrimitiveType": "Plane"
+                },
+                "RigidBody": {
+                    "IsActive": false,
+                    "Gravity": true,
+                    "Mass": 1.0,
+                    "BodyType": "Dynamic",
+                    "FreezeY": false
+                }
+            }
+        },
+        {
+            "Name": "Sphere",
+            "IsActive": true,
+            "Components": {
+                "Transform": {
+                    "Position": [
+                        -1.8010978698730469,
+                        3.7109999656677246,
+                        -0.7999051809310913
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.19866932928562164,
+                        0.0,
+                        0.9800665974617004
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "RotationEuler": [
+                        0.0,
+                        0.4000000059604645,
+                        0.0
+                    ]
+                },
+                "Mesh": {
+                    "IsActive": true,
+                    "PrimitiveType": "Sphere"
+                },
+                "RigidBody": {
+                    "IsActive": false,
+                    "Gravity": true,
+                    "Mass": 1.0,
+                    "BodyType": "Dynamic",
+                    "FreezeY": false
+                }
+            }
+        },
+        {
+            "Name": "DirectionLight",
+            "IsActive": true,
+            "Components": {
+                "Transform": {
+                    "Position": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "RotationEuler": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "Light": {
+                    "IsActive": true,
+                    "LightType": "DirectionLight",
+                    "Color": [
+                        1.0,
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "Radius": 1.0,
+                    "Intensity": 1.0
+                }
+            }
+        },
+        {
+            "Name": "Capsule",
+            "IsActive": true,
+            "Components": {
+                "Transform": {
+                    "Position": [
+                        3.2566819190979004,
+                        3.517448663711548,
+                        -0.1567476987838745
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "RotationEuler": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "Mesh": {
+                    "IsActive": true,
+                    "PrimitiveType": "Capsule"
+                },
+                "RigidBody": {
+                    "IsActive": false,
+                    "Gravity": true,
+                    "Mass": 1.0,
+                    "BodyType": "Dynamic",
+                    "FreezeY": false
+                }
+            }
+        },
+        {
+            "Name": "Sphere 2",
+            "IsActive": true,
+            "Components": {
+                "Transform": {
+                    "Position": [
+                        2.2465567588806152,
+                        3.0827505588531494,
+                        1.603344202041626
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "RotationEuler": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "Mesh": {
+                    "IsActive": true,
+                    "PrimitiveType": "Sphere"
+                },
+                "RigidBody": {
+                    "IsActive": false,
+                    "Gravity": true,
+                    "Mass": 1.0,
+                    "BodyType": "Dynamic",
+                    "FreezeY": false
+                }
+            }
+        },
+        {
+            "Name": "Cube 2",
+            "IsActive": true,
+            "Components": {
+                "Transform": {
+                    "Position": [
+                        2.3180551528930664,
+                        2.769336462020874,
+                        0.6575846076011658
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "RotationEuler": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "Mesh": {
+                    "IsActive": true,
+                    "PrimitiveType": "Cube"
+                },
+                "RigidBody": {
+                    "IsActive": false,
+                    "Gravity": true,
+                    "Mass": 1.0,
+                    "BodyType": "Dynamic",
+                    "FreezeY": false
+                }
+            }
+        },
+        {
+            "Name": "Plane 2",
+            "IsActive": true,
+            "Components": {
+                "Transform": {
+                    "Position": [
+                        -3.0942697525024414,
+                        3.353890895843506,
+                        5.544000148773193
+                    ],
+                    "Rotation": [
+                        0.0,
+                        0.0,
+                        0.0,
+                        1.0
+                    ],
+                    "Scale": [
+                        1.0,
+                        1.0,
+                        1.0
+                    ],
+                    "RotationEuler": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ]
+                },
+                "Mesh": {
+                    "IsActive": true,
+                    "PrimitiveType": "Plane"
+                },
+                "RigidBody": {
+                    "IsActive": false,
+                    "Gravity": true,
+                    "Mass": 1.0,
+                    "BodyType": "Dynamic",
+                    "FreezeY": false
+                }
+            }
+        }
+    ]
+}

@@ -1,6 +1,7 @@
 #pragma once
 #include <DX3D/Prerequisites.h>
 #include <DX3D/Math/Vector3D.h>
+#include <DX3D/Math/Vector4D.h>
 
 #define _USE_MATH_DEFINES 
 #include <math.h>
@@ -14,6 +15,11 @@ public:
 	Quaternion(f32 x, f32 y, f32 z, f32 w) : m_x(x), m_y(y), m_z(z), m_w(w) {
 
 	}
+
+	Quaternion(const Vector4D v) : m_x(v.m_x), m_y(v.m_y), m_z(v.m_z), m_w(v.m_w) {
+
+	}
+
 
 	Quaternion(const Quaternion& q) : m_x(q.m_x), m_y(q.m_y), m_z(q.m_z), m_w(q.m_w) {
 

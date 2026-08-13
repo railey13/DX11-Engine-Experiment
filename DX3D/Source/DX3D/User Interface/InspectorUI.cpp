@@ -11,6 +11,9 @@
 #include <DX3D/Resource/Material.h>
 #include <DX3D/Resource/Texture.h>
 #include <DX3D/Commands/CommandInvoker.h>
+#include <DX3D/Vendor/IMGUI/ImGuiFileDialog.h>
+#include <DX3D/Graphics/Texture2D.h>
+#include <filesystem>
 
 InspectorUI::InspectorUI(UIHandler* handler) : UI(handler) {
 	m_isActive = true;
@@ -70,13 +73,33 @@ void InspectorUI::draw() {
 			MeshComponent* mesh = obj->getComponent<MeshComponent>();
 			if (mesh != nullptr) {
 				activeButton(mesh, "mesh");
-				if (ImGui::CollapsingHeader("Texture", ImGuiTreeNodeFlags_DefaultOpen)) {
-					float buttonWidth = ImGui::CalcTextSize("Cartethyia").x + ImGui::GetStyle().FramePadding.x * 2.0f;
+				if (ImGui::CollapsingHeader("Mesh Texture", ImGuiTreeNodeFlags_DefaultOpen)) {
+					ui32 meshSize = mesh->getMaterials().size();
+					auto materials = mesh->getMaterials();
 
-					setButton("Cartethyia", L"Game/Assets/Textures/CartethyiaPuppet.gif", mesh, buttonWidth);
-					setButton("Aemeath", L"Game/Assets/Textures/AemeathGame.gif", mesh, buttonWidth);
-					setButton("Mornye", L"Game/Assets/Textures/MornyeThinking.gif", mesh, buttonWidth);
-					setButton("Default", L"Assets/Textures/white.png", mesh, buttonWidth);
+					for (ui32 i = 0; i < meshSize; i++) {
+						auto material = mesh->getMaterials()[i];
+						ui32 texSize = material->getTextures2D().size();
+
+						for (ui32 j = 0; j < texSize; j++) {
+							ImGui::PushID(i);
+							if (ImGui::Button("Change Texture")) {
+								m_handler->openFileDialog(
+									"Assets/Textures",
+									"Choose Texture",
+									".png,.jpg,.jpeg,.gif",
+									[mesh, this, material, j](const std::string& filePath) {
+										std::wstring path = std::filesystem::path(filePath).wstring();
+										auto tex = m_handler->getGame()->getResourceManager()->createResourceFromFile<Texture>(path.c_str());
+										material->setTexture(j, tex);
+									}
+								);
+							}
+							ImGui::SameLine();
+							ImGui::Image(material->getTexture2D(j)->getSRV(), ImVec2(32, 32));
+							ImGui::PopID();
+						}
+					}
 				}
 			}
 			// RigidBody	
@@ -106,6 +129,9 @@ void InspectorUI::draw() {
 		ImGui::EndDisabled();
 	}
 	ImGui::End();
+
+
+	m_handler->drawFileDialog();
 }
 
 void InspectorUI::Transform(GameObject* obj, RigidBodyComponent* rb) {
@@ -194,3 +220,5 @@ void InspectorUI::saveTransform(TransformComponent* transform) {
 		m_isDraggingTransform = true;
 	}
 }
+
+

@@ -3,23 +3,20 @@
 #include <DX3D/GameObject/Component.h>
 #include <DX3D/Math/Vector4D.h>
 
-enum class LightType {
-	DirectionLight = 0,
-	PointLight = 1
-};
-
 class LightComponent : public Component{
 public:
 	LightComponent();
 	virtual ~LightComponent();
 
 	void setLightType(LightType type);
+	void setLightType(std::string type);
 	void setColor(Vector4D color);
 	void setRadius(f32 radius);
 	void setIntensity(f32 intensity);
 
 	Vector4D getColor() const { return m_color; }
 	LightType getLightType() const { return m_light_type; }
+	std::string getLightTypeString() const;
 	f32 getRadius() const { return m_radius; }
 	f32 getIntensity() const { return m_intensity; }
 protected:

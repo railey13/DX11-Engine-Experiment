@@ -20,6 +20,7 @@
 #include <DX3D/User Interface/InspectorUI.h>
 
 #include <DX3D/Input/InputSystem.h>
+#include <DX3D/SceneHandler/SceneHandler.h>
 
 MainBarUI::MainBarUI(UIHandler* handler) : UI(handler) {
 	m_resource = m_handler->getGame()->getResourceManager();
@@ -32,6 +33,29 @@ MainBarUI::~MainBarUI() {
 
 void MainBarUI::draw() {
 	if (ImGui::BeginMainMenuBar()) {
+		if (ImGui::BeginMenu("File Explorer")) {
+			if (ImGui::MenuItem("Save Scene As...")) {
+				m_handler->openFileDialog(
+					"Assets/Scenes",
+					"Save Scene",
+					".level,.json,.text",
+					[this](const std::string& filePath) {
+						m_handler->getGame()->getSceneHandler()->saveScene(filePath);
+					}
+				);
+			}
+			if (ImGui::MenuItem("Load Scene")) {
+				m_handler->openFileDialog(
+					"Assets/Scenes",
+					"Choose Scene",
+					".level,.json,.text",
+					[this](const std::string& filePath) {
+						m_handler->getGame()->getSceneHandler()->loadScene(filePath);
+					}
+				);
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("GameObjects")) {
 			auto invoker = m_handler->getGame()->getCommandInvoker();
 			if (ImGui::BeginMenu("3D Objects")) {
@@ -95,6 +119,8 @@ void MainBarUI::draw() {
 
 		ImGui::EndMainMenuBar();
 	}
+
+	m_handler->drawFileDialog();
 }
 
 void MainBarUI::spawnNumPrimitives(Action action, CommandInvoker* invoker) {

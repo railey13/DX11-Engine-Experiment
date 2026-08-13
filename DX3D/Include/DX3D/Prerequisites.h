@@ -24,6 +24,7 @@ class Game;
 class Display;
 class InputSystem;
 class World;
+class SceneHandler;
 
 class PrimitiveFactory;
 
@@ -98,6 +99,23 @@ struct PendingTransformData {
 struct PendingParentData {
 	GameObject* child = nullptr;
 	GameObject* newParent = nullptr;
+};
+
+enum class MeshSource {
+	Primitive = 0,
+	File
+};
+
+enum class LightType {
+	DirectionLight = 0,
+	PointLight,
+};
+
+enum class PrimitiveType {
+	Cube = 0,
+	Sphere,
+	Plane,
+	Capsule
 };
 
 enum class EngineState {

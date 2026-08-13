@@ -9,6 +9,7 @@
 #include <IMGUI/backends/imgui_impl_win32.h>
 
 #include <Windows.h>
+#include <functional>
 
 class UIHandler {
 public:
@@ -43,8 +44,12 @@ public:
 	Game* getGame() { return m_game; }
 	void setAllActive(bool flag);
 	void toggleAllActive();
+
+	void openFileDialog(std::string path, const char* title, const char* filters, std::function<void(const std::string&)> onFileSelected);
+	void drawFileDialog();
 private:
 	std::unordered_map<size_t, std::unique_ptr<UI>> m_ui_table;
+	std::function<void(const std::string&)> m_onFileSelected = nullptr;
 	Game* m_game = nullptr;
 	GraphicsEngine* graphEngine = nullptr;
 private:

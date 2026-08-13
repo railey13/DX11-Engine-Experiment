@@ -146,13 +146,14 @@ void PrimitiveFactory::createCube(ResourceManager* manager, GameObject* obj) {
 		manager
 	);
 
-	obj->setMeshData(mesh);
+	obj->setMeshData(mesh, PrimitiveType::Cube);
 	obj->setName("Cube");
 	auto rb = obj->createComponent<RigidBodyComponent>();
 	auto col = obj->createComponent<ColliderComponent>();
 
 	rb->setBodyType(RBType::Dynamic);
 	col->setAsBox(mesh->getHalfExtents());
+	rb->setActive(false);
 }
 
 void PrimitiveFactory::createPlane(ResourceManager* manager, GameObject* obj) {
@@ -202,13 +203,14 @@ void PrimitiveFactory::createPlane(ResourceManager* manager, GameObject* obj) {
 		manager
 	);
 
-	obj->setMeshData(mesh);
+	obj->setMeshData(mesh, PrimitiveType::Plane);
 	obj->setName("Plane");
 	auto rb = obj->createComponent<RigidBodyComponent>();
 	auto col = obj->createComponent<ColliderComponent>();
 
 	rb->setBodyType(RBType::Dynamic);
 	col->setAsBox(mesh->getHalfExtents());
+	rb->setActive(false);
 }
 
 void PrimitiveFactory::createSphere(ResourceManager* manager, GameObject* obj) {
@@ -308,7 +310,7 @@ void PrimitiveFactory::createSphere(ResourceManager* manager, GameObject* obj) {
 		manager
 	);
 
-	obj->setMeshData(mesh);
+	obj->setMeshData(mesh, PrimitiveType::Sphere);
 	obj->setName("Sphere");
 
 	auto rb = obj->createComponent<RigidBodyComponent>();
@@ -316,6 +318,7 @@ void PrimitiveFactory::createSphere(ResourceManager* manager, GameObject* obj) {
 
 	rb->setBodyType(RBType::Dynamic);
 	col->setAsSphere(radius);
+	rb->setActive(false);
 }
 
 void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) {
@@ -441,7 +444,7 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 		manager
 	);
 
-	obj->setMeshData(mesh);
+	obj->setMeshData(mesh, PrimitiveType::Capsule);
 	obj->setName("Capsule");
 
 	auto rb = obj->createComponent<RigidBodyComponent>();
@@ -449,5 +452,6 @@ void PrimitiveFactory::createCapsule(ResourceManager* manager, GameObject* obj) 
 
 	rb->setBodyType(RBType::Dynamic);
 	col->setAsCapsule(radius, cylinderHeight);
+	rb->setActive(false);
 }
 

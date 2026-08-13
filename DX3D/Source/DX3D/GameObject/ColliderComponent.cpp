@@ -50,9 +50,6 @@ void ColliderComponent::setAsBox(const Vector3D& halfExtents) {
 	m_shape = p->getPhysicsCommon().createBoxShape(temp);
 
 	attachShape(m_shape);
-
-	std::cout << "Name: " << getGameObject()->getName() << std::endl;
-	std::cout << "Corrected Mesh HalfExtents -> X: " << safeExtents.m_x << ", Y: " << safeExtents.m_y << ", Z: " << safeExtents.m_z << std::endl;
 }
 
 void ColliderComponent::setAsSphere(f32 radius) {

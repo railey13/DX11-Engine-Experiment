@@ -44,4 +44,5 @@ private:
 	friend class DeviceContext;
 	friend class GraphicsEngine;
 	friend class PrimitiveFactory;
+	friend class MeshComponent;
 };

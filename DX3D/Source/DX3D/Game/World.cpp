@@ -3,6 +3,7 @@
 #include <DX3D/GameObject/GameObject.h>
 #include <DX3D/Game/EditorCamera.h>
 #include <DX3D/Math/Matrix4x4.h>
+#include <DX3D/Commands/CommandInvoker.h>
 
 World::World(Game* game) : m_game(game) {
 
@@ -115,16 +116,30 @@ void World::createGameObjectInternal(GameObject* object, size_t id) {
 	object->m_instance_id = m_next_instance_id++;
 	object->m_id = id;
 	object->m_world = this;
-	object->onCreate();
 
 	f32 spawnDistance = 1.0f;
 	EditorCamera* camera = m_game->m_editorCamera.get();
 	Vector3D spawnPos = camera->getTransform()->getPosition() + camera->getTransform()->getForwardDirection() * spawnDistance;
 	object->getTransform()->setPosition(spawnPos);
+
+	object->onCreate();
 }
 
 void World::removeGameObject(GameObject* object) {
 	m_game_objects_to_destroy.emplace(object);
+}
+
+void World::removeAllGameObjects() {
+	m_game->getCommandInvoker()->clearStack();
+	m_selected_gameObject = nullptr;
+	
+	for (auto&& [typeID, gameObjects] : m_game_objects) {
+		for (auto&& [ptr, gameObject] : gameObjects) {
+			removeGameObject(ptr);
+		}
+	}
+
+	deleteGameObjects();
 }
 
 std::string World::generateUniqueName(const std::string& baseName) {
@@ -142,7 +157,6 @@ std::string World::generateUniqueName(const std::string& baseName) {
 	std::string newName;
 	do {
 		newName = baseName + " " + std::to_string(i);
-		std::cout << newName << std::endl;
 		i++;
 	} while (obj_names.find(newName) != obj_names.end());
 

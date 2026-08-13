@@ -8,7 +8,7 @@ public:
 		dir->setColor(Vector4D(1, 1, 1, 1));
 		dir->setLightType(LightType::DirectionLight);
 		dir->setRadius(1.0f);
-		obj->setName("Directional Light");
+		obj->setName(dir->getLightTypeString());
 	}
 
 	static void CreatePointLight(GameObject* obj) {
@@ -16,6 +16,6 @@ public:
 		point->setColor(Vector4D(1, 1, 1, 1));
 		point->setLightType(LightType::PointLight);
 		point->setRadius(1.0f);
-		obj->setName("Point Light");
+		obj->setName(point->getLightTypeString());
 	}
 };

@@ -18,6 +18,7 @@
 #include <DX3D/Resource/PrimitiveFactory.h>
 #include <DX3D/GameObject/ObjectComponentFactory.h>
 #include <DX3D/Physics/PhysicsEngine.h>
+#include <DX3D/SceneHandler/SceneHandler.h>
 
 Game::Game() {
 	m_graphicsEngine = std::make_unique<GraphicsEngine>(this);
@@ -32,6 +33,8 @@ Game::Game() {
 	m_editorCamera->getTransform()->setPosition(Vector3D(0, 2, 0));
 	m_commandInvoker = std::make_unique<CommandInvoker>();
 	m_physicsEngine = std::make_unique<PhysicsEngine>(this);
+	m_sceneHandler = std::make_unique<SceneHandler>();
+	m_sceneHandler->m_world = m_world.get();
 
 	bindCommands();
 	
@@ -221,5 +224,5 @@ void Game::quit() {
 
 void Game::setEditorCameraUse(bool flag) {
 	m_useEditorCamera = flag;
-	m_uiHandler->setAllActive(flag);
+	m_editorCamera->setActive(flag);
 }

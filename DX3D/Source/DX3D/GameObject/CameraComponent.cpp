@@ -4,6 +4,7 @@
 #include <DX3D/Game/Game.h>
 #include <DX3D/Game/World.h>
 #include <DX3D/Graphics/GraphicsEngine.h>
+#include <DX3D/Debug/Debug.h>
 
 CameraComponent::CameraComponent() {
 
@@ -53,6 +54,8 @@ void CameraComponent::setScreenArea(const Rect& area) {
 }
 
 void CameraComponent::onCreateInternal() {
+	if (m_gameobject->getName() == "EditorCamera") return;
+
 	m_gameobject->getWorld()->getGame()->getGraphicsEngine()->addComponent(this);
 }
 

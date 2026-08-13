@@ -19,6 +19,8 @@
 #include <DX3D/Math/Matrix4x4.h>
 #include <DX3D/Math/Vector4D.h>
 
+#include <DX3D/Debug/Debug.h>
+
 __declspec(align(16))
 struct LightData
 {

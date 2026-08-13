@@ -4,6 +4,7 @@
 #include <DX3D/Game/World.h>
 #include <DX3D/Game/Game.h>
 #include <DX3D/Physics/PhysicsEngine.h>	
+#include <DX3D/Debug/Debug.h>
 
 RigidBodyComponent::RigidBodyComponent() {
 
@@ -66,6 +67,23 @@ void RigidBodyComponent::setBodyType(RBType type) {
 	m_rigidBody->setUserData(this);
 }
 
+void RigidBodyComponent::setBodyType(std::string type) {
+
+	if (type == "Static") {
+		m_rigidBody->setType(rp3d::BodyType::STATIC);
+		m_type = RBType::Static;
+	}
+	else if (type == "Kinematic") {
+		m_rigidBody->setType(rp3d::BodyType::KINEMATIC);
+		m_type = RBType::Kinematic;
+	}
+	else if (type == "Dynamic") {
+		m_rigidBody->setType(rp3d::BodyType::DYNAMIC);
+		m_type = RBType::Dynamic;
+	}
+	m_rigidBody->setUserData(this);
+}
+
 void RigidBodyComponent::setMass(f32 mass) {
 	m_rigidBody->setMass(mass);
 }
@@ -113,6 +131,14 @@ void RigidBodyComponent::updateTransform(const Vector3D& position, const Quatern
 	rp3d::Quaternion q(rotation.m_x, rotation.m_y, rotation.m_z, rotation.m_w);
 
 	m_rigidBody->setTransform(rp3d::Transform(p, q));
+}
+
+std::string RigidBodyComponent::getBodyTypeString() const {
+	switch (m_type) {
+		case RBType::Static: return "Static";
+		case RBType::Dynamic: return "Dynamic";
+		case RBType::Kinematic: return "Kinematic";
+	}
 }
 
 void RigidBodyComponent::setFreezeY(bool flag) {

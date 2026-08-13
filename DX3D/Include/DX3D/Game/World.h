@@ -39,7 +39,7 @@ private:
 	void deleteGameObjects();
 	void createGameObjectInternal(GameObject* object, size_t id);
 	void removeGameObject(GameObject* object);
-
+	void removeAllGameObjects();
 	std::string generateUniqueName(const std::string& baseName);
 public:
 	PendingTransformData m_pendingTransform;
@@ -55,6 +55,7 @@ private:
 private:
 	friend class GameObject;
 	friend class Game;
+	friend class SceneHandler;
 };
 
 

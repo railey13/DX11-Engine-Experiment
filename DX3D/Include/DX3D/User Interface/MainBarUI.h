@@ -10,6 +10,7 @@ public:
 	void draw() override;
 private:
 	void spawnNumPrimitives(Action action, CommandInvoker* invoker);
+	void FileExplorer();
 private:
 	ResourceManager* m_resource = nullptr;
 	bool m_edit = true;

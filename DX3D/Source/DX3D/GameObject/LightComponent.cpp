@@ -16,6 +16,15 @@ void LightComponent::setLightType(LightType type) {
 	m_light_type = type;
 }
 
+void LightComponent::setLightType(std::string type) {
+	if (type == "DirectionLight") {
+		m_light_type = LightType::DirectionLight;
+	}
+	else if (type == "PointLight") {
+		m_light_type = LightType::PointLight;
+	}
+}
+
 void LightComponent::setColor(Vector4D color) {
 	m_color = color;
 }
@@ -26,6 +35,13 @@ void LightComponent::setRadius(f32 radius) {
 
 void LightComponent::setIntensity(f32 intensity) {
 	m_intensity = intensity;
+}
+
+std::string LightComponent::getLightTypeString() const {
+	switch (m_light_type) {
+		case LightType::DirectionLight: return "DirectionLight";
+		case LightType::PointLight: return "PointLight";
+	}
 }
 
 void LightComponent::onCreateInternal() {

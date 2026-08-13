@@ -6,7 +6,6 @@
 
 #include <DX3D/Graphics/GraphicsEngine.h>
 #include <DX3D/Graphics/RenderSystem.h>
-//#include "ShaderManager.h"
 
 #include "DX3D/Math/VertexMesh.h"
 #include <DX3D/Math/Vector3D.h>

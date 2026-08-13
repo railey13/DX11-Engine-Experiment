@@ -11,6 +11,7 @@
 #include <DX3D/Game/Game.h>
 #include <DX3D/Game/Display.h>
 
+#include <DX3D/Vendor/IMGUI/ImGuiFileDialog.h>
 
 UIHandler::UIHandler(Game* game, HWND hwnd) : m_game(game){
 	graphEngine = m_game->getGraphicsEngine();
@@ -76,5 +77,33 @@ void UIHandler::setAllActive(bool flag) {
 void UIHandler::toggleAllActive() {
 	for (auto& [type, ui] : m_ui_table) {
 		ui->setActive(!ui->isActive());
+	}
+}
+
+void UIHandler::openFileDialog(std::string path, const char* title, const char* filters, std::function<void(const std::string&)> onFileSelected) {
+	m_onFileSelected = onFileSelected;
+
+	std::string filePathStart = "Game/" + path;
+
+	IGFD::FileDialogConfig config;
+	config.path = filePathStart;
+
+	ImGuiFileDialog::Instance()->OpenDialog("GlobalFileDlgKey", title, filters, config);
+}
+
+void UIHandler::drawFileDialog() {
+	ImVec2 dialogSize(800.0f, 500.0f);
+	if (ImGuiFileDialog::Instance()->Display("GlobalFileDlgKey")) // => will show a dialog
+	{
+		if (ImGuiFileDialog::Instance()->IsOk()) {
+			std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+
+			if(m_onFileSelected && !filePathName.empty()) {
+				m_onFileSelected(filePathName);
+			}
+		}
+
+		ImGuiFileDialog::Instance()->Close();
+		m_onFileSelected = nullptr;
 	}
 }

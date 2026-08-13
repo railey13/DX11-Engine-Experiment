@@ -18,6 +18,7 @@ public:
 	ResourceManager* getResourceManager() { return m_resourceManager.get(); }
 	InputSystem* getInputSystem() { return m_input.get(); }
 	CommandInvoker* getCommandInvoker() { return m_commandInvoker.get(); }
+	SceneHandler* getSceneHandler() { return m_sceneHandler.get(); }
 protected:
 	virtual void onCreate() {}
 	virtual void onUpdate(f32 deltaTime) {}
@@ -50,6 +51,7 @@ private:
 	std::unique_ptr<InputSystem> m_input;
 	std::unique_ptr<ResourceManager> m_resourceManager;
 	std::unique_ptr<UIHandler> m_uiHandler;
+	std::unique_ptr<SceneHandler> m_sceneHandler;
 
 	std::chrono::system_clock::time_point m_previous_time;
 

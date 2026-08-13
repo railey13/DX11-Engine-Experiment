@@ -18,6 +18,9 @@ public:
 	void setData(void* data, ui32 size);
 
 	void setCullMode(CullMode mode);
+
+	std::vector<Texture2DPtr> getTextures2D() const { return m_vec_textures; }
+	Texture2DPtr getTexture2D(ui32 index) { return m_vec_textures[index]; }
 	CullMode getCullMode() { return m_cull_mode; }
 private:
 	VertexShaderPtr m_vertex_shader;

@@ -84,7 +84,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)DX3D\Vendor\IMGUI;$(ProjectDir)DX3D\Vendor\yaml</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -117,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)DX3D\Vendor\IMGUI;$(ProjectDir)DX3D\Vendor\yaml</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DX3D\Source\DX3D\Debug\Debug.cpp" />
+    <ClCompile Include="DX3D\Source\DX3D\SceneHandler\SceneHandler.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\User Interface\DebugUI.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\ColliderComponent.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\CameraComponent.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="DX3D\Vendor\IMGUI\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="DX3D\Vendor\IMGUI\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="DX3D\Vendor\IMGUI\imgui.cpp" />
+    <ClCompile Include="DX3D\Vendor\IMGUI\ImGuiFileDialog.cpp" />
     <ClCompile Include="DX3D\Vendor\IMGUI\imgui_demo.cpp" />
     <ClCompile Include="DX3D\Vendor\IMGUI\imgui_draw.cpp" />
     <ClCompile Include="DX3D\Vendor\IMGUI\imgui_tables.cpp" />
@@ -194,9 +196,12 @@
     <ClCompile Include="DX3D\Source\DX3D\GameObject\LightComponent.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\Physics\PhysicsEngine.cpp" />
     <ClCompile Include="DX3D\Source\DX3D\GameObject\RigidBodyComponent.cpp" />
+    <ClCompile Include="Game\SceneTester.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="C:\Users\Nikos\Downloads\ImGuiFileDialog-0.6.8\ImGuiFileDialog-0.6.8\dirent\dirent.h" />
     <ClInclude Include="DX3D\Include\DX3D\Debug\Debug.h" />
+    <ClInclude Include="DX3D\Include\DX3D\SceneHandler\SceneHandler.h" />
     <ClInclude Include="DX3D\Include\DX3D\User Interface\DebugUI.h" />
     <ClInclude Include="DX3D\Include\DX3D\Commands\ParentCommand.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\ColliderComponent.h" />
@@ -244,8 +249,11 @@
     <ClInclude Include="DX3D\Include\DX3D\Window\Window.h" />
     <ClInclude Include="DX3D\Vendor\IMGUI\backends\imgui_impl_dx11.h" />
     <ClInclude Include="DX3D\Vendor\IMGUI\backends\imgui_impl_win32.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\dirent\dirent.h" />
     <ClInclude Include="DX3D\Vendor\IMGUI\imconfig.h" />
     <ClInclude Include="DX3D\Vendor\IMGUI\imgui.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\ImGuiFileDialog.h" />
+    <ClInclude Include="DX3D\Vendor\IMGUI\ImGuiFileDialogConfig.h" />
     <ClInclude Include="DX3D\Vendor\IMGUI\imgui_internal.h" />
     <ClInclude Include="DX3D\Vendor\IMGUI\imstb_rectpack.h" />
     <ClInclude Include="DX3D\Vendor\IMGUI\imstb_textedit.h" />
@@ -254,12 +262,17 @@
     <ClInclude Include="DX3D\Include\DX3D\Resource\Texture.h" />
     <ClInclude Include="DX3D\Include\DX3D\Resource\Material.h" />
     <ClInclude Include="DX3D\Include\DX3D\Game\EditorCamera.h" />
+    <ClInclude Include="DX3D\Vendor\nlohmann\json.hpp" />
+    <ClInclude Include="DX3D\Vendor\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="DX3D\Vendor\yaml\fkyaml_fwd.hpp" />
+    <ClInclude Include="DX3D\Vendor\yaml\node.hpp" />
     <ClInclude Include="Game\MainGame.h" />
     <ClInclude Include="DX3D\Include\DX3D\Game\World.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\LightComponent.h" />
     <ClInclude Include="DX3D\Include\DX3D\Physics\PhysicsEngine.h" />
     <ClInclude Include="DX3D\Include\DX3D\GameObject\RigidBodyComponent.h" />
+    <ClInclude Include="Game\SceneTester.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Assets\Shaders\Material.hlsl">

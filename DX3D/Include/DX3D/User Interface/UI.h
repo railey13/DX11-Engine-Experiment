@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <DX3D/Prerequisites.h>
+#include <DX3D/Debug/Debug.h>
 
 class UI {
 public:

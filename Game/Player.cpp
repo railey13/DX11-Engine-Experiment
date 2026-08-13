@@ -97,7 +97,7 @@ void Player::onCollisionEnter(GameObject* obj){
 void Player::onCollisionStay(GameObject* obj) {
 	if (obj == nullptr) return;
 
-	Debug::Error("In Contact Stay: " + obj->getName());
+	//Debug::Error("In Contact Stay: " + obj->getName());
 }
 
 void Player::onCollisionExit(GameObject* obj) {

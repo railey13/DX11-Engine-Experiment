@@ -15,6 +15,7 @@ protected:
 	void onDeactivate() override;
 public:
 	void setBodyType(RBType type);
+	void setBodyType(std::string type);
 	void setMass(f32 mass);
 
 	void enableGravity(bool flag);
@@ -27,8 +28,10 @@ public:
 
 	void updateTransform(const Vector3D& position, const Quaternion& rotation);
 
+	bool isGravityEnabled() const { return m_rigidBody->isGravityEnabled(); }
 	f32 getMass() const { return m_rigidBody->getMass(); }
 	RBType getBodyType() const { return m_type; }
+	std::string getBodyTypeString() const;
 	rp3d::RigidBody* getRawRigidBody() { return m_rigidBody; }
 
 	void setFreezeY(bool flag);
